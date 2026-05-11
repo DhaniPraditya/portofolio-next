@@ -7,24 +7,6 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <section id="home" className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden pt-20">
-      {/* Animated Mesh Gradient Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{ x: [0, 40, -20, 0], y: [0, -50, 20, 0], scale: [1, 1.1, 0.9, 1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[0%] left-[15%] w-[25rem] md:w-[35rem] h-[25rem] md:h-[35rem] bg-primary/20 rounded-full mix-blend-screen blur-[100px] opacity-70"
-        />
-        <motion.div
-          animate={{ x: [0, -30, 20, 0], y: [0, 40, -30, 0], scale: [1, 1.2, 0.8, 1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-[0%] right-[15%] w-[25rem] md:w-[35rem] h-[25rem] md:h-[35rem] bg-blue-600/20 rounded-full mix-blend-screen blur-[100px] opacity-70"
-        />
-        <motion.div
-          animate={{ x: [0, 50, -40, 0], y: [0, 20, -40, 0], scale: [1, 0.9, 1.1, 1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute top-[0%] left-[30%] w-[30rem] md:w-[40rem] h-[30rem] md:h-[40rem] bg-rose-500/15 rounded-full mix-blend-screen blur-[100px] opacity-70"
-        />
-      </div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

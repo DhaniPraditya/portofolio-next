@@ -2,13 +2,17 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
+import BackgroundMesh from "@/components/BackgroundMesh";
 import { CheckCircle, User, Layout, Mobile, Search } from "@mynaui/icons-react";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-background">
-      <Navbar />
-      <Hero />
+      <BackgroundMesh />
+      
+      <div className="relative z-10">
+        <Navbar />
+        <Hero />
 
       {/* About Section */}
       <section id="about" className="py-32 px-4 max-w-7xl mx-auto">
@@ -125,6 +129,7 @@ export default function Home() {
           © {new Date().getFullYear()} All Rights Reserved • Built with Next.js
         </p>
       </footer>
+      </div>
     </main>
   );
 }
