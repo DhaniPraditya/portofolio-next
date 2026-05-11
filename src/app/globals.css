@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #6366f1;
+  --background: #010A14;
+  --foreground: #f8fafc;
+  --primary: #D7263D;
   --primary-foreground: #ffffff;
-  --accent: #f8fafc;
-  --border: #e2e8f0;
+  --accent: #0f2b44;
+  --border: #1a3a57;
 }
 
 @theme inline {
@@ -20,14 +20,22 @@
 }
 
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #030303;
-    --foreground: #f8fafc;
-    --primary: #818cf8;
-    --primary-foreground: #000000;
-    --accent: #1e293b;
-    --border: #334155;
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(50px, -50px) scale(1.1); }
+  66% { transform: translate(-30px, 30px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@layer utilities {
+  .animate-blob {
+    animation: blob 8s infinite alternate ease-in-out;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
   }
 }
 
@@ -54,7 +62,7 @@ body {
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-rose-400;
   }
 }
 
