@@ -8,8 +8,8 @@ import Link from "next/link";
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
+  { name: "Skills", href: "#skills" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -30,9 +30,8 @@ export default function Navbar() {
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className={`flex items-center justify-between w-full max-w-5xl px-6 py-3 transition-all duration-300 rounded-2xl ${
-          scrolled ? "glass shadow-xl" : "bg-transparent"
-        }`}
+        className={`flex items-center justify-between w-full max-w-5xl px-6 py-3 transition-all duration-300 rounded-2xl ${scrolled ? "glass shadow-xl" : "bg-transparent"
+          }`}
       >
         <Link href="/" className="text-xl font-bold tracking-tighter text-gradient">
           DESIGNER.
