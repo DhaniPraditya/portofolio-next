@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLink, Github } from "@mynaui/icons-react";
 import Image from "next/image";
 
 const projects = [
@@ -41,7 +41,7 @@ export default function Projects() {
     <section id="projects" className="py-32 px-4 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
         <div className="max-w-2xl">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -85,7 +85,7 @@ export default function Projects() {
                   <ExternalLink size={20} />
                 </button>
                 <button className="p-3 bg-white/10 text-white backdrop-blur-md rounded-full hover:scale-110 transition-transform">
-                  <Globe size={20} />
+                  <Github size={20} />
                 </button>
               </div>
             </div>
@@ -101,7 +101,7 @@ export default function Projects() {
               <p className="text-foreground/60 text-sm leading-relaxed mb-6">
                 {project.description}
               </p>
-              
+
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
                   <span key={tag} className="text-[10px] px-3 py-1 rounded-full bg-white/5 border border-white/10 text-foreground/40 font-bold uppercase">

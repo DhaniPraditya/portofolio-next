@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight, Download } from "@mynaui/icons-react";
 import Link from "next/link";
 
 export default function Hero() {
