@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("scroll-smooth", plusJakartaSans.variable, "font-sans", montserrat.variable)}
+      className={cn("scroll-smooth dark", plusJakartaSans.variable, "font-sans", montserrat.variable)}
     >
       <body className="bg-background text-foreground selection:bg-primary/30 font-sans">
         {children}
