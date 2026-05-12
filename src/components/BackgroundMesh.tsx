@@ -6,9 +6,9 @@ export default function BackgroundMesh() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
       <Grainient
-        color1="#1e1040"
-        color2="#3a186a"
-        color3="#02182b"
+        color1="#030712"
+        color2="#1e1b4b"
+        color3="#030712"
         timeSpeed={0.25}
         colorBalance={0.25}
         warpStrength={3.1}
@@ -22,8 +22,8 @@ export default function BackgroundMesh() {
         grainAmount={0.1}
         grainScale={3.3}
         grainAnimated={true}
-        contrast={1.4}
-        gamma={0.5}
+        contrast={0.9}
+        gamma={0.8}
         saturation={1}
         centerX={0.0}
         centerY={0.0}
