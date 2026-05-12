@@ -3,16 +3,24 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Download } from "@mynaui/icons-react";
 import Link from "next/link";
+import ShinyText from "@/components/ui/ShinyText";
+import CardSwap, { Card } from "@/components/ui/CardSwap";
+
+const mockupImages = [
+  "/projects/digimar/mockup-creator.png",
+  "/projects/ebook/mockup-1.png",
+  "/projects/nr/mockup-1.png",
+  "/projects/skripsi/mockup-home.png"
+];
 
 export default function Hero() {
   return (
-    <section id="home" className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden pt-20">
-
+    <section id="home" className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-4 md:px-12 max-w-7xl mx-auto pt-20 gap-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 text-center"
+        className="relative z-10 text-left md:w-1/2"
       >
         <motion.span
           initial={{ opacity: 0 }}
@@ -23,16 +31,16 @@ export default function Hero() {
           Available for New Projects
         </motion.span>
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6">
-          Designing <span className="text-gradient">Experiences</span> <br />
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+          Designing <ShinyText text="Experiences" /> <br />
           that Users Love.
         </h1>
 
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-foreground/60 mb-10 leading-relaxed">
+        <p className="max-w-2xl text-lg md:text-xl text-foreground/60 mb-10 leading-relaxed">
           I'm a UI/UX Designer focused on building functional, beautiful, and user-centric digital products. Turning complex problems into simple solutions.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-start gap-4">
           <Link
             href="#projects"
             className="group flex items-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-2xl transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
@@ -51,6 +59,21 @@ export default function Hero() {
         </div>
       </motion.div>
 
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.4 }}
+        className="relative z-10 md:w-1/2 flex justify-center md:justify-end mt-12 md:mt-0"
+      >
+        <CardSwap>
+          {mockupImages.map((src, index) => (
+            <Card key={index}>
+              <img src={src} alt={`Project Mockup ${index + 1}`} className="w-full h-full object-cover" />
+            </Card>
+          ))}
+        </CardSwap>
+      </motion.div>
+
       {/* Subtle Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -62,5 +85,6 @@ export default function Hero() {
         <div className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent" />
       </motion.div>
     </section>
+
   );
 }

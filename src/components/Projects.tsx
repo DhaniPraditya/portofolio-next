@@ -63,54 +63,59 @@ export default function Projects() {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="relative w-full max-w-5xl mx-auto pb-32 flex flex-col gap-[10vh]">
         {projects.map((project, index) => (
-          <motion.div
+          <div
             key={project.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="group relative flex flex-col glass rounded-[2.5rem] overflow-hidden border-white/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10"
+            className="sticky"
+            style={{ top: `calc(15vh + ${index * 1.5}rem)` }}
           >
-            {/* Image Container */}
-            <div className="relative h-64 w-full overflow-hidden">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                <button className="p-3 bg-white text-black rounded-full hover:scale-110 transition-transform">
-                  <ExternalLink size={20} />
-                </button>
-                <button className="p-3 bg-white/10 text-white backdrop-blur-md rounded-full hover:scale-110 transition-transform">
-                  <Github size={20} />
-                </button>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/30 shadow-2xl transition-colors duration-500"
+            >
+              {/* Image Container */}
+              <div className="relative h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="object-cover object-top w-full h-full transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                  <button className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform">
+                    <ExternalLink size={24} />
+                  </button>
+                  <button className="p-4 bg-white/10 text-white backdrop-blur-md rounded-full hover:scale-110 transition-transform border border-white/20">
+                    <Github size={24} />
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* Content */}
-            <div className="p-8">
-              <span className="text-xs font-bold uppercase tracking-widest text-primary mb-3 block">
-                {project.category}
-              </span>
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
-                {project.title}
-              </h3>
-              <p className="text-foreground/60 text-sm leading-relaxed mb-6">
-                {project.description}
-              </p>
+              {/* Content */}
+              <div className="p-8 md:p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-br from-white/[0.02] to-transparent">
+                <span className="text-xs font-bold uppercase tracking-widest text-primary mb-4 block">
+                  {project.category}
+                </span>
+                <h3 className="text-3xl md:text-4xl font-bold mb-6 group-hover:text-primary transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-foreground/60 text-lg leading-relaxed mb-10">
+                  {project.description}
+                </p>
 
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="text-[10px] px-3 py-1 rounded-full bg-white/5 border border-white/10 text-foreground/40 font-bold uppercase">
-                    {tag}
-                  </span>
-                ))}
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="text-xs px-4 py-2 rounded-full bg-white/5 border border-white/10 text-foreground/50 font-bold uppercase tracking-wider">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         ))}
       </div>
     </section>
