@@ -6,8 +6,8 @@
   --background: #02182B;
   --foreground: #f8fafc;
   
-  /* Main Accent/Primary: Crimson Red */
-  --primary: #d7263d;
+  /* Main Accent/Primary: Blue */
+  --primary: #3b82f6;
   --primary-foreground: #ffffff;
   
   --secondary: #0f2a4a;
@@ -16,14 +16,14 @@
   --muted: #0a1f38;
   --muted-foreground: #94a3b8;
   
-  --accent: #d7263d;
+  --accent: #3b82f6;
   --accent-foreground: #ffffff;
   
   --destructive: #ef4444;
   
   --border: rgba(255, 255, 255, 0.1);
   --input: rgba(255, 255, 255, 0.1);
-  --ring: rgba(215, 38, 61, 0.5);
+  --ring: rgba(59, 130, 246, 0.5);
   
   --radius: 1rem;
 }
@@ -73,7 +73,7 @@
     animation-delay: 4s;
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-rose-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-400;
   }
 }
 

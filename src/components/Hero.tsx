@@ -68,7 +68,7 @@ export default function Hero() {
         <CardSwap>
           {mockupImages.map((src, index) => (
             <Card key={index}>
-              <img src={src} alt={`Project Mockup ${index + 1}`} className="w-full h-full object-cover" />
+              <img src={src} alt={`Project Mockup ${index + 1}`} className="w-full h-full object-cover rounded-[12px]" />
             </Card>
           ))}
         </CardSwap>

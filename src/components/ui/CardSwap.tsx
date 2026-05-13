@@ -2,17 +2,14 @@
 
 import React, { Children, cloneElement, forwardRef, isValidElement, useEffect, useMemo, useRef, ReactNode } from 'react';
 import gsap from 'gsap';
+import './CardSwap.css';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   customClass?: string;
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(({ customClass, ...rest }, ref) => (
-  <div
-    ref={ref}
-    {...rest}
-    className={`absolute top-1/2 left-1/2 rounded-2xl border border-white/10 bg-[#05111E] overflow-hidden [transform-style:preserve-3d] [will-change:transform] [backface-visibility:hidden] ${customClass ?? ''} ${rest.className ?? ''}`.trim()}
-  />
+  <div ref={ref} {...rest} className={`card ${customClass ?? ''} ${rest.className ?? ''}`.trim()} />
 ));
 Card.displayName = 'Card';
 
@@ -55,9 +52,9 @@ const CardSwap = ({
   width = 500,
   height = 400,
   cardDistance = 60,
-  verticalDistance = 40,
-  delay = 3000,
-  pauseOnHover = true,
+  verticalDistance = 70,
+  delay = 5000,
+  pauseOnHover = false,
   onCardClick,
   skewAmount = 6,
   easing = 'elastic',
@@ -203,11 +200,7 @@ const CardSwap = ({
   });
 
   return (
-    <div
-      ref={container}
-      className="relative transform origin-center perspective-[900px] overflow-visible scale-75 md:scale-100"
-      style={{ width, height }}
-    >
+    <div ref={container} className="card-swap-container" style={{ width, height }}>
       {rendered}
     </div>
   );

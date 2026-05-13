@@ -20,7 +20,7 @@ export default function Home() {
         <section id="about" className="py-32 px-4 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative perspective-1000">
-              <ProfileCard src="/me.svg" />
+              <ProfileCard avatarUrl="/me.svg" />
               <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl -z-10" />
             </div>
 
