@@ -22,7 +22,7 @@ export default function BackgroundMesh() {
         grainAmount={0.1}
         grainScale={3.3}
         grainAnimated={true}
-        contrast={1.1}
+        contrast={1}
         gamma={0.9}
         saturation={1}
         centerX={0.0}

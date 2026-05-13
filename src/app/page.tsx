@@ -19,7 +19,7 @@ export default function Home() {
         {/* About Section */}
         <section id="about" className="py-32 px-4 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative perspective-1000">
+            <div className="relative perspective-1000 flex justify-center">
               <ProfileCard avatarUrl="/me-no-bg.svg" />
               <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl -z-10" />
             </div>
