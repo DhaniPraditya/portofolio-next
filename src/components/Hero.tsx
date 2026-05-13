@@ -4,14 +4,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, Download } from "@mynaui/icons-react";
 import Link from "next/link";
 import ShinyText from "@/components/ui/ShinyText";
-import CardSwap, { Card } from "@/components/ui/CardSwap";
-
-const mockupImages = [
-  "/projects/digimar/mockup-creator.png",
-  "/projects/ebook/mockup-1.png",
-  "/projects/nr/mockup-1.png",
-  "/projects/skripsi/mockup-home.png"
-];
 
 export default function Hero() {
   return (
@@ -57,21 +49,6 @@ export default function Hero() {
             Download CV
           </Link>
         </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.4 }}
-        className="relative z-10 md:w-1/2 flex justify-center md:justify-end mt-12 md:mt-0"
-      >
-        <CardSwap>
-          {mockupImages.map((src, index) => (
-            <Card key={index}>
-              <img src={src} alt={`Project Mockup ${index + 1}`} className="w-full h-full object-cover rounded-[12px]" />
-            </Card>
-          ))}
-        </CardSwap>
       </motion.div>
 
       {/* Subtle Scroll Indicator */}
