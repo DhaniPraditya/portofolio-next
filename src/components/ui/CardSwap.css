@@ -1,9 +1,7 @@
 .card-swap-container {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translate(5%, 20%);
-    transform-origin: bottom right;
+    position: relative;
+    transform: translate(-10%, 10%);
+    transform-origin: center;
 
     perspective: 900px;
     overflow: visible;
@@ -11,7 +9,7 @@
 
 .card {
     position: absolute;
-    top: 80%;
+    top: 30%;
     left: 50%;
     border-radius: 12px;
     border: 1px solid #fff;

@@ -38,14 +38,14 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-32 px-4 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+    <section id="projects" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6">
         <div className="max-w-2xl">
           <motion.h2
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6"
           >
             Featured <span className="text-gradient">Projects</span>
           </motion.h2>
@@ -75,10 +75,10 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/30 shadow-2xl transition-colors duration-500"
+              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/30 shadow-2xl transition-colors duration-500"
             >
               {/* Image Container */}
-              <div className="relative h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
+              <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
                 <img
                   src={project.image}
                   alt={project.title}
@@ -95,11 +95,11 @@ export default function Projects() {
               </div>
 
               {/* Content */}
-              <div className="p-8 md:p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-br from-white/[0.02] to-transparent">
-                <span className="text-xs font-bold uppercase tracking-widest text-primary mb-4 block">
+              <div className="p-6 sm:p-8 md:p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-br from-white/[0.02] to-transparent">
+                <span className="text-xs font-bold uppercase tracking-widest text-primary mb-3 md:mb-4 block">
                   {project.category}
                 </span>
-                <h3 className="text-3xl md:text-4xl font-bold mb-6 group-hover:text-primary transition-colors">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 group-hover:text-primary transition-colors">
                   {project.title}
                 </h3>
                 <p className="text-foreground/60 text-lg leading-relaxed mb-10">

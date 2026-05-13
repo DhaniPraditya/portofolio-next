@@ -13,13 +13,13 @@ const socialLinks = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-32 px-4">
+    <section id="contact" className="py-20 md:py-32 px-4">
       <div className="max-w-5xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass rounded-[3rem] p-12 md:p-24 border-white/5 relative overflow-hidden"
+          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 border-white/5 relative overflow-hidden"
         >
           {/* Decorative gradients */}
           <div className="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 rounded-full blur-[80px]" />
@@ -28,7 +28,7 @@ export default function Contact() {
           <span className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 block">
             Let's Work Together
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 md:mb-8 tracking-tight">
             Ready to bring your <br /> <span className="text-gradient">next project</span> to life?
           </h2>
           <p className="text-foreground/60 text-lg md:text-xl max-w-2xl mx-auto mb-12">
