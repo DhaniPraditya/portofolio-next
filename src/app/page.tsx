@@ -29,7 +29,7 @@ export default function Home() {
                 <span className="font-bold uppercase tracking-widest text-sm">About Me</span>
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight text-left">
-                Crafting Digital Products with a <span className="text-gradient">Hman-Centered</span> Approach.
+                Crafting Digital Products with a <span className="text-gradient">Human-Centered</span> Approach.
               </h2>
               <p className="text-foreground/60 text-lg leading-relaxed mb-8 text-left">
                 I'm a UI/UX Designer who believes that great design is not just about how it looks, but how it works for the people who use it. With over 3 years of experience in the creative industry, I've worked on everything from minimalist branding to complex SaaS platforms.
