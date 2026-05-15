@@ -56,9 +56,9 @@ export default function Home() {
 
         {/* Skills Section */}
         <section id="skills" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
-          <div className="text-center mb-10 md:mb-16">
+          <div className="text-left mb-10 md:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
-            <p className="text-foreground/60 max-w-2xl mx-auto text-base md:text-lg">
+            <p className="text-left text-foreground/60 mx-auto text-base md:text-lg">
               Combining creative vision with technical execution. Here are the tools and methodologies I use to bring ideas to life.
             </p>
           </div>
