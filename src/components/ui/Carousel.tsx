@@ -59,18 +59,21 @@ export default function Carousel() {
   }, []);
 
   return (
-    <div className="overflow-hidden cursor-grab active:cursor-grabbing w-full" ref={carousel}>
+    <div className="w-full overflow-hidden" ref={carousel}>
       <motion.div 
         drag="x" 
-        dragConstraints={{ right: 0, left: -width }} 
-        className="flex gap-8 px-4 pb-12 pt-4"
+        dragConstraints={{ right: 0, left: -width }}
+        dragElastic={0.05}
+        className="flex gap-6 px-4 pb-12 pt-4 cursor-grab active:cursor-grabbing"
         whileTap={{ cursor: "grabbing" }}
+        style={{ touchAction: "none" }}
       >
         {skillCards.map((card, index) => (
           <motion.div 
             key={index} 
-            className="min-w-[280px] md:min-w-[350px] p-8 md:p-10 glass rounded-[2.5rem] border border-white/5 shadow-2xl transition-all duration-300 pointer-events-none"
-            whileHover={{ y: -10, borderColor: "rgba(255,255,255,0.1)" }}
+            className="min-w-[270px] md:min-w-[320px] p-8 md:p-10 glass rounded-[2.5rem] border border-white/5 shadow-2xl flex-shrink-0"
+            whileHover={{ y: -8, borderColor: "rgba(255,255,255,0.15)" }}
+            transition={{ duration: 0.2 }}
           >
             <div className={`p-4 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${card.color} ${card.bgColor}`}>
               {card.icon}
@@ -79,7 +82,7 @@ export default function Carousel() {
             <ul className="space-y-4">
               {card.skills.map(s => (
                 <li key={s} className="text-sm font-semibold text-foreground/80 flex items-center gap-3">
-                  <div className={`w-2 h-2 rounded-full ${card.dotColor}`} /> {s}
+                  <div className={`w-2 h-2 rounded-full flex-shrink-0 ${card.dotColor}`} /> {s}
                 </li>
               ))}
             </ul>

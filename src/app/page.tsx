@@ -57,7 +57,7 @@ export default function Home() {
         {/* Skills Section */}
         <section id="skills" className="py-20 md:py-32 px-4">
           <div className="max-w-7xl mx-auto glass rounded-3xl md:rounded-[4rem] p-8 sm:p-12 md:p-20 border-white/5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[100px] -z-10" />
+            <div className="absolute top-0 right-0 w-96 h-96 rounded-full -z-10" style={{ background: 'radial-gradient(circle, rgba(215,38,61,0.12) 0%, transparent 70%)' }} />
 
             <div className="text-center mb-10 md:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
@@ -66,9 +66,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="-mx-8 sm:-mx-12">
-              <Carousel />
-            </div>
+            <Carousel />
           </div>
         </section>
 
