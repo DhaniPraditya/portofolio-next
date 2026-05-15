@@ -4,7 +4,7 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import BackgroundMesh from "@/components/BackgroundMesh";
 import ProfileCard from "@/components/ui/ProfileCard";
-import Carousel from "@/components/ui/Carousel";
+import MagicBento from "@/components/ui/MagicBento";
 import { CheckCircle, User, Layout, Mobile, Search } from "@mynaui/icons-react";
 
 export default function Home() {
@@ -62,11 +62,11 @@ export default function Home() {
             <div className="text-center mb-10 md:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
               <p className="text-foreground/60 max-w-2xl mx-auto text-base md:text-lg">
-                Combining creative vision with technical execution. Here are the tools and methodologies I use to bring ideas to life. Drag to explore.
+                Combining creative vision with technical execution. Here are the tools and methodologies I use to bring ideas to life.
               </p>
             </div>
 
-            <Carousel />
+            <MagicBento />
           </div>
         </section>
 
