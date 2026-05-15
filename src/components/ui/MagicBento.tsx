@@ -15,17 +15,24 @@ const MOBILE_BREAKPOINT = 768;
 const cardData = [
   {
     title: 'UI Design',
-    description: 'Crafting intuitive and visually stunning interfaces for web and mobile platforms.',
+    description: 'Crafting intuitive and visually stunning interfaces for web and mobile platforms. Every pixel placed with purpose.',
     label: 'Design',
-    icon: <Layout size={28} />,
+    icon: <Layout size={32} />,
     tools: ['Figma', 'Adobe XD', 'Design Systems', 'Typography'],
+    // Desktop: large 2×2 card (top-left)
+    gridClass: 'lg:col-span-2 lg:row-span-2',
+    minHeight: 'min-h-[380px] lg:min-h-[420px]',
+    large: true,
   },
   {
     title: 'UX Research',
-    description: 'Understanding user behavior through rigorous testing and data-driven analysis.',
+    description: 'Understanding user behavior through rigorous testing.',
     label: 'Research',
     icon: <Search size={28} />,
     tools: ['User Interviews', 'Usability Testing', 'Personas', 'User Flows'],
+    gridClass: 'lg:col-span-1 lg:row-span-1',
+    minHeight: 'min-h-[200px]',
+    large: false,
   },
   {
     title: 'Prototyping',
@@ -33,13 +40,21 @@ const cardData = [
     label: 'Prototype',
     icon: <Mobile size={28} />,
     tools: ['Framer', 'ProtoPie', 'Micro-interactions', 'Wireframing'],
+    gridClass: 'lg:col-span-1 lg:row-span-1',
+    minHeight: 'min-h-[200px]',
+    large: false,
   },
   {
     title: 'Frontend Basics',
-    description: 'Bridging the gap between design and development with hands-on code knowledge.',
+    description: 'Bridging the gap between design and development with hands-on code — making designs real.',
     label: 'Dev',
-    icon: <Code size={28} />,
+    icon: <Code size={32} />,
     tools: ['HTML / CSS', 'Tailwind CSS', 'React JS', 'Next.js'],
+    // Desktop: full-width bottom bar
+    gridClass: 'lg:col-span-3 lg:row-span-1',
+    minHeight: 'min-h-[180px]',
+    large: false,
+    wide: true,
   },
 ];
 
@@ -52,6 +67,7 @@ interface ParticleCardProps {
   particleCount?: number;
   glowColor?: string;
   enableTilt?: boolean;
+  enableMagnetism?: boolean;
   clickEffect?: boolean;
 }
 
@@ -64,6 +80,7 @@ interface GlobalSpotlightProps {
 }
 
 interface MagicBentoProps {
+  textAutoHide?: boolean;
   enableStars?: boolean;
   enableSpotlight?: boolean;
   enableBorderGlow?: boolean;
@@ -71,6 +88,7 @@ interface MagicBentoProps {
   spotlightRadius?: number;
   particleCount?: number;
   enableTilt?: boolean;
+  enableMagnetism?: boolean;
   glowColor?: string;
   clickEffect?: boolean;
 }
@@ -124,6 +142,7 @@ const ParticleCard = ({
   particleCount = DEFAULT_PARTICLE_COUNT,
   glowColor = GLOW_COLOR,
   enableTilt = true,
+  enableMagnetism = false,
   clickEffect = false,
 }: ParticleCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -189,18 +208,27 @@ const ParticleCard = ({
       isHoveredRef.current = false;
       clearAllParticles();
       if (enableTilt) gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.3, ease: 'power2.out' });
+      if (enableMagnetism) gsap.to(el, { x: 0, y: 0, duration: 0.3, ease: 'power2.out' });
     };
 
     const onMove = (e: MouseEvent) => {
-      if (!enableTilt) return;
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      gsap.to(el, {
-        rotateX: ((y - rect.height / 2) / rect.height) * -10,
-        rotateY: ((x - rect.width / 2) / rect.width) * 10,
-        duration: 0.1, ease: 'power2.out', transformPerspective: 1000,
-      });
+      if (enableTilt) {
+        gsap.to(el, {
+          rotateX: ((y - rect.height / 2) / rect.height) * -10,
+          rotateY: ((x - rect.width / 2) / rect.width) * 10,
+          duration: 0.1, ease: 'power2.out', transformPerspective: 1000,
+        });
+      }
+      if (enableMagnetism) {
+        gsap.to(el, {
+          x: (x - rect.width / 2) * 0.05,
+          y: (y - rect.height / 2) * 0.05,
+          duration: 0.3, ease: 'power2.out',
+        });
+      }
     };
 
     const onClick = (e: MouseEvent) => {
@@ -227,7 +255,7 @@ const ParticleCard = ({
       el.removeEventListener('click', onClick);
       clearAllParticles();
     };
-  }, [animateParticles, clearAllParticles, disableAnimations, enableTilt, clickEffect, glowColor]);
+  }, [animateParticles, clearAllParticles, disableAnimations, enableTilt, enableMagnetism, clickEffect, glowColor]);
 
   return (
     <div ref={cardRef} className={`${className} relative overflow-hidden`} style={style}>
@@ -310,6 +338,7 @@ const useMobileDetection = () => {
 
 // ─── MagicBento (Main Export) ─────────────────────────────────────────────────
 const MagicBento = ({
+  textAutoHide = true,
   enableStars = true,
   enableSpotlight = true,
   enableBorderGlow = true,
@@ -317,6 +346,7 @@ const MagicBento = ({
   spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
   particleCount = DEFAULT_PARTICLE_COUNT,
   enableTilt = true,
+  enableMagnetism = false,
   glowColor = GLOW_COLOR,
   clickEffect = true,
 }: MagicBentoProps) => {
@@ -325,8 +355,10 @@ const MagicBento = ({
   const noAnimations = disableAnimations || isMobile;
 
   const cardStyle: React.CSSProperties = {
-    backgroundColor: '#020d1a',
-    borderColor: 'rgba(59, 130, 246, 0.15)',
+    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
+    borderColor: 'rgba(255, 255, 255, 0.08)',
     color: '#f8fafc',
     '--glow-x': '50%',
     '--glow-y': '50%',
@@ -379,12 +411,15 @@ const MagicBento = ({
       )}
 
       <div className="mb-section w-full" ref={gridRef}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full" style={{ gridAutoRows: 'auto' }}>
           {cardData.map((card, index) => {
+            const isWide = card.wide ?? false;
+            const isLarge = card.large ?? false;
+
             const content = (
               <>
                 {/* Label + Icon */}
-                <div className="flex items-start justify-between mb-6">
+                <div className="flex items-start justify-between mb-4">
                   <span className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full"
                     style={{ background: `rgba(${glowColor}, 0.1)`, color: `rgb(${glowColor})` }}>
                     {card.label}
@@ -395,40 +430,58 @@ const MagicBento = ({
                 </div>
 
                 {/* Title & Description */}
-                <div className="mb-6">
-                  <h3 className="text-xl md:text-2xl font-bold mb-2 text-foreground">{card.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(248,250,252,0.5)' }}>
-                    {card.description}
-                  </p>
-                </div>
+                <div className={isWide ? 'flex-1 flex flex-col sm:flex-row sm:items-end sm:gap-8' : 'flex-1'}>
+                  <div className={isWide ? 'flex-shrink-0' : ''}>
+                    <h3 className={`font-bold mb-2 text-foreground ${isLarge ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'}`}>
+                      {card.title}
+                    </h3>
+                    <p
+                      className="text-sm leading-relaxed mb-4"
+                      style={{
+                        color: 'rgba(248,250,252,0.5)',
+                        ...(textAutoHide && !isLarge ? {
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical' as const,
+                          WebkitLineClamp: 2,
+                          overflow: 'hidden',
+                        } : {})
+                      }}
+                    >
+                      {card.description}
+                    </p>
+                  </div>
 
-                {/* Tools */}
-                <div className="flex flex-wrap gap-2">
-                  {card.tools.map(tool => (
-                    <span key={tool} className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                      style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(248,250,252,0.5)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                      {tool}
-                    </span>
-                  ))}
+                  {/* Tools */}
+                  <div className="flex flex-wrap gap-2">
+                    {card.tools.map(tool => (
+                      <span key={tool} className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(248,250,252,0.5)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </>
             );
 
+            const classNames = `${baseClass} ${card.gridClass} ${card.minHeight} flex flex-col justify-between`;
+
             return enableStars ? (
               <ParticleCard
                 key={index}
-                className={baseClass}
+                className={classNames}
                 style={cardStyle}
                 disableAnimations={noAnimations}
                 particleCount={particleCount}
                 glowColor={glowColor}
-                enableTilt={enableTilt}
+                enableTilt={enableTilt && !isWide}
+                enableMagnetism={enableMagnetism && !isWide}
                 clickEffect={clickEffect}
               >
                 {content}
               </ParticleCard>
             ) : (
-              <div key={index} className={baseClass} style={cardStyle}>
+              <div key={index} className={classNames} style={cardStyle}>
                 {content}
               </div>
             );

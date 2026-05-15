@@ -11,9 +11,9 @@ export default function BackgroundMesh() {
         color3="#030712"
         timeSpeed={0.25}
         colorBalance={0.25}
-        warpStrength={3.1}
+        warpStrength={4}
         warpFrequency={6.6}
-        warpSpeed={3.5}
+        warpSpeed={6}
         warpAmplitude={50.0}
         blendAngle={0}
         blendSoftness={0.05}
@@ -21,7 +21,7 @@ export default function BackgroundMesh() {
         noiseScale={2.0}
         grainAmount={0.1}
         grainScale={3.3}
-        grainAnimated={false}
+        grainAnimated={true}
         contrast={0.9}
         gamma={1}
         saturation={1}

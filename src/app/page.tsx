@@ -55,19 +55,26 @@ export default function Home() {
         <Projects />
 
         {/* Skills Section */}
-        <section id="skills" className="py-20 md:py-32 px-4">
-          <div className="max-w-7xl mx-auto glass rounded-3xl md:rounded-[4rem] p-8 sm:p-12 md:p-20 border-white/5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 rounded-full -z-10" style={{ background: 'radial-gradient(circle, rgba(215,38,61,0.12) 0%, transparent 70%)' }} />
-
-            <div className="text-center mb-10 md:mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
-              <p className="text-foreground/60 max-w-2xl mx-auto text-base md:text-lg">
-                Combining creative vision with technical execution. Here are the tools and methodologies I use to bring ideas to life.
-              </p>
-            </div>
-
-            <MagicBento />
+        <section id="skills" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
+            <p className="text-foreground/60 max-w-2xl mx-auto text-base md:text-lg">
+              Combining creative vision with technical execution. Here are the tools and methodologies I use to bring ideas to life.
+            </p>
           </div>
+
+          <MagicBento
+            enableStars={true}
+            enableSpotlight={true}
+            enableBorderGlow={true}
+            enableTilt={false}
+            enableMagnetism={false}
+            clickEffect={true}
+            spotlightRadius={400}
+            particleCount={12}
+            glowColor="59, 130, 246"
+            disableAnimations={false}
+          />
         </section>
 
         {/* Contact Section */}
