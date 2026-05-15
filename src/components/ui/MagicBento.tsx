@@ -51,7 +51,7 @@ const cardData = [
     icon: <Code size={32} />,
     tools: ['HTML / CSS', 'Tailwind CSS', 'React JS', 'Next.js'],
     // Desktop: full-width bottom bar
-    gridClass: 'lg:col-span-3 lg:row-span-1',
+    gridClass: 'lg:col-span-3 lg:row-span-2',
     minHeight: 'min-h-[180px]',
     large: false,
     wide: true,
@@ -430,8 +430,8 @@ const MagicBento = ({
                 </div>
 
                 {/* Title & Description */}
-                <div className={isWide ? 'flex-1 flex flex-col sm:flex-row sm:items-end sm:gap-8' : 'flex-1'}>
-                  <div className={isWide ? 'flex-shrink-0' : ''}>
+                <div className="flex-1 flex flex-col justify-start">
+                  <div>
                     <h3 className={`font-bold mb-2 text-foreground ${isLarge ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'}`}>
                       {card.title}
                     </h3>
