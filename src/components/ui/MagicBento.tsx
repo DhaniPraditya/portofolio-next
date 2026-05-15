@@ -356,8 +356,8 @@ const MagicBento = ({
 
   const cardStyle: React.CSSProperties = {
     backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    backdropFilter: 'blur(16px)',
-    WebkitBackdropFilter: 'blur(16px)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
     borderColor: 'rgba(255, 255, 255, 0.08)',
     color: '#f8fafc',
     '--glow-x': '50%',
