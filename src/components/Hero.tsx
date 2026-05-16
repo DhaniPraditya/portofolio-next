@@ -4,13 +4,11 @@ import { motion } from "framer-motion";
 import { ArrowRight, Download } from "@mynaui/icons-react";
 import Link from "next/link";
 import ShinyText from "@/components/ui/ShinyText";
-import CardSwap, { Card } from "@/components/ui/CardSwap";
+import SimpleShowcase from "@/components/ui/SimpleShowcase";
 
 const mockupImages = [
-  "/projects/digimar/mockup-creator.png",
-  "/projects/ebook/mockup-1.png",
-  "/projects/nr/mockup-1.png",
-  "/projects/skripsi/mockup-home.png"
+  "/projects/skripsi/dashboard.svg",
+  "/projects/artisan/home.svg"
 ];
 
 export default function Hero() {
@@ -59,30 +57,14 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {/* CardSwap — hidden on mobile */}
+      {/* SimpleShowcase — hidden on mobile */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.4 }}
         className="relative z-10 w-full md:w-1/2 hidden md:flex justify-center md:justify-end mt-4 md:mt-0"
       >
-        <CardSwap
-          width={450}
-          height={350}
-          cardDistance={50}
-          verticalDistance={40}
-          delay={4000}
-        >
-          {mockupImages.map((src, index) => (
-            <Card key={index} className="overflow-hidden border-white/5 shadow-2xl">
-              <img
-                src={src}
-                alt={`Project Mockup ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </Card>
-          ))}
-        </CardSwap>
+        <SimpleShowcase mockupImages={mockupImages} />
       </motion.div>
 
       {/* Subtle Scroll Indicator */}
