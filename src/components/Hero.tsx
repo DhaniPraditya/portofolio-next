@@ -67,8 +67,8 @@ export default function Hero() {
         className="relative z-10 w-full md:w-1/2 hidden md:flex justify-center md:justify-end mt-4 md:mt-0"
       >
         <CardSwap
-          width={400}
-          height={300}
+          width={450}
+          height={350}
           cardDistance={50}
           verticalDistance={40}
           delay={4000}

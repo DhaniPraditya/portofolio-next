@@ -1,11 +1,17 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
-import Contact from "@/components/Contact";
 import BackgroundMesh from "@/components/BackgroundMesh";
 import ProfileCard from "@/components/ui/ProfileCard";
-import MagicBento from "@/components/ui/MagicBento";
-import { CheckCircle, User, Layout, Mobile, Search } from "@mynaui/icons-react";
+import { CheckCircle, User } from "@mynaui/icons-react";
+
+// ─── Lazy-loaded sections (below the fold) ───────────────────────────────────
+// UX Guideline: Load content as needed — don't load everything upfront.
+const Projects = dynamic(() => import("@/components/Projects"));
+const Contact = dynamic(() => import("@/components/Contact"));
+const SkillsDeck = dynamic(() => import("@/components/ui/SkillsDeck"));
+
+
 
 export default function Home() {
   return (
@@ -63,18 +69,7 @@ export default function Home() {
             </p>
           </div>
 
-          <MagicBento
-            enableStars={true}
-            enableSpotlight={true}
-            enableBorderGlow={true}
-            enableTilt={false}
-            enableMagnetism={false}
-            clickEffect={true}
-            spotlightRadius={400}
-            particleCount={12}
-            glowColor="59, 130, 246"
-            disableAnimations={false}
-          />
+          <SkillsDeck />
         </section>
 
         {/* Contact Section */}
