@@ -9,28 +9,28 @@ const projects = [
     title: "Digimar Platform",
     category: "Web App • Digital Marketing",
     description: "A comprehensive platform for creator discovery and digital campaign management with a focus on data visualization.",
-    image: "/projects/digimar/mockup-creator.png",
+    image: "/projects/digimar/creator-discovery.svg",
     tags: ["UI Design", "Dashboard", "Marketing"],
   },
   {
     title: "Interactive E-book Design",
     category: "Digital Publication • UI/UX",
     description: "Creating an immersive and engaging reading experience through modern layout and interactive elements.",
-    image: "/projects/ebook/mockup-1.png",
+    image: "/projects/ebook/home.svg",
     tags: ["Editorial", "Interactivity", "Layout"],
   },
   {
     title: "NR Project Branding",
     category: "Branding • UI Design",
     description: "Developing a cohesive visual identity and user interface that aligns with modern branding standards.",
-    image: "/projects/nr/mockup-1.png",
+    image: "/projects/nr/form.svg",
     tags: ["Branding", "Identity", "UX"],
   },
   {
     title: "Sistem Informasi Skripsi",
     category: "Web Application • Academic",
     description: "A specialized system designed to streamline academic workflows and data management for thesis projects.",
-    image: "/projects/skripsi/mockup-home.png",
+    image: "/projects/skripsi/dashboard.svg",
     tags: ["System Design", "Academic", "Web App"],
   },
 ];
@@ -78,11 +78,11 @@ export default function Projects() {
               className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/30 shadow-2xl transition-colors duration-500"
             >
               {/* Image Container */}
-              <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
+              <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5 flex items-start justify-center">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="object-cover object-top w-full h-full transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover object-top w-full h-full transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                   <button className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform">

@@ -45,7 +45,7 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
           <img
             src={desktopImage}
             alt="Desktop UI/UX Project Showcase"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           />
         </div>
       </motion.div>
@@ -69,7 +69,7 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
           <img
             src={mobileImage}
             alt="Mobile UI/UX Project Showcase"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           />
         </div>
       </motion.div>
