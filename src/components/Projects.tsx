@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "@mynaui/icons-react";
+import { ExternalLink, Github, Figma } from "@mynaui/icons-react";
 import Image from "next/image";
 
 const projects = [
@@ -11,6 +11,7 @@ const projects = [
     description: "A comprehensive platform for creator discovery and digital campaign management with a focus on data visualization.",
     image: "/projects/digimar/creator-discovery.svg",
     tags: ["UI Design", "Dashboard", "Marketing"],
+    figmaLink: "https://www.figma.com/design/uLqpw7F2BT57DNPdgax6RW/Demo-Project?node-id=52-438&t=Cb1thkR2Q35BAlRi-1"
   },
   {
     title: "Interactive E-book Design",
@@ -18,6 +19,7 @@ const projects = [
     description: "Creating an immersive and engaging reading experience through modern layout and interactive elements.",
     image: "/projects/ebook/home.svg",
     tags: ["Editorial", "Interactivity", "Layout"],
+    figmaLink: "https://www.figma.com/design/Wh35WfhYyWnTM8bYpzx6QG/eBook_Public_Library_Dhani-Praditya?node-id=9-139&t=MsYUBcoGMeA0UkS1-1"
   },
   {
     title: "NR Project Branding",
@@ -25,6 +27,7 @@ const projects = [
     description: "Developing a cohesive visual identity and user interface that aligns with modern branding standards.",
     image: "/projects/nr/form.svg",
     tags: ["Branding", "Identity", "UX"],
+    figmaLink: "https://www.figma.com/design/qk3oavqR3VLOnw7Lij9HQU/Intern-Project?node-id=0-1&t=lyDb0zrl5krTetlS-1"
   },
   {
     title: "Sistem Informasi Skripsi",
@@ -32,7 +35,17 @@ const projects = [
     description: "A specialized system designed to streamline academic workflows and data management for thesis projects.",
     image: "/projects/skripsi/dashboard.svg",
     tags: ["System Design", "Academic", "Web App"],
+    figmaLink: "https://www.figma.com/design/GIvi6Iu49dVW4UmRK3uFES/SKRIPSI-FIX?node-id=159-2010&t=CbYL7IqzUwm2AWkf-1",
+    githubLink: "https://github.com/DhaniPraditya/Redesign-Website-Sistem-Registrasi-UNY"
   },
+  {
+    title: "Artisan Crafts",
+    category: "Responsive Web Application • E-commerce",
+    description: "A responsive e-commerce platform for artisan crafts with a focus on product visualization and user interaction.",
+    image: "/projects/artisan/Home-Desktop.svg",
+    tags: ["UI Design", "E-commerce", "Responsive Design"],
+    figmaLink: "https://www.figma.com/design/ar0qEXFcdXU2hoqS2keO1u/Capstone_AstisanCrafts?node-id=0-1&t=QKAhIpgw9JGNoeTm-1",
+  }
 ];
 
 
@@ -84,14 +97,30 @@ export default function Projects() {
                   alt={project.title}
                   className="object-cover object-top w-full h-full transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                  <button className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform">
-                    <ExternalLink size={24} />
-                  </button>
-                  <button className="p-4 bg-white/10 text-white backdrop-blur-md rounded-full hover:scale-110 transition-transform border border-white/20">
-                    <Github size={24} />
-                  </button>
-                </div>
+                {(project.githubLink || project.figmaLink) && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                    {project.githubLink && (
+                      <a
+                        href={project.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform flex items-center justify-center"
+                      >
+                        <Github size={24} />
+                      </a>
+                    )}
+                    {project.figmaLink && (
+                      <a
+                        href={project.figmaLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 bg-white/10 text-white backdrop-blur-md rounded-full hover:scale-110 transition-transform border border-white/20 flex items-center justify-center"
+                      >
+                        <Figma size={24} />
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Content */}
