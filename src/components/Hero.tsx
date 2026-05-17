@@ -48,7 +48,7 @@ export default function Hero() {
           </Link>
 
           <Link
-            href="/resume.pdf"
+            href="/public/Resume-DhaniPraditya.pdf"
             className="w-full sm:w-auto group flex items-center justify-center gap-2 px-8 py-4 glass border-white/10 font-semibold rounded-2xl transition-all hover:bg-white/10 hover:scale-105 active:scale-95"
           >
             <Download size={20} />
