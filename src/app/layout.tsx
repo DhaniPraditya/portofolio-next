@@ -3,7 +3,7 @@ import { Plus_Jakarta_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const montserrat = Montserrat({subsets:['latin'],variable:'--font-sans'});
+const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-sans' });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -12,7 +12,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "UI/UX Designer | Portfolio",
-  description: "Professional portfolio of a UI/UX Designer showcasing innovative designs, user research, and interactive prototypes.",
+  description: "Professional portfolio of Dhani Praditya as a UI/UX Designer showcasing innovative designs, user research, and interactive prototypes.",
 };
 
 export default function RootLayout({
