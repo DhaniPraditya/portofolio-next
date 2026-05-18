@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 interface ShinyTextProps {
   text: string;
   disabled?: boolean;

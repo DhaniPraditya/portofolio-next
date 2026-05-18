@@ -1,7 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mail, Linkedin, Dribbble, Instagram, ArrowUpRight } from "@mynaui/icons-react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const socialLinks = [
   { name: "Email", icon: <Mail size={20} />, href: "mailto:your.email@example.com", color: "bg-blue-500" },
@@ -10,16 +16,35 @@ const socialLinks = [
   { name: "Dribbble", icon: <Dribbble size={20} />, href: "#", color: "bg-rose-400" },
 ];
 
-
 export default function Contact() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 85%",
+            once: true,
+          },
+        }
+      );
+    }
+  }, []);
+
   return (
     <section id="contact" className="py-20 md:py-32 px-4">
       <div className="max-w-5xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 border-white/5 relative overflow-hidden"
+        <div
+          ref={containerRef}
+          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 border-white/5 relative overflow-hidden opacity-0"
         >
           {/* Decorative gradients */}
           <div className="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 rounded-full blur-[80px]" />
@@ -56,7 +81,7 @@ export default function Contact() {
               Based in Indonesia • Available for Remote Work
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

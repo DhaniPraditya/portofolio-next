@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 interface SimpleShowcaseProps {
   mockupImages: string[];
@@ -11,19 +12,40 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
   const desktopImage = mockupImages[0];
   const mobileImage = mockupImages[1];
 
+  const desktopRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (desktopRef.current) {
+      gsap.to(desktopRef.current, {
+        y: -10,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    }
+
+    if (mobileRef.current) {
+      gsap.to(mobileRef.current, {
+        y: 10,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 0.5
+      });
+    }
+  }, []);
+
   return (
     <div className="relative w-full max-w-[500px] aspect-[4/3] flex items-center justify-center z-10 select-none">
       {/* ─── Ambient Backdrop Glow (Subtle & Soft) ────────────────────────────── */}
       <div className="absolute inset-0 bg-primary/10 blur-[90px] rounded-full pointer-events-none" />
 
       {/* ─── Layer 1: Desktop Browser Mockup ──────────────────────────────────── */}
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+      <div
+        ref={desktopRef}
         className="absolute w-[85%] aspect-[16/10.5] rounded-2xl bg-zinc-950/90 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] overflow-hidden flex flex-col left-4 top-8"
       >
         {/* Browser Header Bar */}
@@ -48,17 +70,11 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
             className="w-full h-full object-cover object-top"
           />
         </div>
-      </motion.div>
+      </div>
 
       {/* ─── Layer 2: Overlapping Mobile Phone Mockup ─────────────────────────── */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0.5 // Out of sync for dynamic depth
-        }}
+      <div
+        ref={mobileRef}
         className="absolute right-4 bottom-4 w-[28%] aspect-[9/18.5] rounded-[1.75rem] bg-zinc-950 border-[3.5px] border-white/10 shadow-[0_20px_45px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col p-1 z-20"
       >
         {/* Dynamic Island Notch */}
@@ -72,7 +88,7 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
             className="w-full h-full object-cover object-top"
           />
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import BackgroundMesh from "@/components/BackgroundMesh";
+import DynamicBackground from "@/components/DynamicBackground";
 import ProfileCard from "@/components/ui/ProfileCard";
 import { CheckCircle, User } from "@mynaui/icons-react";
 
@@ -16,7 +16,7 @@ const SkillsDeck = dynamic(() => import("@/components/ui/SkillsDeck"));
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden">
-      <BackgroundMesh />
+      <DynamicBackground />
 
       <div className="relative z-10">
         <Navbar />

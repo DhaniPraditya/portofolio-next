@@ -1,8 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink, Github, Figma } from "@mynaui/icons-react";
 import Image from "next/image";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const projects = [
   {
@@ -48,32 +54,80 @@ const projects = [
   }
 ];
 
-
 export default function Projects() {
+  const headerRef = useRef<HTMLHeadingElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (headerRef.current) {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, x: -20 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: { trigger: headerRef.current, start: "top 85%", once: true },
+        }
+      );
+    }
+    
+    if (badgeRef.current) {
+      gsap.fromTo(
+        badgeRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: { trigger: badgeRef.current, start: "top 85%", once: true },
+        }
+      );
+    }
+
+    cardsRef.current.forEach((card, index) => {
+      if (card) {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
+    });
+  }, []);
+
   return (
     <section id="projects" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6">
         <div className="max-w-2xl">
-          <motion.h2
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6"
+          <h2
+            ref={headerRef}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 opacity-0"
           >
             Featured <span className="text-gradient">Projects</span>
-          </motion.h2>
+          </h2>
           <p className="text-foreground/60 text-lg">
             A collection of digital products I've designed and developed. Each project focuses on solving specific user problems with elegant solutions.
           </p>
         </div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex gap-2"
+        <div
+          ref={badgeRef}
+          className="flex gap-2 opacity-0"
         >
           <span className="px-4 py-2 rounded-full glass text-sm font-medium border-primary/20 text-primary">All Works</span>
-        </motion.div>
+        </div>
       </div>
 
       <div className="relative w-full max-w-5xl mx-auto pb-32 flex flex-col gap-[10vh]">
@@ -83,12 +137,11 @@ export default function Projects() {
             className="sticky"
             style={{ top: `calc(15vh + ${index * 1.5}rem)` }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/30 shadow-2xl transition-colors duration-500"
+            <div
+              ref={(el) => {
+                cardsRef.current[index] = el;
+              }}
+              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/30 shadow-2xl transition-colors duration-500 opacity-0"
             >
               {/* Image Container */}
               <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5 flex items-start justify-center">
@@ -143,7 +196,7 @@ export default function Projects() {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         ))}
       </div>
