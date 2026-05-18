@@ -287,27 +287,30 @@ export default function SkillsDeck() {
         <div className="lg:col-span-8 flex flex-col">
           <div
             ref={tabContentRef}
-            className="w-full h-full bg-white/[0.03] backdrop-blur-[40px] saturate-[180%] border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-[0_24px_60px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] relative overflow-hidden min-h-[500px]"
+            className="w-full h-full bg-white/[0.03] backdrop-blur-[40px] saturate-[180%] border border-white/10 rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] relative min-h-[500px]"
           >
             {/* Ambient Background Glow matching the active color */}
-            <div
-              className="absolute -top-40 -right-40 w-96 h-96 rounded-full blur-[120px] pointer-events-none opacity-20 transition-all duration-700"
-              style={{
-                background:
-                  activeTab === "ui-design"
-                    ? uiColor
-                    : activeTab === "ux-research"
-                    ? "rgb(168, 85, 247)" // Purple
-                    : activeTab === "prototyping"
-                    ? "rgb(236, 72, 153)" // Pink
-                    : activeTab === "frontend"
-                    ? "rgb(20, 184, 166)" // Teal
-                    : techStackDetails[selectedTool as keyof typeof techStackDetails]?.color || "rgb(242, 78, 29)", // Dynamic Tool color!
-              }}
-            />
+            <div className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none">
+              <div
+                className="absolute -top-40 -right-40 w-96 h-96 rounded-full blur-[120px] opacity-20 transition-all duration-700"
+                style={{
+                  background:
+                    activeTab === "ui-design"
+                      ? uiColor
+                      : activeTab === "ux-research"
+                      ? "rgb(168, 85, 247)" // Purple
+                      : activeTab === "prototyping"
+                      ? "rgb(236, 72, 153)" // Pink
+                      : activeTab === "frontend"
+                      ? "rgb(20, 184, 166)" // Teal
+                      : techStackDetails[selectedTool as keyof typeof techStackDetails]?.color || "rgb(242, 78, 29)", // Dynamic Tool color!
+                }}
+              />
+            </div>
 
-            {/* Split Panel: Left Details, Right Live Interactive Widget */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-center h-full">
+            <div className="relative z-10 p-6 md:p-8 flex flex-col justify-between h-full">
+              {/* Split Panel: Left Details, Right Live Interactive Widget */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-center h-full">
               
               {activeTab === "software-stack" ? (
                 <>
@@ -357,7 +360,7 @@ export default function SkillsDeck() {
                     const activeTool = techStackDetails[selectedTool as keyof typeof techStackDetails] || techStackDetails.figma;
                     return (
                       <div
-                        className="rounded-3xl border p-6 flex flex-col justify-between h-full min-h-[340px] transition-all duration-500 relative overflow-hidden shadow-2xl"
+                        className="rounded-3xl border h-full min-h-[340px] transition-all duration-500 relative shadow-2xl"
                         style={{
                           backgroundColor: `${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.08)")}`,
                           borderColor: `${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.25)")}`,
@@ -365,12 +368,15 @@ export default function SkillsDeck() {
                         }}
                       >
                         {/* Ambient Card Glow */}
-                        <div
-                          className="absolute -bottom-20 -right-20 w-48 h-48 rounded-full blur-[60px] pointer-events-none opacity-40 transition-all duration-500"
-                          style={{ backgroundColor: activeTool.color }}
-                        />
+                        <div className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none">
+                          <div
+                            className="absolute -bottom-20 -right-20 w-48 h-48 rounded-full blur-[60px] opacity-40 transition-all duration-500"
+                            style={{ backgroundColor: activeTool.color }}
+                          />
+                        </div>
 
-                        <div className="flex flex-col gap-4">
+                        <div className="relative z-10 p-6 flex flex-col justify-between h-full">
+                          <div className="flex flex-col gap-4">
                           {/* Large Icon Container */}
                           <div className="flex items-center gap-4">
                             <div className="w-14 h-14 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center shadow-inner">
@@ -421,6 +427,7 @@ export default function SkillsDeck() {
                         <div className="text-[10px] text-foreground/35 uppercase tracking-wider font-semibold border-t border-white/5 pt-3 mt-4 flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full animate-ping" style={{ backgroundColor: activeTool.color }} />
                           Interactive Developer Stack Inspection
+                        </div>
                         </div>
                       </div>
                     );
@@ -781,6 +788,7 @@ export default function SkillsDeck() {
                   </div>
                 </>
               )}
+            </div>
             </div>
           </div>
         </div>
