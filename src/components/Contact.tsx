@@ -44,7 +44,7 @@ export default function Contact() {
       <div className="max-w-5xl mx-auto text-center">
         <div
           ref={containerRef}
-          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 border-white/5 relative overflow-hidden opacity-0"
+          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 border-white/5 relative overflow-hidden isolate transform-gpu opacity-0"
         >
           {/* Decorative gradients */}
           <div className="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 rounded-full blur-[80px]" />
