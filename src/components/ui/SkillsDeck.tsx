@@ -76,7 +76,7 @@ const techStackDetails = {
     color: "rgb(230, 81, 0)",
     gridName: "HTML",
     useCase: "Building semantic, structured, and search-engine optimized document trees for web platforms.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><path d="M1.5 0h21l-1.9 21.2L12 24 3.4 21.2z" fill="#E34F26"/><path d="M12 3.7v16.6l5.9-1.7.8-8.8H12V6.4h8.3l-.2 2.5H12v3.2h5.2l-.4 4.8-4.8 1.3V3.7z" fill="#F06529"/></svg>
+    icon: <img src="/icons/html.svg" alt="HTML" className="w-6 h-6 shrink-0" />
   },
   css: {
     name: "CSS",
@@ -85,7 +85,7 @@ const techStackDetails = {
     color: "rgb(21, 101, 192)",
     gridName: "CSS",
     useCase: "Designing responsive fluid page layouts using Flexbox, CSS Grid, custom keyframe transitions, and animations.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><path d="M1.5 0h21l-1.9 21.2L12 24 3.4 21.2z" fill="#1572B6"/><path d="M12 3.7v16.6l5.9-1.7.8-8.8H12V9.8H7.5l-.2-2.5H12V4.8H4.6l.6 7.4H12v3.2l-3.8-1-.2-2.3H5.5l.4 5.3 6.1 1.7V3.7z" fill="#30A9DC"/></svg>
+    icon: <img src="/icons/css.svg" alt="CSS" className="w-6 h-6 shrink-0" />
   },
   javascript: {
     name: "JavaScript",
@@ -94,7 +94,7 @@ const techStackDetails = {
     color: "rgb(234, 179, 8)",
     gridName: "JavaScript",
     useCase: "Enabling client-side interactive widgets, state manipulation, async API requests, and visual transitions.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><rect width="24" height="24" fill="#F7DF1E" rx="4"/><path fill="#000000" d="M11.97 12.83h-1.63c.06.46.22.79.5.99.27.2.67.3 1.19.3.44 0 .78-.08 1.01-.25.23-.17.34-.38.34-.64 0-.2-.07-.37-.21-.49-.14-.12-.41-.22-.81-.32l-.93-.21c-.81-.19-1.4-.46-1.78-.81-.37-.36-.56-.84-.56-1.44 0-.66.25-1.2.76-1.62.51-.42 1.2-.63 2.06-.63.85 0 1.5.19 1.95.58.45.39.69.95.73 1.68h-1.65c-.04-.42-.17-.72-.37-.9-.2-.18-.52-.27-.96-.27-.41 0-.71.07-.9.21-.19.14-.28.32-.28.53 0 .17.07.31.2.42.13.1.37.19.72.27l.95.21c.88.2 1.5.49 1.89.86.39.37.58.89.58 1.55 0 .75-.27 1.37-.81 1.84-.54.48-1.32.72-2.32.72-1.04 0-1.83-.24-2.38-.72-.55-.48-.82-1.16-.82-2.04h1.63zm-3.21.36h-1.62c.07.41.22.72.46.92.24.2.6.3 1.07.3.41 0 .72-.08.92-.25.21-.17.31-.38.31-.64V6.75h1.65v7.26c0 .76-.24 1.37-.73 1.84-.49.46-1.2.7-2.13.7-1.01 0-1.78-.23-2.3-.7-.52-.47-.79-1.15-.81-2.06z"/></svg>
+    icon: <img src="/icons/javascript.svg" alt="JavaScript" className="w-6 h-6 shrink-0" />
   },
   php: {
     name: "PHP",
@@ -103,7 +103,7 @@ const techStackDetails = {
     color: "rgb(120, 144, 156)",
     gridName: "PHP",
     useCase: "Processing server-side scripts, database communication, and constructing server-side templating logic.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><ellipse cx="12" cy="12" rx="11" ry="8" fill="#777BB4"/><text x="4.5" y="15" fill="#FFFFFF" fontFamily="sans-serif" fontSize="9" fontWeight="bold">PHP</text></svg>
+    icon: <img src="/icons/php.svg" alt="PHP" className="w-6 h-6 shrink-0" />
   },
   python: {
     name: "Python",
@@ -112,7 +112,7 @@ const techStackDetails = {
     color: "rgb(75, 144, 203)",
     gridName: "Python",
     useCase: "Developing automation scripts, parsing data models, and constructing backend micro-services.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><path fill="#3776AB" d="M11.89 2a5.29 5.29 0 0 0-3.69 1.48 4.29 4.29 0 0 0-1.18 3v2.09h4.94v.68H5.13a4.29 4.29 0 0 0-3 1.18 5.29 5.29 0 0 0-1.48 3.69c0 1.83 1.4 3.43 3.23 3.69h1.94v-2.73a3.46 3.46 0 0 1 3.46-3.46h4.94A4.29 4.29 0 0 0 19 8.24a5.29 5.29 0 0 0 1.48-3.69c0-1.83-1.4-3.43-3.23-3.69H15.3V3.6a3.46 3.46 0 0 1-3.41 3.4h-.05a3.41 3.41 0 0 1-3.4-3.4V2h3.4z"/><path fill="#FFE873" d="M12.11 22a5.29 5.29 0 0 0 3.69-1.48 4.29 4.29 0 0 0 1.18-3v-2.09h-4.94v-.68h6.83a4.29 4.29 0 0 0 3-1.18 5.29 5.29 0 0 0 1.48-3.69c0-1.83-1.4-3.43-3.23-3.69h-1.94v2.73a3.46 3.46 0 0 1-3.46 3.46H9.86A4.29 4.29 0 0 0 5 15.76a5.29 5.29 0 0 0-1.48 3.69c0 1.83 1.4 3.43 3.23 3.69h1.95v-1.6a3.46 3.46 0 0 1 3.41-3.4h.05a3.41 3.41 0 0 1 3.4 3.4v2.5h-3.4z"/></svg>
+    icon: <img src="/icons/python.svg" alt="Python" className="w-6 h-6 shrink-0" />
   },
   mysql: {
     name: "MySQL",
@@ -121,7 +121,7 @@ const techStackDetails = {
     color: "rgb(0, 117, 143)",
     gridName: "MySQL",
     useCase: "Structuring relational databases, writing queries, managing records, and performing indexing optimizations.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><path fill="#00758F" d="M18.42 11.58c.18-1.5-.78-3.07-2.18-3.56-1.39-.48-2.92.1-3.46 1.34-.54 1.24-.13 2.76 1.02 3.47 1.15.71 2.65.55 3.62-.25z"/><path fill="#F29111" d="M12.1 14.28c-.68-.21-1.38-.28-2.07-.22a7.1 7.1 0 0 0-4.63 2.45c-1.37 1.54-1.8 3.64-1.18 5.64.62-2 1.05-4.1 2.42-5.64a7.1 7.1 0 0 1 4.63-2.45c.69-.06 1.39.01 2.07.22l-.27-2.16z"/></svg>
+    icon: <img src="/icons/mysql.svg" alt="MySQL" className="w-6 h-6 shrink-0" />
   },
   laravel: {
     name: "Laravel",
@@ -130,7 +130,7 @@ const techStackDetails = {
     color: "rgb(240, 83, 64)",
     gridName: "Laravel",
     useCase: "Building robust backend architectures, Eloquent ORM databases, secured endpoints, and robust routing structures.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><path d="M8.37 2.03L3.8 4.63v14.74l8.2 4.6 8.2-4.6V4.63l-4.57-2.6-3.63 2.06 3.63 2.06v8.4l-4.57 2.6-4.57-2.6V6.69l3.63-2.06-3.63-2.6z" fill="#FF2D20"/></svg>
+    icon: <img src="/icons/laravel.svg" alt="Laravel" className="w-6 h-6 shrink-0" />
   },
   figma: {
     name: "Figma",
@@ -139,7 +139,7 @@ const techStackDetails = {
     color: "rgb(242, 78, 29)",
     gridName: "Figma",
     useCase: "Crafting complete high-fidelity UI designs, vector components, interactive prototypes, and scalable design systems.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><path d="M12 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="#F24E1E"/><path d="M6 12a3 3 0 0 0 6 0V9H6v3z" fill="#A259FF"/><path d="M12 12a3 3 0 1 0 6 0 3 3 0 0 0-6 0z" fill="#1ABC9C"/><path d="M18 6a3 3 0 1 1-6 0V9h6V6z" fill="#FF7262"/><path d="M12 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="#0ACF83"/></svg>
+    icon: <img src="/icons/figma.svg" alt="Figma" className="w-6 h-6 shrink-0" />
   },
   adobeillustrator: {
     name: "Adobe Illustrator",
@@ -148,7 +148,7 @@ const techStackDetails = {
     color: "rgb(255, 154, 0)",
     gridName: "Illustrator",
     useCase: "Creating high-resolution vector assets, branding logos, icons, vector shapes, and print layouts.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><rect width="24" height="24" rx="4" fill="#330000"/><text x="4" y="17" fill="#FF9A00" fontFamily="sans-serif" fontSize="12" fontWeight="bold">Ai</text></svg>
+    icon: <img src="/icons/illustrator.svg" alt="Adobe Illustrator" className="w-6 h-6 shrink-0" />
   },
   adobephotoshop: {
     name: "Adobe Photoshop",
@@ -157,7 +157,7 @@ const techStackDetails = {
     color: "rgb(0, 200, 255)",
     gridName: "Photoshop",
     useCase: "Retouching raster graphics, editing high-resolution photos, creating digital composites, and asset pre-processing.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><rect width="24" height="24" rx="4" fill="#001E36"/><text x="4" y="17" fill="#00C8FF" fontFamily="sans-serif" fontSize="12" fontWeight="bold">Ps</text></svg>
+    icon: <img src="/icons/photoshop.svg" alt="Adobe Photoshop" className="w-6 h-6 shrink-0" />
   },
   canva: {
     name: "Canva",
@@ -166,7 +166,7 @@ const techStackDetails = {
     color: "rgb(0, 196, 204)",
     gridName: "Canva",
     useCase: "Rapidly designing social media visual assets, corporate presentations, and custom graphic templates.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><circle cx="12" cy="12" r="11" fill="url(#canvaGrad)"/><text x="4.5" y="15.5" fill="#FFFFFF" fontFamily="sans-serif" fontSize="10" fontWeight="bold">Canva</text><defs><linearGradient id="canvaGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#00C4CC"/><stop offset="100%" stopColor="#7D2AE8"/></linearGradient></defs></svg>
+    icon: <img src="/icons/canva.svg" alt="Canva" className="w-6 h-6 shrink-0" />
   },
   capcut: {
     name: "CapCut",
@@ -175,7 +175,7 @@ const techStackDetails = {
     color: "rgb(255, 255, 255)",
     gridName: "CapCut",
     useCase: "Assembling short-form videos, adjusting audio tracks, synchronizing frame cuts, and rendering social media video content.",
-    icon: <svg viewBox="0 0 24 24" className="w-6 h-6 shrink-0" fill="none"><rect width="24" height="24" rx="5" fill="#000000"/><path d="M12 6l5 3v6l-5 3-5-3V9l5-3z" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round"/><circle cx="12" cy="12" r="2.5" fill="#00F2FE"/></svg>
+    icon: <img src="/icons/capcut.svg" alt="CapCut" className="w-6 h-6 shrink-0" />
   },
 };
 
