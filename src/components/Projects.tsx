@@ -246,7 +246,7 @@ export default function Projects() {
                 cardsRef.current[index] = el;
               }}
               onClick={() => setSelectedProject(project)}
-              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] shadow-2xl transition-all duration-300 opacity-0 cursor-pointer"
+              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/50 shadow-2xl transition-colors duration-300 opacity-0 cursor-pointer will-change-transform"
               role="button"
               tabIndex={0}
               aria-label={`View details for ${project.title}`}
