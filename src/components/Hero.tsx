@@ -19,10 +19,13 @@ export default function Hero() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current) gsap.fromTo(containerRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
-    if (badgeRef.current) gsap.fromTo(badgeRef.current, { opacity: 0 }, { opacity: 1, duration: 0.8, delay: 0.2, ease: "power2.out" });
-    if (showcaseRef.current) gsap.fromTo(showcaseRef.current, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, delay: 0.4, ease: "power2.out" });
-    if (scrollRef.current) gsap.fromTo(scrollRef.current, { opacity: 0 }, { opacity: 1, duration: 1, delay: 1, ease: "power2.out" });
+    let ctx = gsap.context(() => {
+      if (containerRef.current) gsap.fromTo(containerRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
+      if (badgeRef.current) gsap.fromTo(badgeRef.current, { opacity: 0 }, { opacity: 1, duration: 0.8, delay: 0.2, ease: "power2.out" });
+      if (showcaseRef.current) gsap.fromTo(showcaseRef.current, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, delay: 0.4, ease: "power2.out" });
+      if (scrollRef.current) gsap.fromTo(scrollRef.current, { opacity: 0 }, { opacity: 1, duration: 1, delay: 1, ease: "power2.out" });
+    });
+    return () => ctx.revert();
   }, []);
 
   return (

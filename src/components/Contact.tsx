@@ -20,23 +20,27 @@ export default function Contact() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current) {
-      gsap.fromTo(
-        containerRef.current,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 85%",
-            once: true,
-          },
-        }
-      );
-    }
+    let ctx = gsap.context(() => {
+      if (containerRef.current) {
+        gsap.fromTo(
+          containerRef.current,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
+    });
+    
+    return () => ctx.revert();
   }, []);
 
   return (

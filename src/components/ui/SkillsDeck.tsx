@@ -206,13 +206,16 @@ export default function SkillsDeck() {
 
   // ─── Animate Tab Changes ────────────────────────────────────────────────────
   useEffect(() => {
-    if (tabContentRef.current) {
-      gsap.fromTo(
-        tabContentRef.current,
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
-      );
-    }
+    let ctx = gsap.context(() => {
+      if (tabContentRef.current) {
+        gsap.fromTo(
+          tabContentRef.current,
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+        );
+      }
+    });
+    return () => ctx.revert();
   }, [activeTab]);
 
   // Springy micro-interaction for Prototyping Button
@@ -242,8 +245,8 @@ export default function SkillsDeck() {
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
                 className={`w-full flex items-center justify-between text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 relative overflow-hidden group ${isActive
-                  ? "bg-white/[0.07] border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
-                  : "bg-white/[0.02] border-white/5 hover:bg-white/[0.04] hover:border-white/10"
+                  ? "bg-[#0A1628] border-primary/40 shadow-lg shadow-primary/10"
+                  : "bg-[#030712] border-white/10 hover:bg-[#060D18] hover:border-white/20"
                   }`}
               >
                 {/* Glow Active Background */}
@@ -284,7 +287,7 @@ export default function SkillsDeck() {
         <div className="lg:col-span-8 flex flex-col">
           <div
             ref={tabContentRef}
-            className="w-full h-full bg-white/[0.03] backdrop-blur-[40px] saturate-[180%] border border-white/10 rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]"
+            className="w-full h-full bg-[#0a111a]/95 border border-white/10 rounded-3xl shadow-xl p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]"
           >
               {/* Split Panel: Left Details, Right Live Interactive Widget */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-center h-full">
@@ -340,7 +343,7 @@ export default function SkillsDeck() {
                         style={{
                           backgroundColor: `${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.08)")}`,
                           borderColor: `${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.25)")}`,
-                          boxShadow: `0 20px 40px rgba(0,0,0,0.3), 0 0 30px ${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.2)")}`,
+                          boxShadow: `0 10px 25px rgba(0,0,0,0.2), 0 0 15px ${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.15)")}`,
                         }}
                       >
                             <div className="flex flex-col gap-4">

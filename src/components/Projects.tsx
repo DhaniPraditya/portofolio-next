@@ -234,11 +234,11 @@ export default function Projects() {
         </div>
       </div>
 
-      <div className="relative w-full max-w-5xl mx-auto pb-32 flex flex-col gap-[10vh]">
+      <div className="relative w-full max-w-5xl mx-auto pb-32 flex flex-col gap-12 md:gap-[10vh]">
         {projects.map((project, index) => (
           <div
             key={project.title}
-            className="sticky"
+            className="relative md:sticky"
             style={{ top: `calc(15vh + ${index * 1.5}rem)` }}
           >
             <div
@@ -246,7 +246,7 @@ export default function Projects() {
                 cardsRef.current[index] = el;
               }}
               onClick={() => setSelectedProject(project)}
-              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/50 shadow-2xl transition-colors duration-300 opacity-0 cursor-pointer will-change-transform"
+              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/50 shadow-lg md:shadow-xl transition-colors duration-300 opacity-0 cursor-pointer md:will-change-transform"
               role="button"
               tabIndex={0}
               aria-label={`View details for ${project.title}`}
@@ -262,7 +262,7 @@ export default function Projects() {
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover object-top transition-transform duration-700 md:group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority={index < 2} // Preload top 2 images for better LCP
                 />

@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 
-const BackgroundMesh = dynamic(() => import("./BackgroundMesh"), { ssr: false });
+const Background = dynamic(() => import("./Background"), { ssr: false });
 
 export default function DynamicBackground() {
-  return <BackgroundMesh />;
+  return <Background />;
 }
