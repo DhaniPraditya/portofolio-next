@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink, Github, Figma, X, ArrowRight, CheckCircleOne } from "@mynaui/icons-react";
@@ -157,54 +158,58 @@ export default function Projects() {
     }
   }, [selectedProject]);
 
-  // GSAP Animations
+  // GSAP Animations with proper Context Cleanup (Performance Fix)
   useEffect(() => {
-    if (headerRef.current) {
-      gsap.fromTo(
-        headerRef.current,
-        { opacity: 0, x: -20 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: { trigger: headerRef.current, start: "top 85%", once: true },
-        }
-      );
-    }
-
-    if (badgeRef.current) {
-      gsap.fromTo(
-        badgeRef.current,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: { trigger: badgeRef.current, start: "top 85%", once: true },
-        }
-      );
-    }
-
-    cardsRef.current.forEach((card, index) => {
-      if (card) {
+    const ctx = gsap.context(() => {
+      if (headerRef.current) {
         gsap.fromTo(
-          card,
-          { opacity: 0, y: 50 },
+          headerRef.current,
+          { opacity: 0, x: -20 },
           {
             opacity: 1,
-            y: 0,
-            duration: 0.6,
+            x: 0,
+            duration: 0.8,
             ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              once: true,
-            },
+            scrollTrigger: { trigger: headerRef.current, start: "top 85%", once: true },
           }
         );
       }
+
+      if (badgeRef.current) {
+        gsap.fromTo(
+          badgeRef.current,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: { trigger: badgeRef.current, start: "top 85%", once: true },
+          }
+        );
+      }
+
+      cardsRef.current.forEach((card, index) => {
+        if (card) {
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                once: true,
+              },
+            }
+          );
+        }
+      });
     });
+
+    return () => ctx.revert(); // Critical to prevent memory leaks on route changes
   }, []);
 
   return (
@@ -253,11 +258,13 @@ export default function Projects() {
             >
               {/* Image Container */}
               <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5 flex items-start justify-center">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
-                  className="object-cover object-top w-full h-full transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
+                  fill
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority={index < 2} // Preload top 2 images for better LCP
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                   <span className="px-6 py-3 bg-primary text-white rounded-full font-bold shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
@@ -297,21 +304,21 @@ export default function Projects() {
           ref={modalOverlayRef}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 lg:p-12 opacity-0"
         >
-          {/* Backdrop Blur */}
+          {/* Backdrop Blur (Optimized: Removed backdrop-blur for performance) */}
           <div
-            className="absolute inset-0 bg-zinc-950/80 backdrop-blur-md cursor-pointer"
+            className="absolute inset-0 bg-zinc-950/90 cursor-pointer"
             onClick={closeModal}
           />
 
           {/* Modal Content */}
           <div
             ref={modalContentRef}
-            className="relative w-full max-w-5xl max-h-full overflow-y-auto bg-[#0a111a] border border-white/10 rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),0_0_40px_rgba(59,130,246,0.1)] custom-scrollbar opacity-0"
+            className="relative w-full max-w-5xl max-h-full overflow-y-auto overscroll-contain bg-[#0a111a] border border-white/10 rounded-3xl shadow-2xl custom-scrollbar opacity-0 will-change-scroll"
           >
             {/* Close Button */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 md:top-6 md:right-6 p-2 bg-white/5 hover:bg-white/10 text-white rounded-full backdrop-blur-md border border-white/10 transition-all z-20"
+              className="absolute top-4 right-4 md:top-6 md:right-6 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full border border-white/10 transition-all z-20"
               aria-label="Close modal"
             >
               <X size={24} />
@@ -319,10 +326,12 @@ export default function Projects() {
 
               {/* Header Image */}
               <div className="w-full h-64 md:h-80 relative overflow-hidden bg-zinc-900 border-b border-white/5">
-                <img
+                <Image
                   src={selectedProject.image}
                   alt={selectedProject.title}
-                  className="w-full h-full object-cover object-top opacity-60 mix-blend-lighten"
+                  fill
+                  className="object-cover object-top opacity-40"
+                  sizes="(max-width: 1024px) 100vw, 1024px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a111a] to-transparent" />
 
@@ -382,12 +391,13 @@ export default function Projects() {
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {selectedProject.gallery.map((img, i) => (
-                          <div key={i} className="rounded-xl overflow-hidden border border-white/10 bg-zinc-900/50 aspect-[4/3]">
-                            <img
+                          <div key={i} className="relative rounded-xl overflow-hidden border border-white/10 bg-zinc-900/50 aspect-[4/3]">
+                            <Image
                               src={img}
                               alt={`Documentation ${i + 1}`}
-                              className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
-                              loading="lazy"
+                              fill
+                              className="object-cover object-top hover:scale-105 transition-transform duration-500"
+                              sizes="(max-width: 768px) 100vw, 50vw"
                             />
                           </div>
                         ))}
