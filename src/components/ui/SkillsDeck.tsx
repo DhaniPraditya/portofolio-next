@@ -179,22 +179,19 @@ const techStackDetails = {
   },
 };
 
-const toolGroups = [
-  {
-    title: "Design & Media",
-    description: "Creative ideation & high-fidelity assets",
-    tools: ["figma", "adobeillustrator", "adobephotoshop", "canva", "capcut"]
-  },
-  {
-    title: "Frontend & Creative",
-    description: "Responsive layouts & user experiences",
-    tools: ["html", "css", "javascript"]
-  },
-  {
-    title: "Backend & Systems",
-    description: "Scalable API services & database architecture",
-    tools: ["php", "python", "mysql", "laravel"]
-  }
+const techStackKeys = [
+  "figma",
+  "html",
+  "css",
+  "javascript",
+  "laravel",
+  "php",
+  "mysql",
+  "python",
+  "adobeillustrator",
+  "adobephotoshop",
+  "canva",
+  "capcut"
 ];
 
 export default function SkillsDeck() {
@@ -202,8 +199,6 @@ export default function SkillsDeck() {
   const tabContentRef = useRef<HTMLDivElement>(null);
 
   // ─── Playgrounds State ──────────────────────────────────────────────────────
-  // 5. Software & Stack Playground
-  const [selectedTool, setSelectedTool] = useState<string>("figma");
 
   // 1. UI Design Playground
   const [uiColor, setUiColor] = useState<string>("rgb(59, 130, 246)"); // Blue
@@ -223,21 +218,9 @@ export default function SkillsDeck() {
   const [feGlow, setFeGlow] = useState<boolean>(true);
 
   // ─── Mobile Carousel & Gesture Hooks ─────────────────────────────────────────
-  const activeTabBtnRef = useRef<HTMLButtonElement>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const activeTabIndex = skillCategories.findIndex((cat) => cat.id === activeTab);
-
-  // Auto-scroll active tab button on mobile horizontal bar into center view
-  useEffect(() => {
-    if (activeTabBtnRef.current) {
-      activeTabBtnRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [activeTab]);
 
   const handlePrevTab = () => {
     if (activeTabIndex > 0) {
@@ -289,7 +272,7 @@ export default function SkillsDeck() {
 
   // ─── Animate Tab Changes ────────────────────────────────────────────────────
   useEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       if (tabContentRef.current) {
         gsap.fromTo(
           tabContentRef.current,
@@ -323,13 +306,11 @@ export default function SkillsDeck() {
           return (
             <button
               key={cat.id}
-              ref={isActive ? activeTabBtnRef : null}
               onClick={() => setActiveTab(cat.id)}
-              className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 cursor-pointer focus:outline-none ${
-                isActive
-                  ? "bg-[#0a111a]/95 border-primary/40 text-primary font-bold shadow-md shadow-primary/5"
-                  : "bg-[#0a111a]/95 border-white/10 text-foreground/50 hover:bg-[#0c1622]/95 hover:border-white/20"
-              }`}
+              className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 cursor-pointer focus:outline-none ${isActive
+                ? "bg-[#0a111a]/95 border-primary/40 text-primary font-bold shadow-md shadow-primary/5"
+                : "bg-[#0a111a]/95 border-white/10 text-foreground/50 hover:bg-[#0c1622]/95 hover:border-white/20"
+                }`}
             >
               <div className={`transition-colors duration-300 ${isActive ? "text-primary" : "text-foreground/45"}`}>
                 {cat.icon}
@@ -398,482 +379,458 @@ export default function SkillsDeck() {
             onTouchEnd={handleTouchEnd}
             className="w-full h-full bg-[#0a111a]/95 border border-white/10 rounded-3xl shadow-xl p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]"
           >
-              {/* Split Panel: Left Details, Right Live Interactive Widget */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-center h-full">
+            {/* Split Panel: Left Details, Right Live Interactive Widget */}
+            <div className={`grid grid-cols-1 gap-6 lg:gap-8 items-center h-full ${activeTab === "software-stack" ? "" : "md:grid-cols-2"}`}>
 
-                {activeTab === "software-stack" ? (
-                  <div className="w-full md:col-span-2 flex flex-col gap-6" data-no-swipe="true">
-                    <div>
-                      <span className="text-xs font-bold uppercase tracking-widest text-primary mb-1 block">
-                        Technical Proficiency
-                      </span>
-                      <h2 className="text-3xl font-extrabold text-foreground">
-                        My Software & Stack
-                      </h2>
-                      <p className="text-xs text-foreground/50 mt-1 max-w-2xl leading-relaxed">
-                        A structured breakdown of my technical capabilities. Organised into key functional areas to give a clear overview of my expertise.
-                      </p>
-                    </div>
+              {activeTab === "software-stack" ? (
+                <div className="w-full flex flex-col gap-6 md:gap-8 py-2" data-no-swipe="true">
+                  <div className="text-left max-w-2xl mx-auto flex flex-col items-left">
+                    <span className="text-xs font-bold uppercase tracking-widest text-primary mb-2 block">
+                      {activeSkill.tagline}
+                    </span>
+                    <h2 className="text-3xl font-extrabold text-foreground mb-4">
+                      {activeSkill.title}
+                    </h2>
+                    <p className="text-sm md:text-base text-foreground/60 leading-relaxed">
+                      {activeSkill.description}
+                    </p>
+                  </div>
 
-                    {/* 3-Column Layout */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                      {toolGroups.map((group) => (
-                        <div key={group.title} className="flex flex-col gap-3.5 bg-black/10 border border-white/5 p-4 rounded-2xl">
-                          <div>
-                            <h3 className="text-sm font-bold text-foreground tracking-wide">
-                              {group.title}
-                            </h3>
-                            <p className="text-[10px] text-foreground/45 mt-0.5">
-                              {group.description}
-                            </p>
+                  {/* Minimalist Grid of 12 Tool Cards */}
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 w-full mt-2">
+                    {techStackKeys.map((toolKey) => {
+                      const tool = techStackDetails[toolKey as keyof typeof techStackDetails];
+                      if (!tool) return null;
+                      return (
+                        <div
+                          key={toolKey}
+                          className="group flex flex-col items-center justify-center p-5 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all duration-300 cursor-pointer"
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = tool.color;
+                            e.currentTarget.style.boxShadow = `0 0 16px ${tool.color}15`;
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = "";
+                            e.currentTarget.style.boxShadow = "";
+                          }}
+                        >
+                          {/* Icon Container with dynamic hover glow */}
+                          <div className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-transparent relative">
+                            {/* Brand Glow Effect behind icon on hover */}
+                            <div
+                              className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-15 blur-md transition-opacity duration-300"
+                              style={{ backgroundColor: tool.color }}
+                            />
+                            <div className="scale-110 z-10 flex items-center justify-center">
+                              {tool.icon}
+                            </div>
                           </div>
 
-                          <div className="flex flex-col gap-3">
-                            {group.tools.map((toolKey) => {
-                              const tool = techStackDetails[toolKey as keyof typeof techStackDetails];
-                              if (!tool) return null;
-                              return (
-                                <div
-                                  key={toolKey}
-                                  className="group flex flex-col gap-2 p-3 bg-white/[0.02] border border-white/5 rounded-xl hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300"
-                                >
-                                  {/* Top Row: Icon + Name + Percentage */}
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2.5">
-                                      <div className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/10 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
-                                        {tool.icon}
-                                      </div>
-                                      <div>
-                                        <h4 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
-                                          {tool.name}
-                                        </h4>
-                                        <span className="text-[9px] text-foreground/45 block">
-                                          {tool.category}
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <span className="text-xs font-mono font-black" style={{ color: tool.color }}>
-                                      {tool.mastery}%
-                                    </span>
-                                  </div>
+                          {/* Tool Name */}
+                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-foreground/50 group-hover:text-foreground transition-colors duration-300 mt-3 text-center">
+                            {tool.gridName}
+                          </h4>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* Content Panel */}
+                  <div className="flex flex-col justify-center">
+                    <span className="text-xs font-bold uppercase tracking-widest text-primary mb-2 block">
+                      {activeSkill.tagline}
+                    </span>
+                    <h2 className="text-3xl font-extrabold text-foreground mb-4">
+                      {activeSkill.title}
+                    </h2>
+                    <p className="text-sm md:text-base text-foreground/60 leading-relaxed mb-6">
+                      {activeSkill.description}
+                    </p>
 
-                                  {/* Bottom Row: Simple Glowing Progress Bar */}
-                                  <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden relative">
-                                    <div
-                                      className="h-full rounded-full transition-all duration-700 ease-out"
-                                      style={{
-                                        width: `${tool.mastery}%`,
-                                        backgroundColor: tool.color,
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
+                    {/* Checklist Tools Grid */}
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-foreground/40 mb-3">
+                      Core Expertise & Tooling
+                    </h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {activeSkill.tools.map((tool) => (
+                        <div key={tool} className="flex items-center gap-2 text-xs text-foreground/80">
+                          <span className="w-4 h-4 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+                            <Check size={10} />
+                          </span>
+                          <span>{tool}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                ) : (
-                  <>
-                    {/* Content Panel */}
-                    <div className="flex flex-col justify-center">
-                      <span className="text-xs font-bold uppercase tracking-widest text-primary mb-2 block">
-                        {activeSkill.tagline}
-                      </span>
-                      <h2 className="text-3xl font-extrabold text-foreground mb-4">
-                        {activeSkill.title}
-                      </h2>
-                      <p className="text-sm md:text-base text-foreground/60 leading-relaxed mb-6">
-                        {activeSkill.description}
-                      </p>
 
-                      {/* Checklist Tools Grid */}
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-foreground/40 mb-3">
-                        Core Expertise & Tooling
-                      </h4>
-                      <div className="grid grid-cols-2 gap-2">
-                        {activeSkill.tools.map((tool) => (
-                          <div key={tool} className="flex items-center gap-2 text-xs text-foreground/80">
-                            <span className="w-4 h-4 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
-                              <Check size={10} />
-                            </span>
-                            <span>{tool}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Live Interactive Playground Widget Container */}
-                    <div className="bg-black/20 border border-white/5 rounded-2xl p-5 flex flex-col justify-between h-full min-h-[300px] relative overflow-hidden shadow-inner">
-                      {/* Widget Label Header */}
-                      <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-                        <div className="flex items-center gap-2">
-                          <Sparkles size={14} className="text-primary animate-pulse" />
-                          <span className="text-xs font-bold uppercase tracking-widest text-foreground/60">
-                            Spatial Interactive View
-                          </span>
-                        </div>
-                        <span className="text-[10px] bg-white/5 border border-white/5 px-2 py-0.5 rounded-full text-foreground/45 uppercase tracking-wider font-semibold">
-                          Live Demo
+                  {/* Live Interactive Playground Widget Container */}
+                  <div className="bg-black/20 border border-white/5 rounded-2xl p-5 flex flex-col justify-between h-full min-h-[300px] relative overflow-hidden shadow-inner">
+                    {/* Widget Label Header */}
+                    <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+                      <div className="flex items-center gap-2">
+                        <Sparkles size={14} className="text-primary animate-pulse" />
+                        <span className="text-xs font-bold uppercase tracking-widest text-foreground/60">
+                          Spatial Interactive View
                         </span>
                       </div>
+                      <span className="text-[10px] bg-white/5 border border-white/5 px-2 py-0.5 rounded-full text-foreground/45 uppercase tracking-wider font-semibold">
+                        Live Demo
+                      </span>
+                    </div>
 
-                      {/* 🎨 Playgrounds ──────────────────────────────────────────────── */}
+                    {/* 🎨 Playgrounds ──────────────────────────────────────────────── */}
 
-                      {/* 1. UI Design Playground */}
-                      {activeTab === "ui-design" && (
-                        <div className="flex-1 flex flex-col justify-between gap-4">
-                          {/* Visual Card Example */}
-                          <div className="flex-1 flex items-center justify-center p-2">
-                            <div
-                              className="w-full rounded-2xl border border-white/10 p-5 backdrop-blur-md transition-all duration-300 flex flex-col"
-                              style={{
-                                backgroundColor: `${uiColor.replace("rgb", "rgba").replace(")", ", 0.08)")}`,
-                                gap: `${uiSpacing}px`,
-                                boxShadow: `0 12px 24px rgba(0,0,0,0.2), 0 0 20px ${uiColor.replace("rgb", "rgba").replace(")", ", 0.1)")}`,
-                                borderColor: `${uiColor.replace("rgb", "rgba").replace(")", ", 0.25)")}`,
-                              }}
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: uiColor }}>
-                                  <Layout size={18} />
-                                </div>
-                                <div>
-                                  <div className="w-20 h-3.5 rounded-full bg-white/20" />
-                                  <div className="w-12 h-2.5 rounded-full bg-white/10 mt-1.5" />
-                                </div>
+                    {/* 1. UI Design Playground */}
+                    {activeTab === "ui-design" && (
+                      <div className="flex-1 flex flex-col justify-between gap-4">
+                        {/* Visual Card Example */}
+                        <div className="flex-1 flex items-center justify-center p-2">
+                          <div
+                            className="w-full rounded-2xl border border-white/10 p-5 backdrop-blur-md transition-all duration-300 flex flex-col"
+                            style={{
+                              backgroundColor: `${uiColor.replace("rgb", "rgba").replace(")", ", 0.08)")}`,
+                              gap: `${uiSpacing}px`,
+                              boxShadow: `0 12px 24px rgba(0,0,0,0.2), 0 0 20px ${uiColor.replace("rgb", "rgba").replace(")", ", 0.1)")}`,
+                              borderColor: `${uiColor.replace("rgb", "rgba").replace(")", ", 0.25)")}`,
+                            }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white" style={{ backgroundColor: uiColor }}>
+                                <Layout size={18} />
                               </div>
-                              <div className="flex flex-col gap-2">
-                                <div className="w-full h-2 rounded-full bg-white/10" />
-                                <div className="w-4/5 h-2 rounded-full bg-white/10" />
+                              <div>
+                                <div className="w-20 h-3.5 rounded-full bg-white/20" />
+                                <div className="w-12 h-2.5 rounded-full bg-white/10 mt-1.5" />
                               </div>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <div className="w-full h-2 rounded-full bg-white/10" />
+                              <div className="w-4/5 h-2 rounded-full bg-white/10" />
                             </div>
                           </div>
+                        </div>
 
-                          {/* Interactive Knobs */}
-                          <div className="flex flex-col gap-2.5 border-t border-white/5 pt-3">
-                            <div>
-                              <span className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider block mb-1">
-                                Theme Accent
-                              </span>
-                              <div className="flex gap-2">
-                                {["rgb(59, 130, 246)", "rgb(168, 85, 247)", "rgb(236, 72, 153)", "rgb(20, 184, 166)"].map((color) => (
-                                  <button
-                                    key={color}
-                                    onClick={() => setUiColor(color)}
-                                    className="w-5 h-5 rounded-full border border-white/20 cursor-pointer transition hover:scale-110 active:scale-95"
-                                    style={{
-                                      backgroundColor: color,
-                                      outline: uiColor === color ? `2px solid ${color}` : "none",
-                                      outlineOffset: "2px",
-                                    }}
-                                  />
-                                ))}
-                              </div>
+                        {/* Interactive Knobs */}
+                        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-3">
+                          <div>
+                            <span className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider block mb-1">
+                              Theme Accent
+                            </span>
+                            <div className="flex gap-2">
+                              {["rgb(59, 130, 246)", "rgb(168, 85, 247)", "rgb(236, 72, 153)", "rgb(20, 184, 166)"].map((color) => (
+                                <button
+                                  key={color}
+                                  onClick={() => setUiColor(color)}
+                                  className="w-5 h-5 rounded-full border border-white/20 cursor-pointer transition hover:scale-110 active:scale-95"
+                                  style={{
+                                    backgroundColor: color,
+                                    outline: uiColor === color ? `2px solid ${color}` : "none",
+                                    outlineOffset: "2px",
+                                  }}
+                                />
+                              ))}
                             </div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-1">
+                              <span>Auto Layout Spacing</span>
+                              <span className="text-primary font-mono">{uiSpacing}px</span>
+                            </div>
+                            <input
+                              type="range"
+                              min="8"
+                              max="28"
+                              value={uiSpacing}
+                              onChange={(e) => setUiSpacing(Number(e.target.value))}
+                              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 2. UX Research Playground */}
+                    {activeTab === "ux-research" && (
+                      <div className="flex-1 flex flex-col justify-between gap-4">
+                        {/* Node map display */}
+                        <div className="flex-1 flex flex-col justify-center gap-4 py-2">
+                          <div className="flex items-center justify-between relative px-2">
+                            {/* Connecting Line */}
+                            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 z-0" />
+
+                            {/* Node 1 */}
+                            <button
+                              onClick={() => setSelectedNode("lands")}
+                              className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "lands"
+                                ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
+                                }`}
+                            >
+                              1
+                            </button>
+
+                            {/* Node 2 */}
+                            <button
+                              onClick={() => setSelectedNode("bento")}
+                              className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "bento"
+                                ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
+                                }`}
+                            >
+                              2
+                            </button>
+
+                            {/* Node 3 */}
+                            <button
+                              onClick={() => setSelectedNode("conversion")}
+                              className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "conversion"
+                                ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
+                                }`}
+                            >
+                              3
+                            </button>
+                          </div>
+
+                          {/* Display Info Box */}
+                          <div className="bg-white/5 border border-white/5 rounded-xl p-3.5 min-h-[90px] flex flex-col justify-center">
+                            {selectedNode === "lands" && (
+                              <>
+                                <h5 className="text-xs font-bold text-purple-400 mb-1">Step 1: User Discovery & Landing</h5>
+                                <p className="text-[11px] text-foreground/60 leading-relaxed">
+                                  Measuring bounce rates and initial aesthetic impact. Design decisions are made to hook visual attention within 3 seconds.
+                                </p>
+                              </>
+                            )}
+                            {selectedNode === "bento" && (
+                              <>
+                                <h5 className="text-xs font-bold text-purple-400 mb-1">Step 2: Interaction & Bento Layout</h5>
+                                <p className="text-[11px] text-foreground/60 leading-relaxed">
+                                  Analyzing scanning patterns and heatmap actions. We ensure accessibility guidelines and natural spatial layout flow are optimized.
+                                </p>
+                              </>
+                            )}
+                            {selectedNode === "conversion" && (
+                              <>
+                                <h5 className="text-xs font-bold text-purple-400 mb-1">Step 3: Conversion Achievement</h5>
+                                <p className="text-[11px] text-foreground/60 leading-relaxed">
+                                  The ultimate checkout or contact goal. By establishing trust through design clarity, overall conversion rates increase by up to 40%.
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <span className="text-[10px] text-foreground/30 text-center block font-semibold uppercase tracking-wider">
+                          Click the stages to test user journey UX data
+                        </span>
+                      </div>
+                    )}
+
+                    {/* 3. Prototyping Playground */}
+                    {activeTab === "prototyping" && (
+                      <div className="flex-1 flex flex-col justify-between gap-4">
+                        {/* Rotating visual board */}
+                        <div className="flex-1 flex items-center justify-center p-2">
+                          <div
+                            className="w-36 h-24 bg-gradient-to-br from-pink-500/20 to-purple-500/20 border border-pink-500/30 rounded-2xl shadow-lg flex flex-col items-center justify-center p-3 text-center transition-all duration-150"
+                            style={{
+                              transform: `perspective(600px) rotateY(${protoRotate}deg) scale(${protoScale})`,
+                            }}
+                          >
+                            <Mobile size={24} className="text-pink-500 mb-2" />
+                            <span className="text-[10px] font-bold tracking-wider uppercase text-white/90">
+                              Physics Layer
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Interactive controls */}
+                        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-3">
+                          <div className="flex items-center gap-3">
+                            <button
+                              ref={buttonRef}
+                              onClick={handleProtoClick}
+                              className="flex-1 py-2 px-3 bg-pink-600 hover:bg-pink-500 active:scale-95 text-xs font-bold text-white rounded-xl cursor-pointer transition-colors shadow-[0_4px_12px_rgba(236,72,153,0.3)] text-center"
+                            >
+                              Elastic Trigger
+                            </button>
+                            <button
+                              onClick={() => {
+                                setProtoRotate(0);
+                                setProtoScale(1);
+                              }}
+                              className="py-2 px-3 border border-white/10 hover:bg-white/5 active:scale-95 text-xs text-foreground/60 rounded-xl cursor-pointer transition-colors text-center"
+                            >
+                              Reset
+                            </button>
+                          </div>
+                          <div className="flex flex-col gap-2">
                             <div>
-                              <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-1">
-                                <span>Auto Layout Spacing</span>
-                                <span className="text-primary font-mono">{uiSpacing}px</span>
+                              <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
+                                <span>Z-Perspective Rotate</span>
+                                <span className="text-pink-500 font-mono">{protoRotate}°</span>
                               </div>
                               <input
                                 type="range"
-                                min="8"
-                                max="28"
-                                value={uiSpacing}
-                                onChange={(e) => setUiSpacing(Number(e.target.value))}
-                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
+                                min="-45"
+                                max="45"
+                                value={protoRotate}
+                                onChange={(e) => setProtoRotate(Number(e.target.value))}
+                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
+                              />
+                            </div>
+                            <div>
+                              <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
+                                <span>Scale Factor</span>
+                                <span className="text-pink-500 font-mono">{protoScale.toFixed(2)}x</span>
+                              </div>
+                              <input
+                                type="range"
+                                min="0.8"
+                                max="1.3"
+                                step="0.05"
+                                value={protoScale}
+                                onChange={(e) => setProtoScale(Number(e.target.value))}
+                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
                               />
                             </div>
                           </div>
                         </div>
-                      )}
+                      </div>
+                    )}
 
-                      {/* 2. UX Research Playground */}
-                      {activeTab === "ux-research" && (
-                        <div className="flex-1 flex flex-col justify-between gap-4">
-                          {/* Node map display */}
-                          <div className="flex-1 flex flex-col justify-center gap-4 py-2">
-                            <div className="flex items-center justify-between relative px-2">
-                              {/* Connecting Line */}
-                              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 z-0" />
-
-                              {/* Node 1 */}
-                              <button
-                                onClick={() => setSelectedNode("lands")}
-                                className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "lands"
-                                  ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-                                  : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
-                                  }`}
-                              >
-                                1
-                              </button>
-
-                              {/* Node 2 */}
-                              <button
-                                onClick={() => setSelectedNode("bento")}
-                                className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "bento"
-                                  ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-                                  : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
-                                  }`}
-                              >
-                                2
-                              </button>
-
-                              {/* Node 3 */}
-                              <button
-                                onClick={() => setSelectedNode("conversion")}
-                                className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "conversion"
-                                  ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-                                  : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
-                                  }`}
-                              >
-                                3
-                              </button>
-                            </div>
-
-                            {/* Display Info Box */}
-                            <div className="bg-white/5 border border-white/5 rounded-xl p-3.5 min-h-[90px] flex flex-col justify-center">
-                              {selectedNode === "lands" && (
-                                <>
-                                  <h5 className="text-xs font-bold text-purple-400 mb-1">Step 1: User Discovery & Landing</h5>
-                                  <p className="text-[11px] text-foreground/60 leading-relaxed">
-                                    Measuring bounce rates and initial aesthetic impact. Design decisions are made to hook visual attention within 3 seconds.
-                                  </p>
-                                </>
-                              )}
-                              {selectedNode === "bento" && (
-                                <>
-                                  <h5 className="text-xs font-bold text-purple-400 mb-1">Step 2: Interaction & Bento Layout</h5>
-                                  <p className="text-[11px] text-foreground/60 leading-relaxed">
-                                    Analyzing scanning patterns and heatmap actions. We ensure accessibility guidelines and natural spatial layout flow are optimized.
-                                  </p>
-                                </>
-                              )}
-                              {selectedNode === "conversion" && (
-                                <>
-                                  <h5 className="text-xs font-bold text-purple-400 mb-1">Step 3: Conversion Achievement</h5>
-                                  <p className="text-[11px] text-foreground/60 leading-relaxed">
-                                    The ultimate checkout or contact goal. By establishing trust through design clarity, overall conversion rates increase by up to 40%.
-                                  </p>
-                                </>
-                              )}
-                            </div>
+                    {/* 4. Frontend Playground */}
+                    {activeTab === "frontend" && (
+                      <div className="flex-1 flex flex-col justify-between gap-3">
+                        {/* Live styled element & code block */}
+                        <div className="flex-1 grid grid-cols-12 gap-3 items-center">
+                          {/* Left: Code panel */}
+                          <div className="col-span-7 bg-black/40 rounded-xl p-2.5 font-mono text-[9px] text-teal-400 border border-white/5 h-full flex flex-col justify-center leading-normal">
+                            <div><span className="text-foreground/40">.glass-deck</span> &#123;</div>
+                            <div className="pl-3">backdrop-filter: <span className="text-white">blur({feBlur}px)</span>;</div>
+                            <div className="pl-3">background: <span className="text-white">rgba(255,255,255,{feOpacity / 100})</span>;</div>
+                            <div className="pl-3">border-color: <span className="text-white">{feGlow ? "rgba(20,184,166,0.3)" : "rgba(255,255,255,0.05)"}</span>;</div>
+                            <div>&#125;</div>
                           </div>
-                          <span className="text-[10px] text-foreground/30 text-center block font-semibold uppercase tracking-wider">
-                            Click the stages to test user journey UX data
-                          </span>
-                        </div>
-                      )}
 
-                      {/* 3. Prototyping Playground */}
-                      {activeTab === "prototyping" && (
-                        <div className="flex-1 flex flex-col justify-between gap-4">
-                          {/* Rotating visual board */}
-                          <div className="flex-1 flex items-center justify-center p-2">
+                          {/* Right: Rendered element */}
+                          <div className="col-span-5 flex items-center justify-center h-full">
                             <div
-                              className="w-36 h-24 bg-gradient-to-br from-pink-500/20 to-purple-500/20 border border-pink-500/30 rounded-2xl shadow-lg flex flex-col items-center justify-center p-3 text-center transition-all duration-150"
+                              className="w-full aspect-square rounded-2xl border transition-all duration-300 flex items-center justify-center shadow-lg"
                               style={{
-                                transform: `perspective(600px) rotateY(${protoRotate}deg) scale(${protoScale})`,
+                                backdropFilter: `blur(${feBlur}px)`,
+                                backgroundColor: `rgba(255, 255, 255, ${feOpacity / 100})`,
+                                borderColor: feGlow ? "rgba(20, 184, 166, 0.4)" : "rgba(255, 255, 255, 0.08)",
+                                boxShadow: feGlow ? "0 8px 24px rgba(20, 184, 166, 0.2)" : "none",
                               }}
                             >
-                              <Mobile size={24} className="text-pink-500 mb-2" />
-                              <span className="text-[10px] font-bold tracking-wider uppercase text-white/90">
-                                Physics Layer
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Interactive controls */}
-                          <div className="flex flex-col gap-2.5 border-t border-white/5 pt-3">
-                            <div className="flex items-center gap-3">
-                              <button
-                                ref={buttonRef}
-                                onClick={handleProtoClick}
-                                className="flex-1 py-2 px-3 bg-pink-600 hover:bg-pink-500 active:scale-95 text-xs font-bold text-white rounded-xl cursor-pointer transition-colors shadow-[0_4px_12px_rgba(236,72,153,0.3)] text-center"
-                              >
-                                Elastic Trigger
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setProtoRotate(0);
-                                  setProtoScale(1);
-                                }}
-                                className="py-2 px-3 border border-white/10 hover:bg-white/5 active:scale-95 text-xs text-foreground/60 rounded-xl cursor-pointer transition-colors text-center"
-                              >
-                                Reset
-                              </button>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                              <div>
-                                <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
-                                  <span>Z-Perspective Rotate</span>
-                                  <span className="text-pink-500 font-mono">{protoRotate}°</span>
-                                </div>
-                                <input
-                                  type="range"
-                                  min="-45"
-                                  max="45"
-                                  value={protoRotate}
-                                  onChange={(e) => setProtoRotate(Number(e.target.value))}
-                                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
-                                />
-                              </div>
-                              <div>
-                                <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
-                                  <span>Scale Factor</span>
-                                  <span className="text-pink-500 font-mono">{protoScale.toFixed(2)}x</span>
-                                </div>
-                                <input
-                                  type="range"
-                                  min="0.8"
-                                  max="1.3"
-                                  step="0.05"
-                                  value={protoScale}
-                                  onChange={(e) => setProtoScale(Number(e.target.value))}
-                                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
-                                />
-                              </div>
+                              <Code size={20} className={feGlow ? "text-teal-400 animate-pulse" : "text-white/40"} />
                             </div>
                           </div>
                         </div>
-                      )}
 
-                      {/* 4. Frontend Playground */}
-                      {activeTab === "frontend" && (
-                        <div className="flex-1 flex flex-col justify-between gap-3">
-                          {/* Live styled element & code block */}
-                          <div className="flex-1 grid grid-cols-12 gap-3 items-center">
-                            {/* Left: Code panel */}
-                            <div className="col-span-7 bg-black/40 rounded-xl p-2.5 font-mono text-[9px] text-teal-400 border border-white/5 h-full flex flex-col justify-center leading-normal">
-                              <div><span className="text-foreground/40">.glass-deck</span> &#123;</div>
-                              <div className="pl-3">backdrop-filter: <span className="text-white">blur({feBlur}px)</span>;</div>
-                              <div className="pl-3">background: <span className="text-white">rgba(255,255,255,{feOpacity / 100})</span>;</div>
-                              <div className="pl-3">border-color: <span className="text-white">{feGlow ? "rgba(20,184,166,0.3)" : "rgba(255,255,255,0.05)"}</span>;</div>
-                              <div>&#125;</div>
+                        {/* Interactive controls */}
+                        <div className="flex flex-col gap-2 border-t border-white/5 pt-2">
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
+                                <span>Blur</span>
+                                <span className="text-teal-400 font-mono">{feBlur}px</span>
+                              </div>
+                              <input
+                                type="range"
+                                min="4"
+                                max="32"
+                                value={feBlur}
+                                onChange={(e) => setFeBlur(Number(e.target.value))}
+                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                              />
                             </div>
-
-                            {/* Right: Rendered element */}
-                            <div className="col-span-5 flex items-center justify-center h-full">
+                            <div>
+                              <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
+                                <span>Opacity</span>
+                                <span className="text-teal-400 font-mono">{feOpacity}%</span>
+                              </div>
+                              <input
+                                type="range"
+                                min="2"
+                                max="25"
+                                value={feOpacity}
+                                onChange={(e) => setFeOpacity(Number(e.target.value))}
+                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between border-t border-white/5 pt-2">
+                            <span className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider">
+                              Active Border Glow Accent
+                            </span>
+                            <button
+                              onClick={() => setFeGlow(!feGlow)}
+                              className={`w-9 h-5 rounded-full p-0.5 cursor-pointer transition-colors duration-300 focus:outline-none ${feGlow ? "bg-teal-500" : "bg-white/10"
+                                }`}
+                            >
                               <div
-                                className="w-full aspect-square rounded-2xl border transition-all duration-300 flex items-center justify-center shadow-lg"
-                                style={{
-                                  backdropFilter: `blur(${feBlur}px)`,
-                                  backgroundColor: `rgba(255, 255, 255, ${feOpacity / 100})`,
-                                  borderColor: feGlow ? "rgba(20, 184, 166, 0.4)" : "rgba(255, 255, 255, 0.08)",
-                                  boxShadow: feGlow ? "0 8px 24px rgba(20, 184, 166, 0.2)" : "none",
-                                }}
-                              >
-                                <Code size={20} className={feGlow ? "text-teal-400 animate-pulse" : "text-white/40"} />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Interactive controls */}
-                          <div className="flex flex-col gap-2 border-t border-white/5 pt-2">
-                            <div className="grid grid-cols-2 gap-2">
-                              <div>
-                                <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
-                                  <span>Blur</span>
-                                  <span className="text-teal-400 font-mono">{feBlur}px</span>
-                                </div>
-                                <input
-                                  type="range"
-                                  min="4"
-                                  max="32"
-                                  value={feBlur}
-                                  onChange={(e) => setFeBlur(Number(e.target.value))}
-                                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
-                                />
-                              </div>
-                              <div>
-                                <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
-                                  <span>Opacity</span>
-                                  <span className="text-teal-400 font-mono">{feOpacity}%</span>
-                                </div>
-                                <input
-                                  type="range"
-                                  min="2"
-                                  max="25"
-                                  value={feOpacity}
-                                  onChange={(e) => setFeOpacity(Number(e.target.value))}
-                                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
-                                />
-                              </div>
-                            </div>
-                            <div className="flex items-center justify-between border-t border-white/5 pt-2">
-                              <span className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider">
-                                Active Border Glow Accent
-                              </span>
-                              <button
-                                onClick={() => setFeGlow(!feGlow)}
-                                className={`w-9 h-5 rounded-full p-0.5 cursor-pointer transition-colors duration-300 focus:outline-none ${feGlow ? "bg-teal-500" : "bg-white/10"
+                                className={`w-4 h-4 rounded-full bg-white transition-transform duration-300 ${feGlow ? "translate-x-4" : "translate-x-0"
                                   }`}
-                              >
-                                <div
-                                  className={`w-4 h-4 rounded-full bg-white transition-transform duration-300 ${feGlow ? "translate-x-4" : "translate-x-0"
-                                    }`}
-                                />
-                              </button>
-                            </div>
+                              />
+                            </button>
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
-
-        {/* ─── Mobile Swipe Indicators & Arrows (hidden on desktop) ────────────────── */}
-        <div className="lg:hidden flex items-center justify-between px-2 mt-2">
-          <button
-            onClick={handlePrevTab}
-            disabled={activeTabIndex === 0}
-            className={`p-3 rounded-full border transition-all ${
-              activeTabIndex === 0
-                ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
-                : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
-            }`}
-            aria-label="Previous Category"
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          {/* Dots Pagination */}
-          <div className="flex gap-2 items-center">
-            {skillCategories.map((cat, idx) => {
-              const isActive = cat.id === activeTab;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveTab(cat.id)}
-                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    isActive ? "w-6 bg-primary" : "w-1.5 bg-white/20 hover:bg-white/40"
-                  }`}
-                  aria-label={`Go to category ${cat.title}`}
-                />
-              );
-            })}
-          </div>
-
-          <button
-            onClick={handleNextTab}
-            disabled={activeTabIndex === skillCategories.length - 1}
-            className={`p-3 rounded-full border transition-all ${
-              activeTabIndex === skillCategories.length - 1
-                ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
-                : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
-            }`}
-            aria-label="Next Category"
-          >
-            <ChevronRight size={16} />
-          </button>
-        </div>
       </div>
-    );
-  }
+
+      {/* ─── Mobile Swipe Indicators & Arrows (hidden on desktop) ────────────────── */}
+      <div className="lg:hidden flex items-center justify-between px-2 mt-2">
+        <button
+          onClick={handlePrevTab}
+          disabled={activeTabIndex === 0}
+          className={`p-3 rounded-full border transition-all ${activeTabIndex === 0
+            ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
+            : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
+            }`}
+          aria-label="Previous Category"
+        >
+          <ChevronLeft size={16} />
+        </button>
+
+        {/* Dots Pagination */}
+        <div className="flex gap-2 items-center">
+          {skillCategories.map((cat) => {
+            const isActive = cat.id === activeTab;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveTab(cat.id)}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${isActive ? "w-6 bg-primary" : "w-1.5 bg-white/20 hover:bg-white/40"
+                  }`}
+                aria-label={`Go to category ${cat.title}`}
+              />
+            );
+          })}
+        </div>
+
+        <button
+          onClick={handleNextTab}
+          disabled={activeTabIndex === skillCategories.length - 1}
+          className={`p-3 rounded-full border transition-all ${activeTabIndex === skillCategories.length - 1
+            ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
+            : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
+            }`}
+          aria-label="Next Category"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}

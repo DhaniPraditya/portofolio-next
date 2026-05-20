@@ -170,7 +170,8 @@ const Grainient = ({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      // Limit DPR to 1.2 to reduce GPU fragment shader math for smooth background gradients
+      dpr: Math.min(window.devicePixelRatio || 1, 1.2)
     });
 
     const gl = renderer.gl;

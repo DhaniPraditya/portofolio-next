@@ -19,10 +19,16 @@ export default function Navbar() {
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let isScrolled = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const shouldScroll = window.scrollY > 50;
+      if (shouldScroll !== isScrolled) {
+        isScrolled = shouldScroll;
+        setScrolled(shouldScroll);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    // Use passive listener for better scroll performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

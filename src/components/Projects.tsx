@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ExternalLink, Github, Figma, X, ArrowRight, CheckCircleOne } from "@mynaui/icons-react";
+import { Github, Figma, X, ArrowRight, CheckCircleOne } from "@mynaui/icons-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -18,9 +18,9 @@ const projects = [
     image: "/projects/digimar/creator-discovery.svg",
     tags: ["UI Design", "Dashboard", "Marketing"],
     figmaLink: "https://www.figma.com/design/uLqpw7F2BT57DNPdgax6RW/Demo-Project?node-id=52-438&t=Cb1thkR2Q35BAlRi-1",
-    problem: "Pemasar kesulitan menemukan dan mengevaluasi konten kreator secara efisien. Data tersebar di berbagai platform dan pelacakan ROI kampanye masih dilakukan secara manual, menyebabkan pemborosan waktu dan anggaran.",
-    solution: "Merancang dasbor terpusat yang memvisualisasikan metrik kreator dan performa kampanye secara real-time. Menggunakan desain antarmuka yang bersih (clean UI) untuk mempermudah perbandingan data kreator.",
-    results: "Mengurangi waktu pencarian kreator hingga 60% dan meningkatkan akurasi pelacakan kampanye secara signifikan, memberikan ROI yang lebih terukur bagi tim marketing.",
+    problem: "Marketers struggled to efficiently discover and evaluate content creators. Data was scattered across various platforms, and campaign ROI tracking was done manually, leading to a waste of time and budget.",
+    solution: "Designed a centralized dashboard that visualizes creator metrics and campaign performance in real-time. Leveraged a clean user interface to simplify creator data comparison.",
+    results: "Reduced creator discovery time by 60% and significantly increased campaign tracking accuracy, providing a more measurable ROI for marketing teams.",
     gallery: [
       "/projects/digimar/creator-discovery.svg",
       "/projects/digimar/mockup-creator.png"
@@ -33,9 +33,9 @@ const projects = [
     image: "/projects/ebook/home.svg",
     tags: ["Editorial", "Interactivity", "Layout"],
     figmaLink: "https://www.figma.com/design/Wh35WfhYyWnTM8bYpzx6QG/eBook_Public_Library_Dhani-Praditya?node-id=9-139&t=MsYUBcoGMeA0UkS1-1",
-    problem: "Pembaca e-book sering merasa bosan dengan tata letak teks statis tradisional yang kurang interaktif dan sulit dinavigasi, terutama pada perangkat digital berlayar kecil.",
-    solution: "Mengembangkan sistem tata letak editorial modern dengan elemen interaktif, tipografi yang sangat terbaca (accessible), serta navigasi bab yang intuitif menyerupai pengalaman aplikasi premium.",
-    results: "Meningkatkan retensi membaca pengguna dan memberikan pengalaman membaca yang jauh lebih imersif layaknya majalah digital kelas atas.",
+    problem: "E-book readers often found traditional static text layouts boring, lacking interactivity, and hard to navigate, especially on small-screen digital devices.",
+    solution: "Developed a modern editorial layout system with interactive elements, highly accessible typography, and intuitive chapter navigation resembling a premium app experience.",
+    results: "Enhanced user reading retention and delivered a far more immersive reading experience akin to a high-end digital magazine.",
     gallery: [
       "/projects/ebook/home.svg",
       "/projects/ebook/mockup-1.png"
@@ -48,9 +48,9 @@ const projects = [
     image: "/projects/nr/form.svg",
     tags: ["Branding", "Identity", "UX"],
     figmaLink: "https://www.figma.com/design/qk3oavqR3VLOnw7Lij9HQU/Intern-Project?node-id=0-1&t=lyDb0zrl5krTetlS-1",
-    problem: "Identitas visual merek terlihat tidak konsisten di berbagai platform digital, menyebabkan kurangnya kepercayaan pengguna dan konversi yang rendah pada formulir pendaftaran.",
-    solution: "Melakukan perombakan identitas visual (rebranding) menyeluruh. Menyederhanakan formulir interaksi dengan prinsip UX form design yang baik (micro-copy jelas, validasi error inline).",
-    results: "Menciptakan citra merek yang lebih modern, profesional, serta meningkatkan rasio penyelesaian formulir (form completion rate) dari pengguna baru.",
+    problem: "The brand's visual identity was inconsistent across various digital platforms, leading to a lack of user trust and low conversion rates on registration forms.",
+    solution: "Conducted a comprehensive rebranding of the visual identity. Simplified interaction forms using solid UX form design principles (clear micro-copy, inline error validation).",
+    results: "Created a more modern, professional brand image, and improved the form completion rate of new users.",
     gallery: [
       "/projects/nr/form.svg",
       "/projects/nr/mockup-1.png"
@@ -64,9 +64,9 @@ const projects = [
     tags: ["System Design", "Academic", "Web App"],
     figmaLink: "https://www.figma.com/design/GIvi6Iu49dVW4UmRK3uFES/SKRIPSI-FIX?node-id=159-2010&t=CbYL7IqzUwm2AWkf-1",
     githubLink: "https://github.com/DhaniPraditya/Redesign-Website-Sistem-Registrasi-UNY",
-    problem: "Proses pendaftaran, bimbingan, dan pengarsipan skripsi masih menggunakan sistem lama yang membingungkan mahasiswa dan dosen, sehingga sering terjadi kesalahan administrasi.",
-    solution: "Mendesain ulang arsitektur informasi (Information Architecture) dan alur pengguna. Membuat dasbor pelacakan progres bimbingan visual yang jelas bagi kedua belah pihak.",
-    results: "Mempercepat proses administrasi skripsi dan secara drastis mengurangi komplain pengguna terkait kebingungan sistem navigasi portal akademik.",
+    problem: "The thesis registration, advising, and archiving process relied on a legacy system that confused both students and advisors, frequently leading to administrative errors.",
+    solution: "Redesigned the Information Architecture and user flows. Created a clear visual dashboard to track advising progress for both students and advisors.",
+    results: "Sped up the thesis administration process and drastically reduced user complaints regarding academic portal navigation confusion.",
     gallery: [
       "/projects/skripsi/dashboard.svg",
       "/projects/skripsi/mockup-home.png"
@@ -79,9 +79,9 @@ const projects = [
     image: "/projects/artisan/Home-Desktop.svg",
     tags: ["UI Design", "E-commerce", "Responsive Design"],
     figmaLink: "https://www.figma.com/design/ar0qEXFcdXU2hoqS2keO1u/Capstone_AstisanCrafts?node-id=0-1&t=QKAhIpgw9JGNoeTm-1",
-    problem: "Pengrajin lokal kesulitan menjual produk mereka karena platform e-commerce umum tidak bisa menonjolkan nilai estetika premium dan detail karya seni mereka.",
-    solution: "Membuat antarmuka e-commerce khusus dengan fokus pada citra produk resolusi tinggi, penggunaan whitespace elegan, dan proses checkout yang disederhanakan tanpa gesekan (frictionless).",
-    results: "Memberikan ruang pamer digital yang premium bagi pengrajin, berpotensi meningkatkan konversi penjualan melalui pengalaman berbelanja yang lebih emosional dan visual.",
+    problem: "Local artisans struggled to sell their products because general e-commerce platforms failed to showcase the premium aesthetic value and intricate details of their artwork.",
+    solution: "Created a specialized e-commerce interface focusing on high-resolution product imagery, elegant use of whitespace, and a streamlined, frictionless checkout process.",
+    results: "Provided a premium digital showroom for artisans, potentially boosting sales conversion through a more emotional and visual shopping experience.",
     gallery: [
       "/projects/artisan/Home-Desktop.svg"
     ]
@@ -188,7 +188,7 @@ export default function Projects() {
         );
       }
 
-      cardsRef.current.forEach((card, index) => {
+      cardsRef.current.forEach((card) => {
         if (card) {
           gsap.fromTo(
             card,
@@ -223,7 +223,7 @@ export default function Projects() {
             Featured <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-foreground/60 text-lg">
-            A collection of digital products I've designed and developed. Click on any project to read the detailed case study.
+            A collection of digital products I&apos;ve designed and developed. Click on any project to read the detailed case study.
           </p>
         </div>
         <div
@@ -353,7 +353,7 @@ export default function Projects() {
                   {/* Background Problem */}
                   <section>
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <span className="w-8 h-px bg-primary/50" /> Latar Belakang Masalah
+                      <span className="w-8 h-px bg-primary/50" /> Background & Problem
                     </h3>
                     <p className="text-foreground/70 leading-relaxed text-base md:text-lg">
                       {selectedProject.problem}
@@ -363,7 +363,7 @@ export default function Projects() {
                   {/* Solution */}
                   <section>
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <span className="w-8 h-px bg-primary/50" /> Solusi Desain
+                      <span className="w-8 h-px bg-primary/50" /> Design Solution
                     </h3>
                     <p className="text-foreground/70 leading-relaxed text-base md:text-lg">
                       {selectedProject.solution}
@@ -373,7 +373,7 @@ export default function Projects() {
                   {/* Results */}
                   <section>
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <span className="w-8 h-px bg-primary/50" /> Hasil & Dampak
+                      <span className="w-8 h-px bg-primary/50" /> Results & Impact
                     </h3>
                     <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 flex gap-4 items-start">
                       <CheckCircleOne className="text-emerald-500 shrink-0 mt-1" size={24} />
@@ -387,7 +387,7 @@ export default function Projects() {
                   {selectedProject.gallery && selectedProject.gallery.length > 0 && (
                     <section>
                       <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                        <span className="w-8 h-px bg-primary/50" /> Foto Dokumentasi
+                        <span className="w-8 h-px bg-primary/50" /> Project Gallery
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {selectedProject.gallery.map((img, i) => (
@@ -409,16 +409,16 @@ export default function Projects() {
                 {/* Sidebar Info (Right) */}
                 <div className="space-y-8">
                   <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6">
-                    <h4 className="text-sm font-bold text-foreground/40 uppercase tracking-wider mb-4">Informasi Proyek</h4>
+                    <h4 className="text-sm font-bold text-foreground/40 uppercase tracking-wider mb-4">Project Information</h4>
 
                     <div className="space-y-4">
                       <div>
-                        <span className="block text-xs text-foreground/50 mb-1">Kategori</span>
+                        <span className="block text-xs text-foreground/50 mb-1">Category</span>
                         <span className="text-sm font-medium text-white">{selectedProject.category}</span>
                       </div>
 
                       <div>
-                        <span className="block text-xs text-foreground/50 mb-1">Peran (Role)</span>
+                        <span className="block text-xs text-foreground/50 mb-1">My Role</span>
                         <span className="text-sm font-medium text-white">UI/UX Designer</span>
                       </div>
 

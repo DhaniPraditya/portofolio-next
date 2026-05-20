@@ -19,7 +19,7 @@ export default function Hero() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       if (containerRef.current) gsap.fromTo(containerRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
       if (badgeRef.current) gsap.fromTo(badgeRef.current, { opacity: 0 }, { opacity: 1, duration: 0.8, delay: 0.2, ease: "power2.out" });
       if (showcaseRef.current) gsap.fromTo(showcaseRef.current, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, delay: 0.4, ease: "power2.out" });
@@ -47,7 +47,7 @@ export default function Hero() {
         </h1>
 
         <p className="text-base sm:text-lg md:text-xl text-foreground/60 mb-10 leading-relaxed max-w-xl mx-auto md:mx-0">
-          I'm a UI/UX Designer focused on building functional, beautiful, and user-centric digital products. Turning complex problems into simple solutions.
+          I&apos;m a UI/UX Designer focused on building functional, beautiful, and user-centric digital products. Turning complex problems into simple solutions.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-4">
@@ -59,13 +59,15 @@ export default function Hero() {
             <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
           </Link>
 
-          <Link
-            href="/public/Resume-DhaniPraditya.pdf"
+          <a
+            href="/Resume-DhaniPraditya.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto group flex items-center justify-center gap-2 px-8 py-4 glass border-white/10 font-semibold rounded-2xl transition-all hover:bg-white/10 hover:scale-105 active:scale-95"
           >
             <Download size={20} />
             Download CV
-          </Link>
+          </a>
         </div>
       </div>
 
