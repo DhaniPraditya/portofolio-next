@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { Layout, Search, Mobile, Code, Sparkles, Check, ChevronRight } from "@mynaui/icons-react";
+import { Layout, Search, Mobile, Code, Sparkles, Check, ChevronRight, ChevronLeft } from "@mynaui/icons-react";
 
 // ─── Skill Categories Data ───────────────────────────────────────────────────
 interface SkillItem {
@@ -179,6 +179,24 @@ const techStackDetails = {
   },
 };
 
+const toolGroups = [
+  {
+    title: "Design & Media",
+    description: "Creative ideation & high-fidelity assets",
+    tools: ["figma", "adobeillustrator", "adobephotoshop", "canva", "capcut"]
+  },
+  {
+    title: "Frontend & Creative",
+    description: "Responsive layouts & user experiences",
+    tools: ["html", "css", "javascript"]
+  },
+  {
+    title: "Backend & Systems",
+    description: "Scalable API services & database architecture",
+    tools: ["php", "python", "mysql", "laravel"]
+  }
+];
+
 export default function SkillsDeck() {
   const [activeTab, setActiveTab] = useState<string>("ui-design");
   const tabContentRef = useRef<HTMLDivElement>(null);
@@ -203,6 +221,71 @@ export default function SkillsDeck() {
   const [feBlur, setFeBlur] = useState<number>(16);
   const [feOpacity, setFeOpacity] = useState<number>(8);
   const [feGlow, setFeGlow] = useState<boolean>(true);
+
+  // ─── Mobile Carousel & Gesture Hooks ─────────────────────────────────────────
+  const activeTabBtnRef = useRef<HTMLButtonElement>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const activeTabIndex = skillCategories.findIndex((cat) => cat.id === activeTab);
+
+  // Auto-scroll active tab button on mobile horizontal bar into center view
+  useEffect(() => {
+    if (activeTabBtnRef.current) {
+      activeTabBtnRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeTab]);
+
+  const handlePrevTab = () => {
+    if (activeTabIndex > 0) {
+      setActiveTab(skillCategories[activeTabIndex - 1].id);
+    }
+  };
+
+  const handleNextTab = () => {
+    if (activeTabIndex < skillCategories.length - 1) {
+      setActiveTab(skillCategories[activeTabIndex + 1].id);
+    }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const target = e.target as HTMLElement;
+    // Don't trigger swipe on inputs, sliders, buttons, or custom designated zones
+    if (
+      target.closest('input[type="range"]') ||
+      target.closest('[data-no-swipe="true"]') ||
+      target.closest('button') ||
+      target.closest('input')
+    ) {
+      return;
+    }
+    const touch = e.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStartRef.current.x;
+    const deltaY = touch.clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    const minSwipeDistance = 50;
+    if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        if (activeTabIndex < skillCategories.length - 1) {
+          setActiveTab(skillCategories[activeTabIndex + 1].id);
+        }
+      } else {
+        if (activeTabIndex > 0) {
+          setActiveTab(skillCategories[activeTabIndex - 1].id);
+        }
+      }
+    }
+  };
 
   // ─── Animate Tab Changes ────────────────────────────────────────────────────
   useEffect(() => {
@@ -232,12 +315,36 @@ export default function SkillsDeck() {
   const activeSkill = skillCategories.find((cat) => cat.id === activeTab) || skillCategories[0];
 
   return (
-    <div className="w-full flex flex-col gap-8">
+    <div className="w-full flex flex-col gap-6">
+      {/* ─── Mobile Horizontal Tab Navigation (hidden on desktop) ────────────────── */}
+      <div className="lg:hidden w-full overflow-x-auto no-scrollbar pb-2.5 flex gap-2.5 scroll-smooth relative z-20 pointer-events-auto touch-pan-x">
+        {skillCategories.map((cat) => {
+          const isActive = cat.id === activeTab;
+          return (
+            <button
+              key={cat.id}
+              ref={isActive ? activeTabBtnRef : null}
+              onClick={() => setActiveTab(cat.id)}
+              className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 cursor-pointer focus:outline-none ${
+                isActive
+                  ? "bg-[#0a111a]/95 border-primary/40 text-primary font-bold shadow-md shadow-primary/5"
+                  : "bg-[#0a111a]/95 border-white/10 text-foreground/50 hover:bg-[#0c1622]/95 hover:border-white/20"
+              }`}
+            >
+              <div className={`transition-colors duration-300 ${isActive ? "text-primary" : "text-foreground/45"}`}>
+                {cat.icon}
+              </div>
+              <span className="text-xs uppercase tracking-wider font-semibold">{cat.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* ─── Control Deck Structure ────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch w-full">
 
-        {/* Left Side: Navigation Controls (Col 4) */}
-        <div className="lg:col-span-4 flex flex-col gap-3 justify-center">
+        {/* Left Side: Navigation Controls (Col 4) - Hidden on Mobile */}
+        <div className="hidden lg:flex lg:col-span-4 flex-col gap-3 justify-center">
           {skillCategories.map((cat) => {
             const isActive = cat.id === activeTab;
             return (
@@ -245,8 +352,8 @@ export default function SkillsDeck() {
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
                 className={`w-full flex items-center justify-between text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 relative overflow-hidden group ${isActive
-                  ? "bg-[#0A1628] border-primary/40 shadow-lg shadow-primary/10"
-                  : "bg-[#030712] border-white/10 hover:bg-[#060D18] hover:border-white/20"
+                  ? "bg-[#0a111a]/95 border-primary/40 shadow-lg shadow-primary/10"
+                  : "bg-[#0a111a]/95 border-white/10 hover:bg-[#0c1622]/95 hover:border-white/20"
                   }`}
               >
                 {/* Glow Active Background */}
@@ -287,121 +394,87 @@ export default function SkillsDeck() {
         <div className="lg:col-span-8 flex flex-col">
           <div
             ref={tabContentRef}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
             className="w-full h-full bg-[#0a111a]/95 border border-white/10 rounded-3xl shadow-xl p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]"
           >
               {/* Split Panel: Left Details, Right Live Interactive Widget */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-center h-full">
 
                 {activeTab === "software-stack" ? (
-                  <>
-                    {/* Left Column: Customized 12-Tool Grid Selection */}
-                    <div className="flex flex-col justify-center gap-4">
-                      <div>
-                        <span className="text-xs font-bold uppercase tracking-widest text-primary mb-1 block">
-                          Interactive Stack
-                        </span>
-                        <h2 className="text-3xl font-extrabold text-foreground mb-2">
-                          My Tech Stack
-                        </h2>
-                        <p className="text-xs text-foreground/50 leading-relaxed">
-                          Click any of the 12 industry-standard software platforms and languages below to inspect my technical workflow and mastery levels.
-                        </p>
-                      </div>
-
-                      {/* Symmetrical 4-column Grid with brand SVG icons! */}
-                      <div className="grid grid-cols-4 gap-2.5 mt-2">
-                        {Object.entries(techStackDetails).map(([key, item]) => {
-                          const isSelected = selectedTool === key;
-                          return (
-                            <button
-                              key={key}
-                              onClick={() => setSelectedTool(key)}
-                              className={`p-3 rounded-2xl border flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/40 ${isSelected
-                                ? "bg-white/[0.08] border-white/20 shadow-md scale-105"
-                                : "bg-white/[0.02] border-white/5 hover:bg-white/[0.04] hover:border-white/10"
-                                }`}
-                            >
-                              {/* Brand Icon SVG Wrapper */}
-                              <div className="transition-transform duration-300 group-hover:scale-110">
-                                {item.icon}
-                              </div>
-                              <span className="text-[10px] font-bold tracking-wider text-foreground/80 truncate w-full text-center">
-                                {item.gridName}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
+                  <div className="w-full md:col-span-2 flex flex-col gap-6" data-no-swipe="true">
+                    <div>
+                      <span className="text-xs font-bold uppercase tracking-widest text-primary mb-1 block">
+                        Technical Proficiency
+                      </span>
+                      <h2 className="text-3xl font-extrabold text-foreground">
+                        My Software & Stack
+                      </h2>
+                      <p className="text-xs text-foreground/50 mt-1 max-w-2xl leading-relaxed">
+                        A structured breakdown of my technical capabilities. Organised into key functional areas to give a clear overview of my expertise.
+                      </p>
                     </div>
 
-                    {/* Right Column: High-Fidelity Active Tool Details Card */}
-                    {(() => {
-                      const activeTool = techStackDetails[selectedTool as keyof typeof techStackDetails] || techStackDetails.figma;
-                      return (
-                      <div
-                        className="rounded-3xl border h-full min-h-[340px] transition-all duration-500 relative shadow-2xl p-6 flex flex-col justify-between"
-                        style={{
-                          backgroundColor: `${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.08)")}`,
-                          borderColor: `${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.25)")}`,
-                          boxShadow: `0 10px 25px rgba(0,0,0,0.2), 0 0 15px ${activeTool.color.replace("rgb", "rgba").replace(")", ", 0.15)")}`,
-                        }}
-                      >
-                            <div className="flex flex-col gap-4">
-                              {/* Large Icon Container */}
-                              <div className="flex items-center gap-4">
-                                <div className="w-14 h-14 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center shadow-inner">
-                                  {activeTool.icon}
-                                </div>
-                                <div>
-                                  <span className="text-[10px] uppercase font-black tracking-widest text-foreground/45 block mb-0.5">
-                                    {activeTool.category}
-                                  </span>
-                                  <h4 className="text-xl font-bold text-foreground">
-                                    {activeTool.name}
-                                  </h4>
-                                </div>
-                              </div>
+                    {/* 3-Column Layout */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                      {toolGroups.map((group) => (
+                        <div key={group.title} className="flex flex-col gap-3.5 bg-black/10 border border-white/5 p-4 rounded-2xl">
+                          <div>
+                            <h3 className="text-sm font-bold text-foreground tracking-wide">
+                              {group.title}
+                            </h3>
+                            <p className="text-[10px] text-foreground/45 mt-0.5">
+                              {group.description}
+                            </p>
+                          </div>
 
-                              {/* Mastery Slider & Stat */}
-                              <div className="space-y-2 mt-2">
-                                <div className="flex justify-between items-end">
-                                  <span className="text-[10px] uppercase font-bold tracking-widest text-foreground/45">
-                                    Proficiency Level
-                                  </span>
-                                  <span className="text-sm font-black font-mono text-white" style={{ color: activeTool.color }}>
-                                    {activeTool.mastery}%
-                                  </span>
-                                </div>
-                                <div className="w-full h-2.5 rounded-full bg-white/10 overflow-hidden relative">
-                                  <div
-                                    className="h-full rounded-full transition-all duration-700 ease-out"
-                                    style={{
-                                      width: `${activeTool.mastery}%`,
-                                      backgroundColor: activeTool.color,
-                                    }}
-                                  />
-                                </div>
-                              </div>
+                          <div className="flex flex-col gap-3">
+                            {group.tools.map((toolKey) => {
+                              const tool = techStackDetails[toolKey as keyof typeof techStackDetails];
+                              if (!tool) return null;
+                              return (
+                                <div
+                                  key={toolKey}
+                                  className="group flex flex-col gap-2 p-3 bg-white/[0.02] border border-white/5 rounded-xl hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300"
+                                >
+                                  {/* Top Row: Icon + Name + Percentage */}
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2.5">
+                                      <div className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/10 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
+                                        {tool.icon}
+                                      </div>
+                                      <div>
+                                        <h4 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
+                                          {tool.name}
+                                        </h4>
+                                        <span className="text-[9px] text-foreground/45 block">
+                                          {tool.category}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <span className="text-xs font-mono font-black" style={{ color: tool.color }}>
+                                      {tool.mastery}%
+                                    </span>
+                                  </div>
 
-                              {/* Workflow Use-case */}
-                              <div className="space-y-2">
-                                <span className="text-[10px] uppercase font-bold tracking-widest text-foreground/45 block">
-                                  Professional Workflow
-                                </span>
-                                <p className="text-sm text-foreground/75 leading-relaxed font-medium">
-                                  {activeTool.useCase}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="text-[10px] text-foreground/35 uppercase tracking-wider font-semibold border-t border-white/5 pt-3 mt-4 flex items-center gap-2">
-                              <span className="w-1.5 h-1.5 rounded-full animate-ping" style={{ backgroundColor: activeTool.color }} />
-                              Interactive Developer Stack Inspection
-                            </div>
+                                  {/* Bottom Row: Simple Glowing Progress Bar */}
+                                  <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden relative">
+                                    <div
+                                      className="h-full rounded-full transition-all duration-700 ease-out"
+                                      style={{
+                                        width: `${tool.mastery}%`,
+                                        backgroundColor: tool.color,
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
-                      );
-                    })()}
-                  </>
+                      ))}
+                    </div>
+                  </div>
                 ) : (
                   <>
                     {/* Content Panel */}
@@ -434,7 +507,6 @@ export default function SkillsDeck() {
 
                     {/* Live Interactive Playground Widget Container */}
                     <div className="bg-black/20 border border-white/5 rounded-2xl p-5 flex flex-col justify-between h-full min-h-[300px] relative overflow-hidden shadow-inner">
-
                       {/* Widget Label Header */}
                       <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
                         <div className="flex items-center gap-2">
@@ -756,6 +828,52 @@ export default function SkillsDeck() {
             </div>
           </div>
         </div>
+
+        {/* ─── Mobile Swipe Indicators & Arrows (hidden on desktop) ────────────────── */}
+        <div className="lg:hidden flex items-center justify-between px-2 mt-2">
+          <button
+            onClick={handlePrevTab}
+            disabled={activeTabIndex === 0}
+            className={`p-3 rounded-full border transition-all ${
+              activeTabIndex === 0
+                ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
+                : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
+            }`}
+            aria-label="Previous Category"
+          >
+            <ChevronLeft size={16} />
+          </button>
+
+          {/* Dots Pagination */}
+          <div className="flex gap-2 items-center">
+            {skillCategories.map((cat, idx) => {
+              const isActive = cat.id === activeTab;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveTab(cat.id)}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    isActive ? "w-6 bg-primary" : "w-1.5 bg-white/20 hover:bg-white/40"
+                  }`}
+                  aria-label={`Go to category ${cat.title}`}
+                />
+              );
+            })}
+          </div>
+
+          <button
+            onClick={handleNextTab}
+            disabled={activeTabIndex === skillCategories.length - 1}
+            className={`p-3 rounded-full border transition-all ${
+              activeTabIndex === skillCategories.length - 1
+                ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
+                : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
+            }`}
+            aria-label="Next Category"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
       </div>
-  );
-}
+    );
+  }

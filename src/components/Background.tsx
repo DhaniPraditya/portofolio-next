@@ -1,24 +1,33 @@
 "use client";
 
-import DotField from "./ui/DotField";
+import Grainient from "./ui/Grainient";
 
 export default function BackgroundMesh() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
-      <div className="absolute inset-0 bg-[#030712]" /> {/* Base background color */}
-      <DotField
-        dotRadius={1.5}
-        dotSpacing={14}
-        bulgeStrength={67}
-        glowRadius={160}
-        sparkle={true}
-        waveAmplitude={0}
-        cursorRadius={500}
-        cursorForce={0.1}
-        bulgeOnly
-        gradientFrom="#5D9BFF"
-        gradientTo="#0f2a4a"
-        glowColor="#120F17"
+      <Grainient
+        color1="#030712"
+        color2="#1e1b4b"
+        color3="#030712"
+        timeSpeed={0.25}
+        colorBalance={0.25}
+        warpStrength={4}
+        warpFrequency={6.6}
+        warpSpeed={3.5}
+        warpAmplitude={50.0}
+        blendAngle={0}
+        blendSoftness={0.05}
+        rotationAmount={500.0}
+        noiseScale={2.0}
+        grainAmount={0.1}
+        grainScale={3.3}
+        grainAnimated={false}
+        contrast={0.9}
+        gamma={1}
+        saturation={1}
+        centerX={0.0}
+        centerY={0.0}
+        zoom={0.9}
       />
     </div>
   );
