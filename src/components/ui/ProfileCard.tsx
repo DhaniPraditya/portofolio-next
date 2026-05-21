@@ -2,8 +2,13 @@
 
 import React, { useEffect, useRef, useCallback, useMemo } from 'react';
 import './ProfileCard.css';
+import { useTheme } from '../ThemeProvider';
 
-const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)';
+const DEFAULT_INNER_GRADIENT_DARK = 'linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)';
+const DEFAULT_INNER_GRADIENT_LIGHT = 'linear-gradient(145deg, rgba(224, 242, 254, 0.5) 0%, rgba(224, 231, 255, 0.5) 100%)';
+
+const DEFAULT_GLOW_DARK = 'rgba(125, 190, 255, 0.67)';
+const DEFAULT_GLOW_LIGHT = 'rgba(59, 130, 246, 0.3)';
 
 const ANIMATION_CONFIG = {
   INITIAL_DURATION: 1200,
@@ -62,6 +67,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const enterTimerRef = useRef<number | null>(null);
   const leaveRafRef = useRef<number | null>(null);
@@ -318,11 +325,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     () => ({
       '--icon': iconUrl ? `url(${iconUrl})` : 'none',
       '--grain': grainUrl ? `url(${grainUrl})` : 'none',
-      '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT,
-      '--behind-glow-color': behindGlowColor ?? 'rgba(125, 190, 255, 0.67)',
+      '--inner-gradient': innerGradient ?? (isDark ? DEFAULT_INNER_GRADIENT_DARK : DEFAULT_INNER_GRADIENT_LIGHT),
+      '--behind-glow-color': behindGlowColor ?? (isDark ? DEFAULT_GLOW_DARK : DEFAULT_GLOW_LIGHT),
       '--behind-glow-size': behindGlowSize ?? '50%'
     } as React.CSSProperties),
-    [iconUrl, grainUrl, innerGradient, behindGlowColor, behindGlowSize]
+    [iconUrl, grainUrl, innerGradient, isDark, behindGlowColor, behindGlowSize]
   );
 
   const handleContactClick = useCallback(() => {

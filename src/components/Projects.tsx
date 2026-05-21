@@ -246,7 +246,7 @@ export default function Projects() {
                 cardsRef.current[index] = el;
               }}
               onClick={() => setSelectedProject(project)}
-              className="group relative flex flex-col md:flex-row bg-[#05111E] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-primary/50 shadow-lg md:shadow-xl transition-colors duration-300 opacity-0 cursor-pointer md:will-change-transform"
+              className="group relative flex flex-col md:flex-row bg-card rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-card-border hover:border-primary/50 shadow-lg md:shadow-xl transition-colors duration-300 opacity-0 cursor-pointer md:will-change-transform"
               role="button"
               tabIndex={0}
               aria-label={`View details for ${project.title}`}
@@ -257,7 +257,7 @@ export default function Projects() {
               }}
             >
               {/* Image Container */}
-              <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-white/5 flex items-start justify-center">
+              <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-card-border flex items-start justify-center">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -274,7 +274,7 @@ export default function Projects() {
               </div>
 
               {/* Content */}
-              <div className="p-6 sm:p-8 md:p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-br from-white/[0.02] to-transparent">
+              <div className="p-6 sm:p-8 md:p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-br from-foreground/[0.02] to-transparent">
                 <span className="text-xs font-bold uppercase tracking-widest text-primary mb-3 md:mb-4 block">
                   {project.category}
                 </span>
@@ -287,7 +287,7 @@ export default function Projects() {
 
                 <div className="flex flex-wrap gap-3 mt-auto">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="text-xs px-4 py-2 rounded-full bg-white/5 border border-white/10 text-foreground/50 font-bold uppercase tracking-wider">
+                    <span key={tag} className="text-xs px-4 py-2 rounded-full bg-secondary border border-card-border text-foreground/60 font-bold uppercase tracking-wider">
                       {tag}
                     </span>
                   ))}
@@ -304,42 +304,42 @@ export default function Projects() {
           ref={modalOverlayRef}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 lg:p-12 opacity-0"
         >
-          {/* Backdrop Blur (Optimized: Removed backdrop-blur for performance) */}
+          {/* Backdrop Blur */}
           <div
-            className="absolute inset-0 bg-zinc-950/90 cursor-pointer"
+            className="absolute inset-0 bg-modal-overlay cursor-pointer"
             onClick={closeModal}
           />
 
           {/* Modal Content */}
           <div
             ref={modalContentRef}
-            className="relative w-full max-w-5xl max-h-full overflow-y-auto overscroll-contain bg-[#0a111a] border border-white/10 rounded-3xl shadow-2xl custom-scrollbar opacity-0 will-change-scroll"
+            className="relative w-full max-w-5xl max-h-full overflow-y-auto overscroll-contain bg-modal border border-card-border rounded-3xl shadow-2xl custom-scrollbar opacity-0 will-change-scroll"
           >
             {/* Close Button */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 md:top-6 md:right-6 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full border border-white/10 transition-all z-20"
+              className="absolute top-4 right-4 md:top-6 md:right-6 p-2 bg-card/80 hover:bg-card text-foreground rounded-full border border-card-border transition-all z-20 cursor-pointer"
               aria-label="Close modal"
             >
               <X size={24} />
             </button>
 
               {/* Header Image */}
-              <div className="w-full h-64 md:h-80 relative overflow-hidden bg-zinc-900 border-b border-white/5">
+              <div className="w-full h-64 md:h-80 relative overflow-hidden bg-secondary border-b border-card-border">
                 <Image
                   src={selectedProject.image}
                   alt={selectedProject.title}
                   fill
-                  className="object-cover object-top opacity-40"
+                  className="object-cover object-top opacity-40 dark:opacity-40"
                   sizes="(max-width: 1024px) 100vw, 1024px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a111a] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-modal to-transparent" />
 
                 <div className="absolute bottom-6 md:bottom-10 left-6 md:left-12 pr-6">
                   <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">
                     Case Study
                   </span>
-                  <h2 className="text-3xl md:text-5xl font-extrabold text-white">
+                  <h2 className="text-3xl md:text-5xl font-extrabold text-foreground">
                     {selectedProject.title}
                   </h2>
                 </div>
@@ -352,7 +352,7 @@ export default function Projects() {
                 <div className="lg:col-span-2 space-y-10">
                   {/* Background Problem */}
                   <section>
-                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                       <span className="w-8 h-px bg-primary/50" /> Background & Problem
                     </h3>
                     <p className="text-foreground/70 leading-relaxed text-base md:text-lg">
@@ -362,7 +362,7 @@ export default function Projects() {
 
                   {/* Solution */}
                   <section>
-                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                       <span className="w-8 h-px bg-primary/50" /> Design Solution
                     </h3>
                     <p className="text-foreground/70 leading-relaxed text-base md:text-lg">
@@ -372,12 +372,12 @@ export default function Projects() {
 
                   {/* Results */}
                   <section>
-                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                       <span className="w-8 h-px bg-primary/50" /> Results & Impact
                     </h3>
-                    <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 flex gap-4 items-start">
+                    <div className="bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/10 dark:border-emerald-500/20 rounded-2xl p-6 flex gap-4 items-start">
                       <CheckCircleOne className="text-emerald-500 shrink-0 mt-1" size={24} />
-                      <p className="text-emerald-50 font-medium leading-relaxed">
+                      <p className="text-emerald-800 dark:text-emerald-50 font-medium leading-relaxed">
                         {selectedProject.results}
                       </p>
                     </div>
@@ -386,12 +386,12 @@ export default function Projects() {
                   {/* Documentation Photos */}
                   {selectedProject.gallery && selectedProject.gallery.length > 0 && (
                     <section>
-                      <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                      <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
                         <span className="w-8 h-px bg-primary/50" /> Project Gallery
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {selectedProject.gallery.map((img, i) => (
-                          <div key={i} className="relative rounded-xl overflow-hidden border border-white/10 bg-zinc-900/50 aspect-[4/3]">
+                          <div key={i} className="relative rounded-xl overflow-hidden border border-card-border bg-card aspect-[4/3]">
                             <Image
                               src={img}
                               alt={`Documentation ${i + 1}`}
@@ -408,18 +408,18 @@ export default function Projects() {
 
                 {/* Sidebar Info (Right) */}
                 <div className="space-y-8">
-                  <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6">
+                  <div className="bg-secondary/30 dark:bg-white/[0.02] border border-card-border rounded-2xl p-6">
                     <h4 className="text-sm font-bold text-foreground/40 uppercase tracking-wider mb-4">Project Information</h4>
 
                     <div className="space-y-4">
                       <div>
                         <span className="block text-xs text-foreground/50 mb-1">Category</span>
-                        <span className="text-sm font-medium text-white">{selectedProject.category}</span>
+                        <span className="text-sm font-medium text-foreground">{selectedProject.category}</span>
                       </div>
 
                       <div>
                         <span className="block text-xs text-foreground/50 mb-1">My Role</span>
-                        <span className="text-sm font-medium text-white">UI/UX Designer</span>
+                        <span className="text-sm font-medium text-foreground">UI/UX Designer</span>
                       </div>
 
                       <div>
@@ -434,7 +434,7 @@ export default function Projects() {
                       </div>
                     </div>
 
-                    <div className="mt-8 pt-6 border-t border-white/10 flex flex-col gap-3">
+                    <div className="mt-8 pt-6 border-t border-card-border flex flex-col gap-3">
                       {selectedProject.figmaLink && (
                         <a
                           href={selectedProject.figmaLink}
@@ -451,7 +451,7 @@ export default function Projects() {
                           href={selectedProject.githubLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold border border-white/10 transition-colors"
+                          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground font-bold border border-card-border transition-colors"
                         >
                           <Github size={18} /> Source Code
                         </a>

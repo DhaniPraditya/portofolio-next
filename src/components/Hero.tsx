@@ -36,7 +36,7 @@ export default function Hero() {
       >
         <span
           ref={badgeRef}
-          className="px-4 py-1.5 mb-6 inline-block text-xs font-semibold tracking-widest uppercase rounded-full glass border-white/5 text-primary opacity-0"
+          className="px-4 py-1.5 mb-6 inline-block text-xs font-semibold tracking-widest uppercase rounded-full glass text-primary opacity-0"
         >
           Available for New Projects
         </span>
@@ -63,7 +63,7 @@ export default function Hero() {
             href="/Resume-DhaniPraditya.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto group flex items-center justify-center gap-2 px-8 py-4 glass border-white/10 font-semibold rounded-2xl transition-all hover:bg-white/10 hover:scale-105 active:scale-95"
+            className="w-full sm:w-auto group flex items-center justify-center gap-2 px-8 py-4 glass font-semibold rounded-2xl transition-all hover:bg-foreground/[0.05] dark:hover:bg-white/10 hover:scale-105 active:scale-95"
           >
             <Download size={20} />
             Download CV

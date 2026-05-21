@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
-import { Menu, X } from "@mynaui/icons-react";
+import { Menu, X, Sun, Moon } from "@mynaui/icons-react";
 import Link from "next/link";
+import { useTheme } from "@/components/ThemeProvider";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -17,6 +18,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     let isScrolled = false;
@@ -54,7 +56,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -64,6 +66,19 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-xl border border-card-border bg-card text-foreground hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center justify-center group/theme"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun size={18} className="text-amber-400 transition-transform duration-500 group-hover/theme:rotate-90" />
+            ) : (
+              <Moon size={18} className="text-slate-700 transition-transform duration-500 group-hover/theme:-rotate-12" />
+            )}
+          </button>
+
           <Link
             href="#contact"
             className="px-5 py-2 text-sm font-medium text-white transition-all rounded-full bg-primary hover:bg-primary/80 hover:scale-105 active:scale-95"
@@ -72,13 +87,28 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="p-2 md:hidden text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Controls */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-xl border border-card-border bg-card text-foreground active:scale-95 transition-all cursor-pointer flex items-center justify-center"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun size={18} className="text-amber-400" />
+            ) : (
+              <Moon size={18} className="text-slate-700" />
+            )}
+          </button>
+
+          <button
+            className="p-2 text-foreground"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Overlay */}

@@ -308,8 +308,8 @@ export default function SkillsDeck() {
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
               className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 cursor-pointer focus:outline-none ${isActive
-                ? "bg-[#0a111a]/95 border-primary/40 text-primary font-bold shadow-md shadow-primary/5"
-                : "bg-[#0a111a]/95 border-white/10 text-foreground/50 hover:bg-[#0c1622]/95 hover:border-white/20"
+                ? "bg-card/95 border-primary/40 text-primary font-bold shadow-md shadow-primary/5"
+                : "bg-card/95 border-card-border text-foreground/50 hover:bg-secondary/80 hover:border-foreground/20"
                 }`}
             >
               <div className={`transition-colors duration-300 ${isActive ? "text-primary" : "text-foreground/45"}`}>
@@ -333,8 +333,8 @@ export default function SkillsDeck() {
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
                 className={`w-full flex items-center justify-between text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 relative overflow-hidden group ${isActive
-                  ? "bg-[#0a111a]/95 border-primary/40 shadow-lg shadow-primary/10"
-                  : "bg-[#0a111a]/95 border-white/10 hover:bg-[#0c1622]/95 hover:border-white/20"
+                  ? "bg-card/95 border-primary/40 shadow-lg shadow-primary/10"
+                  : "bg-card/95 border-card-border hover:bg-secondary/80 hover:border-foreground/20"
                   }`}
               >
                 {/* Glow Active Background */}
@@ -346,7 +346,7 @@ export default function SkillsDeck() {
                   <div
                     className={`p-3 rounded-xl border transition-all duration-300 ${isActive
                       ? "bg-primary/10 border-primary/30 text-primary"
-                      : "bg-white/5 border-white/5 text-foreground/50 group-hover:text-foreground/80"
+                      : "bg-secondary border border-card-border text-foreground/50 group-hover:text-foreground/80"
                       }`}
                   >
                     {cat.icon}
@@ -377,7 +377,7 @@ export default function SkillsDeck() {
             ref={tabContentRef}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="w-full h-full bg-[#0a111a]/95 border border-white/10 rounded-3xl shadow-xl p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]"
+            className="w-full h-full bg-card/95 border border-card-border rounded-3xl shadow-xl p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]"
           >
             {/* Split Panel: Left Details, Right Live Interactive Widget */}
             <div className={`grid grid-cols-1 gap-6 lg:gap-8 items-center h-full ${activeTab === "software-stack" ? "" : "md:grid-cols-2"}`}>
@@ -404,7 +404,7 @@ export default function SkillsDeck() {
                       return (
                         <div
                           key={toolKey}
-                          className="group flex flex-col items-center justify-center p-5 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all duration-300 cursor-pointer"
+                          className="group flex flex-col items-center justify-center p-5 rounded-2xl border border-card-border bg-secondary/20 hover:bg-secondary/50 transition-all duration-300 cursor-pointer"
                           onMouseEnter={(e) => {
                             e.currentTarget.style.borderColor = tool.color;
                             e.currentTarget.style.boxShadow = `0 0 16px ${tool.color}15`;
@@ -415,7 +415,7 @@ export default function SkillsDeck() {
                           }}
                         >
                           {/* Icon Container with dynamic hover glow */}
-                          <div className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-transparent relative">
+                          <div className="w-16 h-16 rounded-2xl bg-secondary/50 border border-card-border flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-transparent relative">
                             {/* Brand Glow Effect behind icon on hover */}
                             <div
                               className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-15 blur-md transition-opacity duration-300"
@@ -466,16 +466,16 @@ export default function SkillsDeck() {
                   </div>
 
                   {/* Live Interactive Playground Widget Container */}
-                  <div className="bg-black/20 border border-white/5 rounded-2xl p-5 flex flex-col justify-between h-full min-h-[300px] relative overflow-hidden shadow-inner">
+                  <div className="bg-secondary/40 dark:bg-black/20 border border-card-border rounded-2xl p-5 flex flex-col justify-between h-full min-h-[300px] relative overflow-hidden shadow-inner">
                     {/* Widget Label Header */}
-                    <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+                    <div className="flex items-center justify-between border-b border-card-border pb-3 mb-4">
                       <div className="flex items-center gap-2">
                         <Sparkles size={14} className="text-primary animate-pulse" />
                         <span className="text-xs font-bold uppercase tracking-widest text-foreground/60">
                           Spatial Interactive View
                         </span>
                       </div>
-                      <span className="text-[10px] bg-white/5 border border-white/5 px-2 py-0.5 rounded-full text-foreground/45 uppercase tracking-wider font-semibold">
+                      <span className="text-[10px] bg-secondary border border-card-border px-2 py-0.5 rounded-full text-foreground/50 uppercase tracking-wider font-semibold">
                         Live Demo
                       </span>
                     </div>
@@ -501,19 +501,19 @@ export default function SkillsDeck() {
                                 <Layout size={18} />
                               </div>
                               <div>
-                                <div className="w-20 h-3.5 rounded-full bg-white/20" />
-                                <div className="w-12 h-2.5 rounded-full bg-white/10 mt-1.5" />
+                                <div className="w-20 h-3.5 rounded-full bg-foreground/20" />
+                                <div className="w-12 h-2.5 rounded-full bg-foreground/10 mt-1.5" />
                               </div>
                             </div>
                             <div className="flex flex-col gap-2">
-                              <div className="w-full h-2 rounded-full bg-white/10" />
-                              <div className="w-4/5 h-2 rounded-full bg-white/10" />
+                              <div className="w-full h-2 rounded-full bg-foreground/10" />
+                              <div className="w-4/5 h-2 rounded-full bg-foreground/10" />
                             </div>
                           </div>
                         </div>
 
                         {/* Interactive Knobs */}
-                        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-3">
+                        <div className="flex flex-col gap-2.5 border-t border-card-border pt-3">
                           <div>
                             <span className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider block mb-1">
                               Theme Accent
@@ -544,7 +544,7 @@ export default function SkillsDeck() {
                               max="28"
                               value={uiSpacing}
                               onChange={(e) => setUiSpacing(Number(e.target.value))}
-                              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
+                              className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-primary"
                             />
                           </div>
                         </div>
@@ -558,14 +558,14 @@ export default function SkillsDeck() {
                         <div className="flex-1 flex flex-col justify-center gap-4 py-2">
                           <div className="flex items-center justify-between relative px-2">
                             {/* Connecting Line */}
-                            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 z-0" />
+                            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-foreground/10 -translate-y-1/2 z-0" />
 
                             {/* Node 1 */}
                             <button
                               onClick={() => setSelectedNode("lands")}
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "lands"
-                                ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-                                : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
+                                ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
                                 }`}
                             >
                               1
@@ -575,8 +575,8 @@ export default function SkillsDeck() {
                             <button
                               onClick={() => setSelectedNode("bento")}
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "bento"
-                                ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-                                : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
+                                ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
                                 }`}
                             >
                               2
@@ -586,8 +586,8 @@ export default function SkillsDeck() {
                             <button
                               onClick={() => setSelectedNode("conversion")}
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "conversion"
-                                ? "bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-                                : "bg-zinc-900 border-white/10 text-foreground/50 hover:border-white/20"
+                                ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
                                 }`}
                             >
                               3
@@ -595,10 +595,10 @@ export default function SkillsDeck() {
                           </div>
 
                           {/* Display Info Box */}
-                          <div className="bg-white/5 border border-white/5 rounded-xl p-3.5 min-h-[90px] flex flex-col justify-center">
+                          <div className="bg-secondary/40 border border-card-border rounded-xl p-3.5 min-h-[90px] flex flex-col justify-center">
                             {selectedNode === "lands" && (
                               <>
-                                <h5 className="text-xs font-bold text-purple-400 mb-1">Step 1: User Discovery & Landing</h5>
+                                <h5 className="text-xs font-bold text-purple-600 dark:text-purple-400 mb-1">Step 1: User Discovery & Landing</h5>
                                 <p className="text-[11px] text-foreground/60 leading-relaxed">
                                   Measuring bounce rates and initial aesthetic impact. Design decisions are made to hook visual attention within 3 seconds.
                                 </p>
@@ -606,7 +606,7 @@ export default function SkillsDeck() {
                             )}
                             {selectedNode === "bento" && (
                               <>
-                                <h5 className="text-xs font-bold text-purple-400 mb-1">Step 2: Interaction & Bento Layout</h5>
+                                <h5 className="text-xs font-bold text-purple-600 dark:text-purple-400 mb-1">Step 2: Interaction & Bento Layout</h5>
                                 <p className="text-[11px] text-foreground/60 leading-relaxed">
                                   Analyzing scanning patterns and heatmap actions. We ensure accessibility guidelines and natural spatial layout flow are optimized.
                                 </p>
@@ -614,7 +614,7 @@ export default function SkillsDeck() {
                             )}
                             {selectedNode === "conversion" && (
                               <>
-                                <h5 className="text-xs font-bold text-purple-400 mb-1">Step 3: Conversion Achievement</h5>
+                                <h5 className="text-xs font-bold text-purple-600 dark:text-purple-400 mb-1">Step 3: Conversion Achievement</h5>
                                 <p className="text-[11px] text-foreground/60 leading-relaxed">
                                   The ultimate checkout or contact goal. By establishing trust through design clarity, overall conversion rates increase by up to 40%.
                                 </p>
@@ -647,7 +647,7 @@ export default function SkillsDeck() {
                         </div>
 
                         {/* Interactive controls */}
-                        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-3">
+                        <div className="flex flex-col gap-2.5 border-t border-card-border pt-3">
                           <div className="flex items-center gap-3">
                             <button
                               ref={buttonRef}
@@ -661,7 +661,7 @@ export default function SkillsDeck() {
                                 setProtoRotate(0);
                                 setProtoScale(1);
                               }}
-                              className="py-2 px-3 border border-white/10 hover:bg-white/5 active:scale-95 text-xs text-foreground/60 rounded-xl cursor-pointer transition-colors text-center"
+                              className="py-2 px-3 border border-card-border hover:bg-secondary active:scale-95 text-xs text-foreground/60 rounded-xl cursor-pointer transition-colors text-center"
                             >
                               Reset
                             </button>
@@ -678,7 +678,7 @@ export default function SkillsDeck() {
                                 max="45"
                                 value={protoRotate}
                                 onChange={(e) => setProtoRotate(Number(e.target.value))}
-                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
+                                className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
                               />
                             </div>
                             <div>
@@ -693,7 +693,7 @@ export default function SkillsDeck() {
                                 step="0.05"
                                 value={protoScale}
                                 onChange={(e) => setProtoScale(Number(e.target.value))}
-                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
+                                className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
                               />
                             </div>
                           </div>
@@ -707,7 +707,7 @@ export default function SkillsDeck() {
                         {/* Live styled element & code block */}
                         <div className="flex-1 grid grid-cols-12 gap-3 items-center">
                           {/* Left: Code panel */}
-                          <div className="col-span-7 bg-black/40 rounded-xl p-2.5 font-mono text-[9px] text-teal-400 border border-white/5 h-full flex flex-col justify-center leading-normal">
+                          <div className="col-span-7 bg-black/50 rounded-xl p-2.5 font-mono text-[9px] text-teal-400 border border-card-border h-full flex flex-col justify-center leading-normal">
                             <div><span className="text-foreground/40">.glass-deck</span> &#123;</div>
                             <div className="pl-3">backdrop-filter: <span className="text-white">blur({feBlur}px)</span>;</div>
                             <div className="pl-3">background: <span className="text-white">rgba(255,255,255,{feOpacity / 100})</span>;</div>
@@ -726,13 +726,13 @@ export default function SkillsDeck() {
                                 boxShadow: feGlow ? "0 8px 24px rgba(20, 184, 166, 0.2)" : "none",
                               }}
                             >
-                              <Code size={20} className={feGlow ? "text-teal-400 animate-pulse" : "text-white/40"} />
+                              <Code size={20} className={feGlow ? "text-teal-500 dark:text-teal-400 animate-pulse" : "text-foreground/30"} />
                             </div>
                           </div>
                         </div>
 
                         {/* Interactive controls */}
-                        <div className="flex flex-col gap-2 border-t border-white/5 pt-2">
+                        <div className="flex flex-col gap-2 border-t border-card-border pt-2">
                           <div className="grid grid-cols-2 gap-2">
                             <div>
                               <div className="flex justify-between text-[10px] text-foreground/40 font-bold uppercase tracking-wider mb-0.5">
@@ -745,7 +745,7 @@ export default function SkillsDeck() {
                                 max="32"
                                 value={feBlur}
                                 onChange={(e) => setFeBlur(Number(e.target.value))}
-                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                                className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
                               />
                             </div>
                             <div>
@@ -759,17 +759,17 @@ export default function SkillsDeck() {
                                 max="25"
                                 value={feOpacity}
                                 onChange={(e) => setFeOpacity(Number(e.target.value))}
-                                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                                className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
                               />
                             </div>
                           </div>
-                          <div className="flex items-center justify-between border-t border-white/5 pt-2">
+                          <div className="flex items-center justify-between border-t border-card-border pt-2">
                             <span className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider">
                               Active Border Glow Accent
                             </span>
                             <button
                               onClick={() => setFeGlow(!feGlow)}
-                              className={`w-9 h-5 rounded-full p-0.5 cursor-pointer transition-colors duration-300 focus:outline-none ${feGlow ? "bg-teal-500" : "bg-white/10"
+                              className={`w-9 h-5 rounded-full p-0.5 cursor-pointer transition-colors duration-300 focus:outline-none ${feGlow ? "bg-teal-500" : "bg-foreground/10"
                                 }`}
                             >
                               <div
@@ -795,8 +795,8 @@ export default function SkillsDeck() {
           onClick={handlePrevTab}
           disabled={activeTabIndex === 0}
           className={`p-3 rounded-full border transition-all ${activeTabIndex === 0
-            ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
-            : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
+            ? "opacity-20 border-card-border/40 text-foreground/20 cursor-not-allowed"
+            : "border-card-border bg-secondary hover:bg-secondary/80 active:scale-95 text-foreground/75 cursor-pointer"
             }`}
           aria-label="Previous Category"
         >
@@ -811,7 +811,7 @@ export default function SkillsDeck() {
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${isActive ? "w-6 bg-primary" : "w-1.5 bg-white/20 hover:bg-white/40"
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${isActive ? "w-6 bg-primary" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
                   }`}
                 aria-label={`Go to category ${cat.title}`}
               />
@@ -823,8 +823,8 @@ export default function SkillsDeck() {
           onClick={handleNextTab}
           disabled={activeTabIndex === skillCategories.length - 1}
           className={`p-3 rounded-full border transition-all ${activeTabIndex === skillCategories.length - 1
-            ? "opacity-20 border-white/5 text-foreground/20 cursor-not-allowed"
-            : "border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 text-foreground/75 cursor-pointer"
+            ? "opacity-20 border-card-border/40 text-foreground/20 cursor-not-allowed"
+            : "border-card-border bg-secondary hover:bg-secondary/80 active:scale-95 text-foreground/75 cursor-pointer"
             }`}
           aria-label="Next Category"
         >

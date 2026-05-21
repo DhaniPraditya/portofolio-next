@@ -1,14 +1,22 @@
 "use client";
 
+import { useTheme } from "@/components/ThemeProvider";
 import Grainient from "./ui/Grainient";
 
 export default function BackgroundMesh() {
+  const { theme } = useTheme();
+
+  // Dynamic colors for WebGL canvas background
+  const colors = theme === "dark" 
+    ? { color1: "#030712", color2: "#1e1b4b", color3: "#030712" }
+    : { color1: "#e0f2fe", color2: "#e0e7ff", color3: "#faf5ff" };
+
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
       <Grainient
-        color1="#030712"
-        color2="#1e1b4b"
-        color3="#030712"
+        color1={colors.color1}
+        color2={colors.color2}
+        color3={colors.color3}
         timeSpeed={0.25}
         colorBalance={0.25}
         warpStrength={4}

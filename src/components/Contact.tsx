@@ -47,7 +47,7 @@ export default function Contact() {
       <div className="max-w-5xl mx-auto text-center">
         <div
           ref={containerRef}
-          className="glass rounded-3xl md:rounded-[3rem] border-white/5 p-8 sm:p-12 md:p-24 relative opacity-0"
+          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 relative opacity-0"
         >
           <span className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 block">
             Let&apos;s Work Together
@@ -64,7 +64,7 @@ export default function Contact() {
               <a
                 key={link.name}
                 href={link.href}
-                className="flex items-center gap-3 px-6 py-3 glass rounded-2xl border-white/10 hover:border-primary/50 transition-all hover:scale-105 active:scale-95 group"
+                className="flex items-center gap-3 px-6 py-3 glass rounded-2xl hover:border-primary/50 transition-all hover:scale-105 active:scale-95 group"
               >
                 <span className="text-foreground/70 group-hover:text-primary transition-colors">
                   {link.icon}
@@ -75,7 +75,7 @@ export default function Contact() {
             ))}
           </div>
 
-          <div className="mt-16 pt-16 border-t border-white/5">
+          <div className="mt-16 pt-16 border-t border-card-border">
             <p className="text-foreground/40 text-sm font-medium">
               Based in Indonesia • Available for Remote Work
             </p>
