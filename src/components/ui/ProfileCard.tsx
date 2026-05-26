@@ -333,7 +333,14 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   );
 
   const handleContactClick = useCallback(() => {
-    onContactClick?.();
+    if (onContactClick) {
+      onContactClick();
+    } else {
+      const contactEl = document.getElementById("contact");
+      if (contactEl) {
+        contactEl.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   }, [onContactClick]);
 
   return (

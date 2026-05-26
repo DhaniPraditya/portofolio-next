@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useDeferredValue } from "react";
 import { gsap } from "gsap";
 import { Layout, Search, Mobile, Code, Sparkles, Check, ChevronRight, ChevronLeft } from "@mynaui/icons-react";
 
@@ -217,6 +217,21 @@ export default function SkillsDeck() {
   const [feOpacity, setFeOpacity] = useState<number>(8);
   const [feGlow, setFeGlow] = useState<boolean>(true);
 
+  // Deferred values for smoother slider interactions (defer expensive visual re-renders)
+  const deferredUiSpacing = useDeferredValue(uiSpacing);
+  const deferredProtoScale = useDeferredValue(protoScale);
+  const deferredProtoRotate = useDeferredValue(protoRotate);
+  const deferredFeBlur = useDeferredValue(feBlur);
+  const deferredFeOpacity = useDeferredValue(feOpacity);
+
+  // Accessibility helper: check if user prefers reduced motion
+  const prefersReducedMotion = () => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+    return false;
+  };
+
   // ─── Mobile Carousel & Gesture Hooks ─────────────────────────────────────────
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
@@ -287,11 +302,19 @@ export default function SkillsDeck() {
   // Springy micro-interaction for Prototyping Button
   const handleProtoClick = () => {
     if (buttonRef.current) {
-      gsap.fromTo(
-        buttonRef.current,
-        { scale: 0.9 },
-        { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.3)" }
-      );
+      if (prefersReducedMotion()) {
+        gsap.fromTo(
+          buttonRef.current,
+          { opacity: 0.7 },
+          { opacity: 1, duration: 0.2, ease: "power1.out" }
+        );
+      } else {
+        gsap.fromTo(
+          buttonRef.current,
+          { scale: 0.9 },
+          { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.3)" }
+        );
+      }
     }
   };
 
@@ -300,12 +323,20 @@ export default function SkillsDeck() {
   return (
     <div className="w-full flex flex-col gap-6">
       {/* ─── Mobile Horizontal Tab Navigation (hidden on desktop) ────────────────── */}
-      <div className="lg:hidden w-full overflow-x-auto no-scrollbar pb-2.5 flex gap-2.5 scroll-smooth relative z-20 pointer-events-auto touch-pan-x">
+      <div 
+        role="tablist"
+        aria-label="Skill Categories Mobile"
+        className="lg:hidden w-full overflow-x-auto no-scrollbar pb-2.5 flex gap-2.5 scroll-smooth relative z-20 pointer-events-auto touch-pan-x"
+      >
         {skillCategories.map((cat) => {
           const isActive = cat.id === activeTab;
           return (
             <button
               key={cat.id}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls="skills-tabpanel"
+              id={`mob-tab-${cat.id}`}
               onClick={() => setActiveTab(cat.id)}
               className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 cursor-pointer focus:outline-none ${isActive
                 ? "bg-card/95 border-primary/40 text-primary font-bold shadow-md shadow-primary/5"
@@ -325,12 +356,20 @@ export default function SkillsDeck() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch w-full">
 
         {/* Left Side: Navigation Controls (Col 4) - Hidden on Mobile */}
-        <div className="hidden lg:flex lg:col-span-4 flex-col gap-3 justify-center">
+        <div 
+          role="tablist"
+          aria-label="Skill Categories"
+          className="hidden lg:flex lg:col-span-4 flex-col gap-3 justify-center"
+        >
           {skillCategories.map((cat) => {
             const isActive = cat.id === activeTab;
             return (
               <button
                 key={cat.id}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls="skills-tabpanel"
+                id={`tab-${cat.id}`}
                 onClick={() => setActiveTab(cat.id)}
                 className={`w-full flex items-center justify-between text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 relative overflow-hidden group ${isActive
                   ? "bg-card/95 border-primary/40 shadow-lg shadow-primary/10"
@@ -375,6 +414,9 @@ export default function SkillsDeck() {
         <div className="lg:col-span-8 flex flex-col">
           <div
             ref={tabContentRef}
+            id="skills-tabpanel"
+            role="tabpanel"
+            aria-labelledby={`tab-${activeTab}`}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
             className="w-full h-full bg-card/95 border border-card-border rounded-3xl shadow-xl p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]"
@@ -491,7 +533,7 @@ export default function SkillsDeck() {
                             className="w-full rounded-2xl border border-white/10 p-5 backdrop-blur-md transition-all duration-300 flex flex-col"
                             style={{
                               backgroundColor: `${uiColor.replace("rgb", "rgba").replace(")", ", 0.08)")}`,
-                              gap: `${uiSpacing}px`,
+                              gap: `${deferredUiSpacing}px`,
                               boxShadow: `0 12px 24px rgba(0,0,0,0.2), 0 0 20px ${uiColor.replace("rgb", "rgba").replace(")", ", 0.1)")}`,
                               borderColor: `${uiColor.replace("rgb", "rgba").replace(")", ", 0.25)")}`,
                             }}
@@ -519,18 +561,22 @@ export default function SkillsDeck() {
                               Theme Accent
                             </span>
                             <div className="flex gap-2">
-                              {["rgb(59, 130, 246)", "rgb(168, 85, 247)", "rgb(236, 72, 153)", "rgb(20, 184, 166)"].map((color) => (
-                                <button
-                                  key={color}
-                                  onClick={() => setUiColor(color)}
-                                  className="w-5 h-5 rounded-full border border-white/20 cursor-pointer transition hover:scale-110 active:scale-95"
-                                  style={{
-                                    backgroundColor: color,
-                                    outline: uiColor === color ? `2px solid ${color}` : "none",
-                                    outlineOffset: "2px",
-                                  }}
-                                />
-                              ))}
+                              {["rgb(59, 130, 246)", "rgb(168, 85, 247)", "rgb(236, 72, 153)", "rgb(20, 184, 166)"].map((color, idx) => {
+                                const colorNames = ["Blue", "Purple", "Pink", "Teal"];
+                                return (
+                                  <button
+                                    key={color}
+                                    onClick={() => setUiColor(color)}
+                                    aria-label={`${colorNames[idx] || "Color"} theme accent`}
+                                    className="w-5 h-5 rounded-full border border-white/20 cursor-pointer transition hover:scale-110 active:scale-95"
+                                    style={{
+                                      backgroundColor: color,
+                                      outline: uiColor === color ? `2px solid ${color}` : "none",
+                                      outlineOffset: "2px",
+                                    }}
+                                  />
+                                );
+                              })}
                             </div>
                           </div>
                           <div>
@@ -543,6 +589,7 @@ export default function SkillsDeck() {
                               min="8"
                               max="28"
                               value={uiSpacing}
+                              aria-label="Auto Layout Spacing"
                               onChange={(e) => setUiSpacing(Number(e.target.value))}
                               className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-primary"
                             />
@@ -563,6 +610,7 @@ export default function SkillsDeck() {
                             {/* Node 1 */}
                             <button
                               onClick={() => setSelectedNode("lands")}
+                              aria-label="User Discovery Stage"
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "lands"
                                 ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
                                 : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
@@ -574,6 +622,7 @@ export default function SkillsDeck() {
                             {/* Node 2 */}
                             <button
                               onClick={() => setSelectedNode("bento")}
+                              aria-label="Interaction Stage"
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "bento"
                                 ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
                                 : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
@@ -585,6 +634,7 @@ export default function SkillsDeck() {
                             {/* Node 3 */}
                             <button
                               onClick={() => setSelectedNode("conversion")}
+                              aria-label="Conversion Achievement Stage"
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "conversion"
                                 ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
                                 : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
@@ -636,7 +686,7 @@ export default function SkillsDeck() {
                           <div
                             className="w-36 h-24 bg-gradient-to-br from-pink-500/20 to-purple-500/20 border border-pink-500/30 rounded-2xl shadow-lg flex flex-col items-center justify-center p-3 text-center transition-all duration-150"
                             style={{
-                              transform: `perspective(600px) rotateY(${protoRotate}deg) scale(${protoScale})`,
+                              transform: `perspective(600px) rotateY(${deferredProtoRotate}deg) scale(${deferredProtoScale})`,
                             }}
                           >
                             <Mobile size={24} className="text-pink-500 mb-2" />
@@ -677,6 +727,7 @@ export default function SkillsDeck() {
                                 min="-45"
                                 max="45"
                                 value={protoRotate}
+                                aria-label="Z-Perspective Rotate"
                                 onChange={(e) => setProtoRotate(Number(e.target.value))}
                                 className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
                               />
@@ -692,6 +743,7 @@ export default function SkillsDeck() {
                                 max="1.3"
                                 step="0.05"
                                 value={protoScale}
+                                aria-label="Scale Factor"
                                 onChange={(e) => setProtoScale(Number(e.target.value))}
                                 className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-pink-500"
                               />
@@ -709,8 +761,8 @@ export default function SkillsDeck() {
                           {/* Left: Code panel */}
                           <div className="col-span-7 bg-black/50 rounded-xl p-2.5 font-mono text-[9px] text-teal-400 border border-card-border h-full flex flex-col justify-center leading-normal">
                             <div><span className="text-foreground/40">.glass-deck</span> &#123;</div>
-                            <div className="pl-3">backdrop-filter: <span className="text-white">blur({feBlur}px)</span>;</div>
-                            <div className="pl-3">background: <span className="text-white">rgba(255,255,255,{feOpacity / 100})</span>;</div>
+                            <div className="pl-3">backdrop-filter: <span className="text-white">blur({deferredFeBlur}px)</span>;</div>
+                            <div className="pl-3">background: <span className="text-white">rgba(255,255,255,{deferredFeOpacity / 100})</span>;</div>
                             <div className="pl-3">border-color: <span className="text-white">{feGlow ? "rgba(20,184,166,0.3)" : "rgba(255,255,255,0.05)"}</span>;</div>
                             <div>&#125;</div>
                           </div>
@@ -720,8 +772,8 @@ export default function SkillsDeck() {
                             <div
                               className="w-full aspect-square rounded-2xl border transition-all duration-300 flex items-center justify-center shadow-lg"
                               style={{
-                                backdropFilter: `blur(${feBlur}px)`,
-                                backgroundColor: `rgba(255, 255, 255, ${feOpacity / 100})`,
+                                backdropFilter: `blur(${deferredFeBlur}px)`,
+                                backgroundColor: `rgba(255, 255, 255, ${deferredFeOpacity / 100})`,
                                 borderColor: feGlow ? "rgba(20, 184, 166, 0.4)" : "rgba(255, 255, 255, 0.08)",
                                 boxShadow: feGlow ? "0 8px 24px rgba(20, 184, 166, 0.2)" : "none",
                               }}
@@ -744,6 +796,7 @@ export default function SkillsDeck() {
                                 min="4"
                                 max="32"
                                 value={feBlur}
+                                aria-label="Blur filter size"
                                 onChange={(e) => setFeBlur(Number(e.target.value))}
                                 className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
                               />
@@ -758,6 +811,7 @@ export default function SkillsDeck() {
                                 min="2"
                                 max="25"
                                 value={feOpacity}
+                                aria-label="Background opacity level"
                                 onChange={(e) => setFeOpacity(Number(e.target.value))}
                                 className="w-full h-1 bg-foreground/10 rounded-lg appearance-none cursor-pointer accent-teal-500"
                               />
@@ -769,6 +823,7 @@ export default function SkillsDeck() {
                             </span>
                             <button
                               onClick={() => setFeGlow(!feGlow)}
+                              aria-label="Toggle active border glow"
                               className={`w-9 h-5 rounded-full p-0.5 cursor-pointer transition-colors duration-300 focus:outline-none ${feGlow ? "bg-teal-500" : "bg-foreground/10"
                                 }`}
                             >

@@ -15,6 +15,24 @@ const socialLinks = [
   { name: "Instagram", icon: <Instagram size={20} />, href: "http://instagram.com/dhannp", color: "bg-pink-500" },
 ];
 
+const brandStyleMap: Record<string, { glow: string; border: string; text: string }> = {
+  Email: {
+    glow: "rgba(59, 130, 246, 0.15)",
+    border: "rgba(59, 130, 246, 0.4)",
+    text: "group-hover:text-blue-500"
+  },
+  LinkedIn: {
+    glow: "rgba(79, 70, 229, 0.15)",
+    border: "rgba(79, 70, 229, 0.4)",
+    text: "group-hover:text-indigo-500"
+  },
+  Instagram: {
+    glow: "rgba(236, 72, 153, 0.15)",
+    border: "rgba(236, 72, 153, 0.4)",
+    text: "group-hover:text-pink-500"
+  }
+};
+
 export default function Contact() {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -60,19 +78,38 @@ export default function Contact() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="flex items-center gap-3 px-6 py-3 glass rounded-2xl hover:border-primary/50 transition-all hover:scale-105 active:scale-95 group"
-              >
-                <span className="text-foreground/70 group-hover:text-primary transition-colors">
-                  {link.icon}
-                </span>
-                <span className="font-semibold">{link.name}</span>
-                <ArrowUpRight size={16} className="text-foreground/30 group-hover:text-primary transition-colors" />
-              </a>
-            ))}
+            {socialLinks.map((link) => {
+              const brand = brandStyleMap[link.name] || {
+                glow: "rgba(59, 130, 246, 0.15)",
+                border: "rgba(59, 130, 246, 0.4)",
+                text: "group-hover:text-primary"
+              };
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center gap-3 px-6 py-3 glass rounded-2xl transition-all hover:scale-105 active:scale-95 group"
+                  style={{
+                    "--hover-glow": brand.glow,
+                    "--hover-border": brand.border,
+                  } as React.CSSProperties}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "var(--hover-border)";
+                    e.currentTarget.style.boxShadow = "0 8px 24px var(--hover-glow)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "";
+                    e.currentTarget.style.boxShadow = "";
+                  }}
+                >
+                  <span className={`text-foreground/70 ${brand.text} transition-colors`}>
+                    {link.icon}
+                  </span>
+                  <span className="font-semibold">{link.name}</span>
+                  <ArrowUpRight size={16} className={`text-foreground/30 ${brand.text} transition-colors`} />
+                </a>
+              );
+            })}
           </div>
 
           <div className="mt-16 pt-16 border-t border-card-border">

@@ -26,7 +26,15 @@ export default function Home() {
         <section id="about" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
             <div className="relative flex justify-center">
-              <ProfileCard avatarUrl="/me-no-bg.svg" />
+              <ProfileCard
+                avatarUrl="/me-no-bg.svg"
+                showUserInfo={true}
+                name="Dhani Praditya"
+                title="UI/UX Designer"
+                handle="dhanipraditya"
+                status="Available for Hire"
+                contactText="Contact"
+              />
             </div>
 
             <div className="text-center lg:text-left">

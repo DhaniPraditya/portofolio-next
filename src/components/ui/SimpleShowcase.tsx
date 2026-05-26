@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 
 interface SimpleShowcaseProps {
   mockupImages: string[];
@@ -64,10 +65,13 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
 
         {/* Viewport Screen */}
         <div className="flex-1 relative bg-zinc-900 overflow-hidden">
-          <img
+          <Image
             src={desktopImage}
             alt="Desktop UI/UX Project Showcase"
-            className="w-full h-full object-cover object-top"
+            fill
+            sizes="(max-width: 768px) 100vw, 500px"
+            priority
+            className="object-cover object-top"
           />
         </div>
       </div>
@@ -82,10 +86,13 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
 
         {/* Mobile Screen Viewport */}
         <div className="w-full h-full rounded-[1.5rem] overflow-hidden relative bg-zinc-900">
-          <img
+          <Image
             src={mobileImage}
             alt="Mobile UI/UX Project Showcase"
-            className="w-full h-full object-cover object-top"
+            fill
+            sizes="150px"
+            priority
+            className="object-cover object-top"
           />
         </div>
       </div>

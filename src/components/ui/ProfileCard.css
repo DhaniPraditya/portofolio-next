@@ -578,3 +578,17 @@
     border-radius: 50px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-card {
+    transform: none !important;
+    transition: none !important;
+  }
+  .pc-shine, .pc-glare, .pc-behind {
+    display: none !important;
+  }
+  .avatar {
+    transform: translateX(-50%) !important;
+    transition: none !important;
+  }
+}
