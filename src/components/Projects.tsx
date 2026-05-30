@@ -138,7 +138,7 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
     gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration, ease: "power2.out" });
     gsap.fromTo(imgRef.current, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration, ease: "power2.out" });
 
-    return () => {};
+    return () => { };
   }, []);
 
   const handleClose = () => {
@@ -169,7 +169,7 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute -top-12 right-0 p-2 rounded-full bg-card/85 border border-card-border text-foreground hover:bg-card hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center"
+          className="absolute -top-12 right-0 p-2.5 rounded-full bg-white/10 border border-white/10 hover:border-white/20 text-white hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-lg backdrop-blur-md"
         >
           <X size={20} />
         </button>
@@ -178,11 +178,11 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
           ref={imgRef}
           src={src}
           alt={title}
-          className="max-w-full max-h-[80vh] object-contain rounded-lg border border-card-border shadow-2xl"
+          className="max-w-full max-h-[80vh] object-contain rounded-lg border border-white/10 shadow-2xl bg-black/20"
         />
 
         {title && (
-          <span className="text-sm font-bold uppercase tracking-wider text-foreground/80 text-center mt-2 px-4 py-1.5 rounded-full bg-card/90 border border-card-border backdrop-blur-md">
+          <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white/90 text-center mt-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 backdrop-blur-md">
             {title}
           </span>
         )}
@@ -255,11 +255,11 @@ export default function Projects() {
   // Modal Entry Animation
   useEffect(() => {
     if (selectedProject && modalOverlayRef.current && modalContentRef.current) {
-      gsap.fromTo(modalOverlayRef.current, 
-        { opacity: 0 }, 
+      gsap.fromTo(modalOverlayRef.current,
+        { opacity: 0 },
         { opacity: 1, duration: 0.3, ease: "power2.out" }
       );
-      
+
       gsap.fromTo(modalContentRef.current,
         { opacity: 0, y: 50, scale: 0.95 },
         { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.5)", delay: 0.1 }
@@ -415,7 +415,7 @@ export default function Projects() {
         >
           {/* Backdrop Blur */}
           <div
-            className="absolute inset-0 bg-modal-overlay cursor-pointer"
+            className="absolute inset-0 bg-modal-overlay backdrop-blur-md cursor-pointer"
             onClick={closeModal}
           />
 
@@ -427,22 +427,22 @@ export default function Projects() {
             {/* Close Button */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 md:top-6 md:right-6 p-2 bg-card/80 hover:bg-card text-foreground rounded-full border border-card-border transition-all z-20 cursor-pointer"
+              className="absolute top-4 right-4 md:top-6 md:right-6 p-2.5 bg-modal/80 hover:bg-modal text-foreground rounded-full border border-card-border shadow-md backdrop-blur-md hover:scale-105 active:scale-95 transition-all duration-300 z-20 cursor-pointer flex items-center justify-center"
               aria-label="Close modal"
             >
-              <X size={24} />
+              <X size={22} />
             </button>
 
             {/* Header Image */}
-            <div className="w-full h-64 md:h-80 relative overflow-hidden bg-secondary border-b border-card-border shrink-0">
+            <div className="w-full h-64 md:h-80 relative overflow-hidden bg-modal border-b border-card-border shrink-0">
               <Image
                 src={selectedProject.image}
                 alt={selectedProject.title}
                 fill
-                className="object-cover object-top opacity-40 dark:opacity-40"
+                className="object-cover object-top opacity-95 dark:opacity-35"
                 sizes="(max-width: 1024px) 100vw, 1024px"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-modal to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-modal via-modal/80 to-transparent" />
 
               <div className="absolute bottom-6 md:bottom-10 left-6 md:left-12 pr-6">
                 <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">
@@ -455,24 +455,22 @@ export default function Projects() {
             </div>
 
             {/* Tabs Bar */}
-            <div className="flex border-b border-card-border bg-[#030c16] px-6 md:px-12 gap-4 shrink-0">
+            <div className="flex border-b border-card-border bg-secondary/50 dark:bg-card/50 px-6 md:px-12 gap-2 sm:gap-4 shrink-0">
               <button
                 onClick={() => setActiveTab("case-study")}
-                className={`px-4 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 transition-all duration-300 cursor-pointer ${
-                  activeTab === "case-study"
-                    ? "border-primary text-primary font-bold"
-                    : "border-transparent text-foreground/40 hover:text-foreground/70"
-                }`}
+                className={`px-4 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "case-study"
+                  ? "border-primary text-primary font-bold"
+                  : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
+                  }`}
               >
                 Case Study
               </button>
               <button
                 onClick={() => setActiveTab("documentation")}
-                className={`px-4 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 transition-all duration-300 cursor-pointer ${
-                  activeTab === "documentation"
-                    ? "border-primary text-primary font-bold"
-                    : "border-transparent text-foreground/40 hover:text-foreground/70"
-                }`}
+                className={`px-4 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "documentation"
+                  ? "border-primary text-primary font-bold"
+                  : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
+                  }`}
               >
                 Documentation
               </button>
@@ -488,7 +486,7 @@ export default function Projects() {
                     <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                       <span className="w-8 h-px bg-primary/50" /> Background & Problem
                     </h3>
-                    <p className="text-foreground/70 leading-relaxed text-base md:text-lg">
+                    <p className="text-foreground/80 dark:text-foreground/70 leading-relaxed text-base md:text-lg">
                       {selectedProject.problem}
                     </p>
                   </section>
@@ -498,7 +496,7 @@ export default function Projects() {
                     <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                       <span className="w-8 h-px bg-primary/50" /> Design Solution
                     </h3>
-                    <p className="text-foreground/70 leading-relaxed text-base md:text-lg">
+                    <p className="text-foreground/80 dark:text-foreground/70 leading-relaxed text-base md:text-lg">
                       {selectedProject.solution}
                     </p>
                   </section>
@@ -510,7 +508,7 @@ export default function Projects() {
                     </h3>
                     <div className="bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/10 dark:border-emerald-500/20 rounded-2xl p-6 flex gap-4 items-start">
                       <CheckCircleOne className="text-emerald-500 shrink-0 mt-1" size={24} />
-                      <p className="text-emerald-800 dark:text-emerald-50 font-medium leading-relaxed">
+                      <p className="text-emerald-800 dark:text-emerald-500 font-medium leading-relaxed">
                         {selectedProject.results}
                       </p>
                     </div>
@@ -529,9 +527,9 @@ export default function Projects() {
                           <div
                             key={imgSrc}
                             onClick={() => setActiveLightboxImg(imgSrc)}
-                            className="group/image relative overflow-hidden rounded-xl border border-card-border hover:border-primary/30 bg-card p-2 transition-all duration-300 cursor-zoom-in"
+                            className="group/image relative overflow-hidden rounded-xl border border-card-border hover:border-primary/30 hover:shadow-md bg-card p-2 transition-all duration-300 cursor-zoom-in hover:scale-[1.01] active:scale-[0.99]"
                           >
-                            <div className="relative overflow-hidden rounded-lg bg-black/40 flex items-center justify-center aspect-[4/3]">
+                            <div className="relative overflow-hidden rounded-lg bg-secondary/40 dark:bg-black/40 flex items-center justify-center aspect-[4/3]">
                               <img
                                 src={imgSrc}
                                 alt={formatImageName(imgSrc)}
@@ -539,7 +537,7 @@ export default function Projects() {
                               />
                             </div>
                             <div className="mt-3 px-2 flex justify-between items-center">
-                              <span className="text-xs font-semibold text-foreground/70 uppercase tracking-wider">
+                              <span className="text-xs font-semibold text-foreground/80 dark:text-foreground/70 uppercase tracking-wider">
                                 {formatImageName(imgSrc)}
                               </span>
                             </div>
@@ -555,25 +553,25 @@ export default function Projects() {
 
               {/* Sidebar Info (Right Column) */}
               <div className="space-y-8">
-                <div className="bg-secondary/30 dark:bg-white/[0.02] border border-card-border rounded-2xl p-6">
-                  <h4 className="text-sm font-bold text-foreground/40 uppercase tracking-wider mb-4">Project Information</h4>
+                <div className="bg-secondary/50 dark:bg-white/[0.02] border border-card-border rounded-2xl p-6">
+                  <h4 className="text-sm font-bold text-foreground/60 dark:text-foreground/40 uppercase tracking-wider mb-4">Project Information</h4>
 
                   <div className="space-y-4">
                     <div>
-                      <span className="block text-xs text-foreground/50 mb-1">Category</span>
+                      <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-1">Category</span>
                       <span className="text-sm font-medium text-foreground">{selectedProject.category}</span>
                     </div>
 
                     <div>
-                      <span className="block text-xs text-foreground/50 mb-1">My Role</span>
+                      <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-1">My Role</span>
                       <span className="text-sm font-medium text-foreground">UI/UX Designer</span>
                     </div>
 
                     <div>
-                      <span className="block text-xs text-foreground/50 mb-2">Tools & Tech</span>
+                      <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-2">Tools & Tech</span>
                       <div className="flex flex-wrap gap-2">
                         {selectedProject.tags.map((tag) => (
-                          <span key={tag} className="text-[10px] px-2.5 py-1 rounded-md bg-primary/10 text-primary border border-primary/20 font-bold uppercase tracking-wider">
+                          <span key={tag} className="text-[10px] px-2.5 py-1 rounded-md bg-primary/10 dark:bg-primary/20 text-primary border border-primary/20 font-bold uppercase tracking-wider">
                             {tag}
                           </span>
                         ))}
@@ -587,7 +585,7 @@ export default function Projects() {
                         href={selectedProject.figmaLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#F24E1E]/10 hover:bg-[#F24E1E]/20 text-[#F24E1E] font-bold border border-[#F24E1E]/20 transition-colors"
+                        className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#F24E1E]/10 hover:bg-[#F24E1E]/20 text-[#F24E1E] font-bold border border-[#F24E1E]/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                       >
                         <Figma size={18} /> View in Figma
                       </a>
@@ -598,7 +596,7 @@ export default function Projects() {
                         href={selectedProject.githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground font-bold border border-card-border transition-colors"
+                        className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground font-bold border border-card-border transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                       >
                         <Github size={18} /> Source Code
                       </a>
