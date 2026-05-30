@@ -1,62 +1,123 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mail, Linkedin, Dribbble, Instagram, ArrowUpRight } from "@mynaui/icons-react";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const socialLinks = [
-  { name: "Email", icon: <Mail size={20} />, href: "mailto:your.email@example.com", color: "bg-blue-500" },
-  { name: "LinkedIn", icon: <Linkedin size={20} />, href: "#", color: "bg-indigo-600" },
-  { name: "Instagram", icon: <Instagram size={20} />, href: "#", color: "bg-pink-500" },
-  { name: "Dribbble", icon: <Dribbble size={20} />, href: "#", color: "bg-rose-400" },
+  { name: "Email", icon: <Mail size={20} />, href: "mailto:dhanipraditya@gmail.com", color: "bg-blue-500" },
+  { name: "LinkedIn", icon: <Linkedin size={20} />, href: "https://www.linkedin.com/in/dhanipraditya/", color: "bg-indigo-600" },
+  { name: "Instagram", icon: <Instagram size={20} />, href: "http://instagram.com/dhannp", color: "bg-pink-500" },
 ];
 
+const brandStyleMap: Record<string, { glow: string; border: string; text: string }> = {
+  Email: {
+    glow: "rgba(59, 130, 246, 0.15)",
+    border: "rgba(59, 130, 246, 0.4)",
+    text: "group-hover:text-blue-500"
+  },
+  LinkedIn: {
+    glow: "rgba(79, 70, 229, 0.15)",
+    border: "rgba(79, 70, 229, 0.4)",
+    text: "group-hover:text-indigo-500"
+  },
+  Instagram: {
+    glow: "rgba(236, 72, 153, 0.15)",
+    border: "rgba(236, 72, 153, 0.4)",
+    text: "group-hover:text-pink-500"
+  }
+};
 
 export default function Contact() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      if (containerRef.current) {
+        gsap.fromTo(
+          containerRef.current,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section id="contact" className="py-20 md:py-32 px-4">
       <div className="max-w-5xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 border-white/5 relative overflow-hidden"
+        <div
+          ref={containerRef}
+          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 relative opacity-0"
         >
-          {/* Decorative gradients */}
-          <div className="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 rounded-full blur-[80px]" />
-          <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-purple-500/20 rounded-full blur-[80px]" />
-
           <span className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 block">
-            Let's Work Together
+            Let&apos;s Work Together
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 md:mb-8 tracking-tight">
             Ready to bring your <br /> <span className="text-gradient">next project</span> to life?
           </h2>
           <p className="text-foreground/60 text-lg md:text-xl max-w-2xl mx-auto mb-12">
-            I'm currently available for freelance projects and full-time opportunities. Feel free to reach out if you want to collaborate or just say hi!
+            I&apos;m currently available for freelance projects and full-time opportunities. Feel free to reach out if you want to collaborate or just say hi!
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="flex items-center gap-3 px-6 py-3 glass rounded-2xl border-white/10 hover:border-primary/50 transition-all hover:scale-105 active:scale-95 group"
-              >
-                <span className="text-foreground/70 group-hover:text-primary transition-colors">
-                  {link.icon}
-                </span>
-                <span className="font-semibold">{link.name}</span>
-                <ArrowUpRight size={16} className="text-foreground/30 group-hover:text-primary transition-colors" />
-              </a>
-            ))}
+            {socialLinks.map((link) => {
+              const brand = brandStyleMap[link.name] || {
+                glow: "rgba(59, 130, 246, 0.15)",
+                border: "rgba(59, 130, 246, 0.4)",
+                text: "group-hover:text-primary"
+              };
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center gap-3 px-6 py-3 glass rounded-2xl transition-all hover:scale-105 active:scale-95 group"
+                  style={{
+                    "--hover-glow": brand.glow,
+                    "--hover-border": brand.border,
+                  } as React.CSSProperties}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "var(--hover-border)";
+                    e.currentTarget.style.boxShadow = "0 8px 24px var(--hover-glow)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "";
+                    e.currentTarget.style.boxShadow = "";
+                  }}
+                >
+                  <span className={`text-foreground/70 ${brand.text} transition-colors`}>
+                    {link.icon}
+                  </span>
+                  <span className="font-semibold">{link.name}</span>
+                  <ArrowUpRight size={16} className={`text-foreground/30 ${brand.text} transition-colors`} />
+                </a>
+              );
+            })}
           </div>
 
-          <div className="mt-16 pt-16 border-t border-white/5">
+          <div className="mt-16 pt-16 border-t border-card-border">
             <p className="text-foreground/40 text-sm font-medium">
               Based in Indonesia • Available for Remote Work
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
-const montserrat = Montserrat({subsets:['latin'],variable:'--font-sans'});
+const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-sans' });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -12,7 +13,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "UI/UX Designer | Portfolio",
-  description: "Professional portfolio of a UI/UX Designer showcasing innovative designs, user research, and interactive prototypes.",
+  description: "Professional portfolio of Dhani Praditya as a UI/UX Designer showcasing innovative designs, user research, and interactive prototypes.",
 };
 
 export default function RootLayout({
@@ -23,10 +24,31 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("scroll-smooth dark", plusJakartaSans.variable, "font-sans", montserrat.variable)}
+      className={cn("scroll-smooth", plusJakartaSans.variable, "font-sans", montserrat.variable)}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="bg-background text-foreground selection:bg-primary/30 font-sans">
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

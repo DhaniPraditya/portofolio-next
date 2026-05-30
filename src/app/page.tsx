@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import BackgroundMesh from "@/components/BackgroundMesh";
+import DynamicBackground from "@/components/DynamicBackground";
 import ProfileCard from "@/components/ui/ProfileCard";
 import { CheckCircle, User } from "@mynaui/icons-react";
 
@@ -16,7 +16,7 @@ const SkillsDeck = dynamic(() => import("@/components/ui/SkillsDeck"));
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden">
-      <BackgroundMesh />
+      <DynamicBackground />
 
       <div className="relative z-10">
         <Navbar />
@@ -26,7 +26,15 @@ export default function Home() {
         <section id="about" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
             <div className="relative flex justify-center">
-              <ProfileCard avatarUrl="/me-no-bg.svg" />
+              <ProfileCard
+                avatarUrl="/me-no-bg.svg"
+                showUserInfo={true}
+                name="Dhani Praditya"
+                title="UI/UX Designer"
+                handle="dhanipraditya"
+                status="Available for Hire"
+                contactText="Contact"
+              />
             </div>
 
             <div className="text-center lg:text-left">
@@ -38,7 +46,7 @@ export default function Home() {
                 Crafting Digital Products with a <span className="text-gradient">Human-Centered</span> Approach.
               </h2>
               <p className="text-foreground/60 text-lg leading-relaxed mb-8 text-left">
-                I'm a UI/UX Designer who believes that great design is not just about how it looks, but how it works for the people who use it. With over 3 years of experience in the creative industry, I've worked on everything from minimalist branding to complex SaaS platforms.
+                I&apos;m a UI/UX Designer who believes that great design is not just about how it looks, but how it works for the people who use it. With over 3 years of experience in the creative industry, I&apos;ve worked on everything from minimalist branding to complex SaaS platforms.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
