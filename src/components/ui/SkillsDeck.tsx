@@ -612,31 +612,31 @@ export default function SkillsDeck() {
                               onClick={() => setSelectedNode("lands")}
                               aria-label="User Discovery Stage"
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "lands"
-                                ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                ? "bg-purple-600 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
                                 : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
                                 }`}
                             >
                               1
                             </button>
-
+ 
                             {/* Node 2 */}
                             <button
                               onClick={() => setSelectedNode("bento")}
                               aria-label="Interaction Stage"
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "bento"
-                                ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                ? "bg-purple-600 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
                                 : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
                                 }`}
                             >
                               2
                             </button>
-
+ 
                             {/* Node 3 */}
                             <button
                               onClick={() => setSelectedNode("conversion")}
                               aria-label="Conversion Achievement Stage"
                               className={`w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer z-10 transition-all ${selectedNode === "conversion"
-                                ? "bg-purple-550 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                                ? "bg-purple-600 dark:bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]"
                                 : "bg-card border-card-border text-foreground/50 hover:border-foreground/25"
                                 }`}
                             >

@@ -51,13 +51,13 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
       >
         {/* Browser Header Bar */}
         <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5 bg-zinc-950/80">
-          <div className="flex gap-1">
-            <span className="w-2 h-2 rounded-full bg-white/10" />
-            <span className="w-2 h-2 rounded-full bg-white/10" />
-            <span className="w-2 h-2 rounded-full bg-white/10" />
+          <div className="flex gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
           </div>
-          <div className="w-48 mx-auto h-4 rounded bg-white/5 border border-white/5 flex items-center justify-center">
-            <span className="text-[8px] text-foreground/30 font-mono tracking-wider">
+          <div className="w-48 mx-auto h-4.5 rounded-md bg-white/10 border border-white/10 flex items-center justify-center">
+            <span className="text-[8px] text-foreground/45 font-mono tracking-wider">
               dhanipraditya.com
             </span>
           </div>

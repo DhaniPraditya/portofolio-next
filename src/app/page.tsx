@@ -83,7 +83,7 @@ export default function Home() {
         {/* Contact Section */}
         <Contact />
 
-        <footer className="py-20 border-t border-white/5 text-center px-4">
+        <footer className="py-20 border-t border-card-border text-center px-4">
           <h2 className="text-2xl font-bold mb-8 tracking-tighter text-gradient">DESIGNER.</h2>
           <p className="text-foreground/20 text-xs uppercase tracking-[0.3em] font-bold">
             © {new Date().getFullYear()} All Rights Reserved • Built with Next.js

@@ -12,11 +12,11 @@ if (typeof window !== "undefined") {
 
 const projects = [
   {
-    title: "Digimar Platform",
-    category: "Web App • Digital Marketing",
+    title: "Social Commerce Analytics",
+    category: "Web App • UI Design",
     description: "A comprehensive platform for creator discovery and digital campaign management with a focus on data visualization.",
     image: "/projects/digimar/creator-discovery.svg",
-    tags: ["UI Design", "Dashboard", "Marketing"],
+    tags: ["UI Design", "Wireframing"],
     figmaLink: "https://www.figma.com/design/uLqpw7F2BT57DNPdgax6RW/Demo-Project?node-id=52-438&t=Cb1thkR2Q35BAlRi-1",
     problem: "Marketers struggled to efficiently discover and evaluate content creators. Data was scattered across various platforms, and campaign ROI tracking was done manually, leading to a waste of time and budget.",
     solution: "Designed a centralized dashboard that visualizes creator metrics and campaign performance in real-time. Leveraged a clean user interface to simplify creator data comparison.",
@@ -37,11 +37,11 @@ const projects = [
     ]
   },
   {
-    title: "Interactive E-book Design",
-    category: "Digital Publication • UI/UX",
+    title: "E-book Digital Library",
+    category: "Web App • UI Design",
     description: "Creating an immersive and engaging reading experience through modern layout and interactive elements.",
     image: "/projects/ebook/home.svg",
-    tags: ["Editorial", "Interactivity", "Layout"],
+    tags: ["Wireframing", "System Design", "Responsive Layout"],
     figmaLink: "https://www.figma.com/design/Wh35WfhYyWnTM8bYpzx6QG/eBook_Public_Library_Dhani-Praditya?node-id=9-139&t=MsYUBcoGMeA0UkS1-1",
     problem: "E-book readers often found traditional static text layouts boring, lacking interactivity, and hard to navigate, especially on small-screen digital devices.",
     solution: "Developed a modern editorial layout system with interactive elements, highly accessible typography, and intuitive chapter navigation resembling a premium app experience.",
@@ -53,11 +53,11 @@ const projects = [
     ]
   },
   {
-    title: "NR Project Branding",
-    category: "Branding • UI Design",
+    title: "Nusantara Regas Daily Report System",
+    category: "Web App • UI Design",
     description: "Developing a cohesive visual identity and user interface that aligns with modern branding standards.",
     image: "/projects/nr/form.svg",
-    tags: ["Branding", "Identity", "UX"],
+    tags: ["Wireframing", "Prototyping"],
     figmaLink: "https://www.figma.com/design/qk3oavqR3VLOnw7Lij9HQU/Intern-Project?node-id=0-1&t=lyDb0zrl5krTetlS-1",
     problem: "The brand's visual identity was inconsistent across various digital platforms, leading to a lack of user trust and low conversion rates on registration forms.",
     solution: "Conducted a comprehensive rebranding of the visual identity. Simplified interaction forms using solid UX form design principles (clear micro-copy, inline error validation).",
@@ -70,11 +70,11 @@ const projects = [
     ]
   },
   {
-    title: "Sistem Informasi Skripsi",
-    category: "Web Application • Academic",
+    title: "Registration System",
+    category: "Web App • UI/UX Redesign",
     description: "A specialized system designed to streamline academic workflows and data management for thesis projects.",
     image: "/projects/skripsi/dashboard.svg",
-    tags: ["System Design", "Academic", "Web App"],
+    tags: ["UI/UX Design", "System Design"],
     figmaLink: "https://www.figma.com/design/GIvi6Iu49dVW4UmRK3uFES/SKRIPSI-FIX?node-id=159-2010&t=CbYL7IqzUwm2AWkf-1",
     githubLink: "https://github.com/DhaniPraditya/Redesign-Website-Sistem-Registrasi-UNY",
     problem: "The thesis registration, advising, and archiving process relied on a legacy system that confused both students and advisors, frequently leading to administrative errors.",
@@ -89,7 +89,7 @@ const projects = [
   },
   {
     title: "Artisan Crafts",
-    category: "Responsive Web Application • E-commerce",
+    category: "Responsive Web App • UI/UX Design",
     description: "A responsive e-commerce platform for artisan crafts with a focus on product visualization and user interaction.",
     image: "/projects/artisan/Home-Desktop.svg",
     tags: ["UI Design", "E-commerce", "Responsive Design"],
