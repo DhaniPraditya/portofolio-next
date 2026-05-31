@@ -46,7 +46,7 @@ export default function Home() {
                 Crafting Digital Products with a <span className="text-gradient">Human-Centered</span> Approach.
               </h2>
               <p className="text-foreground/60 text-lg leading-relaxed mb-8 text-left">
-                I&apos;m a UI/UX Designer who believes that great design is not just about how it looks, but how it works for the people who use it. With over 3 years of experience in the creative industry, I&apos;ve worked on everything from minimalist branding to complex SaaS platforms.
+                I am a detail-oriented UI/UX Designer bridging the gap between user needs and technical implementation. Leveraging strong analytical skills, I drive the end-to-end lifecycle—from user research and scalable, responsive design systems to interactive high-fidelity prototypes.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
