@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Montserrat } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-sans' });
-
 const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta-sans",
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -24,7 +22,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("scroll-smooth", plusJakartaSans.variable, "font-sans", montserrat.variable)}
+      className={cn("scroll-smooth", plusJakartaSans.variable, "font-sans")}
       suppressHydrationWarning
     >
       <head>
