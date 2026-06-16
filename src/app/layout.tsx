@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import "@aejkatappaja/phantom-ui/ssr.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { SkeletonProvider } from "@/components/SkeletonProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -45,7 +47,9 @@ export default function RootLayout({
       </head>
       <body className="bg-background text-foreground selection:bg-primary/30 font-sans">
         <ThemeProvider>
-          {children}
+          <SkeletonProvider>
+            {children}
+          </SkeletonProvider>
         </ThemeProvider>
       </body>
     </html>
