@@ -32,7 +32,7 @@ export default function Hero() {
     <section id="home" className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-4 md:px-12 max-w-7xl mx-auto pt-24 pb-16 md:pt-20 gap-8 md:gap-12 overflow-hidden">
       <div
         ref={containerRef}
-        className="relative z-10 text-center md:text-left w-full md:w-1/2"
+        className="relative z-10 text-center md:text-left w-full md:flex-1"
       >
         <span
           ref={badgeRef}
@@ -74,7 +74,7 @@ export default function Hero() {
       {/* SimpleShowcase — hidden on mobile */}
       <div
         ref={showcaseRef}
-        className="relative z-10 w-full md:w-1/2 hidden md:flex justify-center md:justify-end mt-4 md:mt-0 opacity-0"
+        className="relative z-10 w-full md:flex-1 hidden md:flex justify-center md:justify-end mt-4 md:mt-0 pr-4 md:pr-8 opacity-0"
       >
         <SimpleShowcase mockupImages={mockupImages} />
       </div>
