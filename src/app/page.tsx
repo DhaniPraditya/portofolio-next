@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import DynamicBackground from "@/components/DynamicBackground";
 import ProfileCard from "@/components/ui/ProfileCard";
+import Contact from "@/components/Contact";
 import { CheckCircle, User } from "@mynaui/icons-react";
 import SkeletonContainer from "@/components/ui/SkeletonContainer";
 import SkeletonController from "@/components/ui/SkeletonController";
@@ -10,8 +11,8 @@ import SkeletonController from "@/components/ui/SkeletonController";
 // ─── Lazy-loaded sections (below the fold) ───────────────────────────────────
 // UX Guideline: Load content as needed — don't load everything upfront.
 const Projects = dynamic(() => import("@/components/Projects"));
-const Contact = dynamic(() => import("@/components/Contact"));
 const SkillsDeck = dynamic(() => import("@/components/ui/SkillsDeck"));
+
 
 export default function Home() {
   return (

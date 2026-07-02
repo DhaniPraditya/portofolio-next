@@ -1,18 +1,9 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Mail, Linkedin, Dribbble, Instagram, ArrowUpRight } from "@mynaui/icons-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { Mail, Linkedin, Chat, ArrowUpRight } from "@mynaui/icons-react";
 
 const socialLinks = [
   { name: "Email", icon: <Mail size={20} />, href: "mailto:dhanipraditya@gmail.com", color: "bg-blue-500" },
   { name: "LinkedIn", icon: <Linkedin size={20} />, href: "https://www.linkedin.com/in/dhanipraditya/", color: "bg-indigo-600" },
-  { name: "Instagram", icon: <Instagram size={20} />, href: "http://instagram.com/dhannp", color: "bg-pink-500" },
+  { name: "WhatsApp", icon: <Chat size={20} />, href: "https://wa.me/6281229104873", color: "bg-emerald-500" },
 ];
 
 const brandStyleMap: Record<string, { glow: string; border: string; text: string }> = {
@@ -26,46 +17,19 @@ const brandStyleMap: Record<string, { glow: string; border: string; text: string
     border: "rgba(79, 70, 229, 0.4)",
     text: "group-hover:text-indigo-500"
   },
-  Instagram: {
-    glow: "rgba(236, 72, 153, 0.15)",
-    border: "rgba(236, 72, 153, 0.4)",
-    text: "group-hover:text-pink-500"
+  WhatsApp: {
+    glow: "rgba(16, 185, 129, 0.15)",
+    border: "rgba(16, 185, 129, 0.4)",
+    text: "group-hover:text-emerald-500"
   }
 };
 
 export default function Contact() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (containerRef.current) {
-        gsap.fromTo(
-          containerRef.current,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top 85%",
-              once: true,
-            },
-          }
-        );
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section id="contact" className="py-20 md:py-32 px-4">
       <div className="max-w-5xl mx-auto text-center">
         <div
-          ref={containerRef}
-          className="glass rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 relative opacity-0"
+          className="bg-card/60 backdrop-blur-md border border-card-border rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 relative shadow-2xl"
         >
           <span className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 block">
             Let&apos;s Work Together
@@ -88,19 +52,11 @@ export default function Contact() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="flex items-center gap-3 px-6 py-3 glass rounded-2xl transition-all hover:scale-105 active:scale-95 group"
+                  className="flex items-center gap-3 px-6 py-3 bg-secondary/50 dark:bg-card/50 border border-card-border rounded-2xl transition-all hover:scale-105 active:scale-95 group social-link-card"
                   style={{
                     "--hover-glow": brand.glow,
                     "--hover-border": brand.border,
                   } as React.CSSProperties}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "var(--hover-border)";
-                    e.currentTarget.style.boxShadow = "0 8px 24px var(--hover-glow)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "";
-                    e.currentTarget.style.boxShadow = "";
-                  }}
                 >
                   <span className={`text-foreground/70 ${brand.text} transition-colors`}>
                     {link.icon}
@@ -122,3 +78,4 @@ export default function Contact() {
     </section>
   );
 }
+

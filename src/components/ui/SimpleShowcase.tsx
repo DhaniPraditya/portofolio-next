@@ -1,7 +1,3 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
 import Image from "next/image";
 
 interface SimpleShowcaseProps {
@@ -13,41 +9,15 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
   const desktopImage = mockupImages[0];
   const mobileImage = mockupImages[1];
 
-  const desktopRef = useRef<HTMLDivElement>(null);
-  const mobileRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (desktopRef.current) {
-      gsap.to(desktopRef.current, {
-        y: -10,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-    }
-
-    if (mobileRef.current) {
-      gsap.to(mobileRef.current, {
-        y: 10,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: 0.5
-      });
-    }
-  }, []);
 
   return (
     <div className="relative w-full max-w-[500px] aspect-[4/3] flex items-center justify-center z-10 select-none">
       {/* ─── Ambient Backdrop Glow (Subtle & Soft) ────────────────────────────── */}
-      <div className="absolute inset-0 bg-primary/10 blur-[90px] rounded-full pointer-events-none" />
+      <div className="absolute w-[60%] h-[60%] bg-primary/10 blur-[50px] rounded-full pointer-events-none" />
 
       {/* ─── Layer 1: Desktop Browser Mockup ──────────────────────────────────── */}
       <div
-        ref={desktopRef}
-        className="absolute w-[85%] aspect-[16/10.5] rounded-2xl bg-zinc-950/90 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] overflow-hidden flex flex-col left-4 top-8"
+        className="absolute w-[85%] aspect-[16/10.5] rounded-2xl bg-zinc-950/90 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] overflow-hidden flex flex-col left-4 top-8 animate-float-desktop"
       >
         {/* Browser Header Bar */}
         <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5 bg-zinc-950/80">
@@ -78,8 +48,7 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
 
       {/* ─── Layer 2: Overlapping Mobile Phone Mockup ─────────────────────────── */}
       <div
-        ref={mobileRef}
-        className="absolute right-4 bottom-4 w-[28%] aspect-[9/18.5] rounded-[1.75rem] bg-zinc-950 border-[3.5px] border-white/10 shadow-[0_20px_45px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col p-1 z-20"
+        className="absolute right-4 bottom-4 w-[28%] aspect-[9/18.5] rounded-[1.75rem] bg-zinc-950 border-[3.5px] border-white/10 shadow-[0_20px_45px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col p-1 z-20 animate-float-mobile"
       >
         {/* Dynamic Island Notch */}
         <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-8 h-2.5 rounded-full bg-black z-30" />

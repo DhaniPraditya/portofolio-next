@@ -1,7 +1,3 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
 import { ArrowRight, Download } from "@mynaui/icons-react";
 import Link from "next/link";
 import ShinyText from "@/components/ui/ShinyText";
@@ -13,31 +9,10 @@ const mockupImages = [
 ];
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLSpanElement>(null);
-  const showcaseRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (containerRef.current) gsap.fromTo(containerRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
-      if (badgeRef.current) gsap.fromTo(badgeRef.current, { opacity: 0 }, { opacity: 1, duration: 0.8, delay: 0.2, ease: "power2.out" });
-      if (showcaseRef.current) gsap.fromTo(showcaseRef.current, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, delay: 0.4, ease: "power2.out" });
-      if (scrollRef.current) gsap.fromTo(scrollRef.current, { opacity: 0 }, { opacity: 1, duration: 1, delay: 1, ease: "power2.out" });
-    });
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section id="home" className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-4 md:px-12 max-w-7xl mx-auto pt-24 pb-16 md:pt-20 gap-8 md:gap-12 overflow-hidden">
-      <div
-        ref={containerRef}
-        className="relative z-10 text-center md:text-left w-full md:w-1/2"
-      >
-        <span
-          ref={badgeRef}
-          className="px-4 py-1.5 mb-6 inline-block text-xs font-semibold tracking-widest uppercase rounded-full glass text-primary opacity-0"
-        >
+      <div className="relative z-10 text-center md:text-left w-full md:w-1/2 animate-fade-in-up">
+        <span className="px-4 py-1.5 mb-6 inline-block text-xs font-semibold tracking-widest uppercase rounded-full glass text-primary animate-fade-in delay-200">
           Available for New Projects
         </span>
 
@@ -72,21 +47,16 @@ export default function Hero() {
       </div>
 
       {/* SimpleShowcase — hidden on mobile */}
-      <div
-        ref={showcaseRef}
-        className="relative z-10 w-full md:w-1/2 hidden md:flex justify-center md:justify-end mt-4 md:mt-0 opacity-0"
-      >
+      <div className="relative z-10 w-full md:w-1/2 hidden md:flex justify-center md:justify-end mt-4 md:mt-0 animate-fade-in-scale-up delay-400">
         <SimpleShowcase mockupImages={mockupImages} />
       </div>
 
       {/* Subtle Scroll Indicator */}
-      <div
-        ref={scrollRef}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
-      >
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-1000">
         <span className="text-[10px] uppercase tracking-[0.2em] text-foreground/30 font-bold">Scroll Down</span>
         <div className="w-px h-10 bg-gradient-to-b from-primary/50 to-transparent" />
       </div>
     </section>
   );
 }
+
