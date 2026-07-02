@@ -89,15 +89,26 @@ export default function SkillsDeck() {
     return () => ctx.revert();
   }, []);
 
-  // Fade transition on tab change
+  // Fade transition on tab change with stagger animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       if (tabContentRef.current) {
+        // Animate container opacity smoothly
         gsap.fromTo(
           tabContentRef.current,
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+          { opacity: 0 },
+          { opacity: 1, duration: 0.2, ease: "power1.out" }
         );
+
+        // Stagger transition for child cards/tiles
+        const items = tabContentRef.current.querySelectorAll(".skills-phase-card, .group\\/tile");
+        if (items.length > 0) {
+          gsap.fromTo(
+            items,
+            { opacity: 0, y: 15, scale: 0.98 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power2.out", stagger: 0.03, delay: 0.05 }
+          );
+        }
       }
     }, tabContentRef);
 
@@ -141,7 +152,7 @@ export default function SkillsDeck() {
             {designPhases.map((phase) => (
               <div
                 key={phase.title}
-                className="relative overflow-hidden rounded-[2rem] border border-card-border bg-card/60 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-primary/30 transition-all hover:shadow-xl group/card"
+                className="relative overflow-hidden rounded-[2rem] border border-card-border bg-card/60 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-primary/30 transition-all hover:shadow-xl group/card skills-phase-card"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
