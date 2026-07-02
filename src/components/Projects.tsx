@@ -135,10 +135,12 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
     const shouldReduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const duration = shouldReduce ? 0.05 : 0.3;
 
-    gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration, ease: "power2.out" });
-    gsap.fromTo(imgRef.current, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration, ease: "power2.out" });
+    const ctx = gsap.context(() => {
+      gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration, ease: "power2.out" });
+      gsap.fromTo(imgRef.current, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration, ease: "power2.out" });
+    });
 
-    return () => { };
+    return () => ctx.revert();
   }, []);
 
   const handleClose = () => {
@@ -254,17 +256,23 @@ export default function Projects() {
 
   // Modal Entry Animation
   useEffect(() => {
-    if (selectedProject && modalOverlayRef.current && modalContentRef.current) {
-      gsap.fromTo(modalOverlayRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.3, ease: "power2.out" }
-      );
+    if (!selectedProject) return;
 
-      gsap.fromTo(modalContentRef.current,
-        { opacity: 0, y: 50, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.5)", delay: 0.1 }
-      );
-    }
+    const ctx = gsap.context(() => {
+      if (modalOverlayRef.current && modalContentRef.current) {
+        gsap.fromTo(modalOverlayRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.3, ease: "power2.out" }
+        );
+
+        gsap.fromTo(modalContentRef.current,
+          { opacity: 0, y: 50, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.5)", delay: 0.1 }
+        );
+      }
+    });
+
+    return () => ctx.revert();
   }, [selectedProject]);
 
   // GSAP Animations with proper Context Cleanup (Performance Fix)

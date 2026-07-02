@@ -35,13 +35,16 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (navRef.current) {
-      gsap.fromTo(
-        navRef.current,
-        { y: -100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
-      );
-    }
+    const ctx = gsap.context(() => {
+      if (navRef.current) {
+        gsap.fromTo(
+          navRef.current,
+          { y: -100, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
+        );
+      }
+    });
+    return () => ctx.revert();
   }, []);
 
   return (
