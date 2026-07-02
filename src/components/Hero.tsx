@@ -11,7 +11,7 @@ const mockupImages = [
 export default function Hero() {
   return (
     <section id="home" className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-4 md:px-12 max-w-7xl mx-auto pt-24 pb-16 md:pt-20 gap-8 md:gap-12 overflow-hidden">
-      <div className="relative z-10 text-center md:text-left w-full md:w-1/2 animate-fade-in-up">
+      <div className="relative z-10 text-center md:text-left w-full md:flex-1 animate-fade-in-up">
         <span className="px-4 py-1.5 mb-6 inline-block text-xs font-semibold tracking-widest uppercase rounded-full glass text-primary animate-fade-in delay-200">
           Available for New Projects
         </span>
@@ -47,7 +47,7 @@ export default function Hero() {
       </div>
 
       {/* SimpleShowcase — hidden on mobile */}
-      <div className="relative z-10 w-full md:w-1/2 hidden md:flex justify-center md:justify-end mt-4 md:mt-0 animate-fade-in-scale-up delay-400">
+      <div className="relative z-10 w-full md:flex-1 hidden md:flex justify-center md:justify-end mt-4 md:mt-0 pr-4 md:pr-8 animate-fade-in-scale-up delay-400">
         <SimpleShowcase mockupImages={mockupImages} />
       </div>
 
