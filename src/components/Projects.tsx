@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Github, Figma, X, ArrowRight, CheckCircleOne } from "@mynaui/icons-react";
+import { Github, Figma, X, ArrowRight, CheckCircleOne, Plus, Minus } from "@mynaui/icons-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -91,22 +91,22 @@ const projects = [
     title: "Artisan Crafts",
     category: "Responsive Web App • UI/UX Design",
     description: "A responsive e-commerce platform for artisan crafts with a focus on product visualization and user interaction.",
-    image: "/projects/artisan/Home-Desktop.svg",
+    image: "/projects/artisan/Home-Desktop.webp",
     tags: ["UI Design", "User Research", "Responsive Design", "Prototyping"],
     figmaLink: "https://www.figma.com/design/ar0qEXFcdXU2hoqS2keO1u/Capstone_AstisanCrafts?node-id=0-1&t=QKAhIpgw9JGNoeTm-1",
     problem: "Conscious shoppers experience distrust when artisan details are vague, leading to high cart abandonment when forced to register or face hidden shipping fees during mobile checkout.",
     solution: "Integrating immersive Artisan Profiles and Process Videos directly into the product discovery path to validate craftsmanship, paired with a streamlined Guest Checkout that displays all costs upfront",
     results: "Successfully bridges the emotional gap to justify premium pricing by proving product authenticity, while dramatically reducing checkout drop-offs through a fast, transparent, and account-free transaction process.",
     docsImages: [
-      "/projects/artisan/home.svg",
-      "/projects/artisan/Home-Desktop.svg",
-      "/projects/artisan/Home-Mobile.svg",
-      "/projects/artisan/ProductDetail-Desktop.svg",
-      "/projects/artisan/ProductDetail-Mobile.svg",
-      "/projects/artisan/Checkout-Desktop.svg",
-      "/projects/artisan/Checkout-Mobile.svg",
-      "/projects/artisan/ArtisanProfile-Desktop.svg",
-      "/projects/artisan/ArtisanProfile-Mobile.svg"
+      "/projects/artisan/home.webp",
+      "/projects/artisan/Home-Desktop.webp",
+      "/projects/artisan/Home-Mobile.webp",
+      "/projects/artisan/ProductDetail-Desktop.webp",
+      "/projects/artisan/ProductDetail-Mobile.webp",
+      "/projects/artisan/Checkout-Desktop.webp",
+      "/projects/artisan/Checkout-Mobile.webp",
+      "/projects/artisan/ArtisanProfile-Desktop.webp",
+      "/projects/artisan/ArtisanProfile-Mobile.webp"
     ]
   }
 ];
@@ -121,6 +121,10 @@ const formatImageName = (path: string) => {
     .join(' ');
 };
 
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 4;
+const ZOOM_STEP = 0.25;
+
 interface LightboxProps {
   src: string;
   title: string;
@@ -129,7 +133,36 @@ interface LightboxProps {
 
 function Lightbox({ src, title, onClose }: LightboxProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const dragStartRef = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
+
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
+  const clampZoom = (value: number) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
+
+  const resetView = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+
+  const handleZoomIn = () => setZoom((current) => clampZoom(current + ZOOM_STEP));
+
+  const handleZoomOut = () => {
+    setZoom((current) => {
+      const next = clampZoom(current - ZOOM_STEP);
+      if (next === MIN_ZOOM) {
+        setPan({ x: 0, y: 0 });
+      }
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    resetView();
+  }, [src]);
 
   useEffect(() => {
     const shouldReduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -137,10 +170,47 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
 
     const ctx = gsap.context(() => {
       gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration, ease: "power2.out" });
-      gsap.fromTo(imgRef.current, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration, ease: "power2.out" });
+      gsap.fromTo(contentRef.current, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration, ease: "power2.out" });
     });
 
     return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      setZoom((current) => {
+        const next = clampZoom(current + (event.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP));
+        if (next === MIN_ZOOM) {
+          setPan({ x: 0, y: 0 });
+        }
+        return next;
+      });
+    };
+
+    viewport.addEventListener("wheel", handleWheel, { passive: false });
+    return () => viewport.removeEventListener("wheel", handleWheel);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "+" || event.key === "=") {
+        event.preventDefault();
+        handleZoomIn();
+      } else if (event.key === "-") {
+        event.preventDefault();
+        handleZoomOut();
+      } else if (event.key === "0") {
+        event.preventDefault();
+        resetView();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const handleClose = () => {
@@ -148,7 +218,7 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
     const duration = shouldReduce ? 0.05 : 0.25;
 
     gsap.to(overlayRef.current, { opacity: 0, duration, ease: "power2.in" });
-    gsap.to(imgRef.current, {
+    gsap.to(contentRef.current, {
       scale: 0.9,
       opacity: 0,
       duration,
@@ -157,37 +227,134 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
     });
   };
 
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (zoom <= MIN_ZOOM) return;
+
+    setIsDragging(true);
+    dragStartRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+      panX: pan.x,
+      panY: pan.y,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || zoom <= MIN_ZOOM) return;
+
+    setPan({
+      x: dragStartRef.current.panX + (event.clientX - dragStartRef.current.x),
+      y: dragStartRef.current.panY + (event.clientY - dragStartRef.current.y),
+    });
+  };
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+
+    setIsDragging(false);
+    event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+
+  const handleDoubleClick = () => {
+    if (zoom > MIN_ZOOM) {
+      resetView();
+      return;
+    }
+
+    setZoom(2);
+  };
+
   return (
-    <div className="fixed inset-0 z-[60] flex flex-col items-center justify-center p-4 md:p-8">
-      {/* Backdrop overlay */}
+    <div className="fixed inset-0 z-[60]">
       <div
         ref={overlayRef}
         onClick={handleClose}
-        className="absolute inset-0 bg-black/95 backdrop-blur-lg cursor-zoom-out"
+        className="absolute inset-0 bg-black/95 backdrop-blur-lg"
       />
 
-      {/* Content wrapper */}
-      <div className="relative z-10 flex flex-col items-center max-w-5xl max-h-[90vh] gap-4">
-        {/* Close Button */}
-        <button
-          onClick={handleClose}
-          className="absolute -top-12 right-0 p-2.5 rounded-full bg-white/10 border border-white/10 hover:border-white/20 text-white hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-lg backdrop-blur-md"
+      <button
+        type="button"
+        onClick={handleClose}
+        className="fixed top-4 right-4 z-[70] p-2.5 rounded-full bg-white/10 border border-white/10 hover:border-white/20 text-white hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-lg backdrop-blur-md"
+        aria-label="Close preview"
+      >
+        <X size={20} />
+      </button>
+
+      <div className="relative z-10 flex h-full items-center justify-center p-4 pt-16 md:p-8 md:pt-20">
+        <div
+          ref={contentRef}
+          className="flex w-full max-w-6xl flex-col items-center gap-4 pointer-events-none"
         >
-          <X size={20} />
-        </button>
+          <div
+            ref={viewportRef}
+            className={`pointer-events-auto relative flex h-[65vh] w-full items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-black/20 shadow-2xl ${zoom > MIN_ZOOM ? "cursor-grab active:cursor-grabbing touch-none" : "cursor-default"}`}
+            style={{ touchAction: zoom > MIN_ZOOM ? "none" : "auto" }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            onDoubleClick={handleDoubleClick}
+          >
+            <img
+              src={src}
+              alt={title}
+              draggable={false}
+              className="max-h-full max-w-full select-none object-contain pointer-events-none"
+              style={{
+                transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                transformOrigin: "center center",
+                transition: isDragging ? "none" : "transform 0.2s ease",
+              }}
+            />
+          </div>
 
-        <img
-          ref={imgRef}
-          src={src}
-          alt={title}
-          className="max-w-full max-h-[80vh] object-contain rounded-lg border border-white/10 shadow-2xl bg-black/20"
-        />
+          <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 backdrop-blur-md">
+            <button
+              type="button"
+              onClick={handleZoomOut}
+              disabled={zoom <= MIN_ZOOM}
+              className="cursor-pointer rounded-full p-2 text-white transition-all duration-200 hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Zoom out"
+            >
+              <Minus size={18} />
+            </button>
 
-        {title && (
-          <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white/90 text-center mt-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 backdrop-blur-md">
-            {title}
-          </span>
-        )}
+            <span className="min-w-[4rem] text-center text-xs font-bold uppercase tracking-wider text-white/90">
+              {Math.round(zoom * 100)}%
+            </span>
+
+            <button
+              type="button"
+              onClick={handleZoomIn}
+              disabled={zoom >= MAX_ZOOM}
+              className="cursor-pointer rounded-full p-2 text-white transition-all duration-200 hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Zoom in"
+            >
+              <Plus size={18} />
+            </button>
+
+            <button
+              type="button"
+              onClick={resetView}
+              disabled={zoom === MIN_ZOOM && pan.x === 0 && pan.y === 0}
+              className="cursor-pointer rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white/90 transition-all duration-200 hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Reset
+            </button>
+          </div>
+
+          {title && (
+            <span className="pointer-events-none text-xs sm:text-sm font-bold uppercase tracking-wider text-white/90 text-center px-4 py-2 rounded-full bg-white/10 border border-white/10 backdrop-blur-md">
+              {title}
+            </span>
+          )}
+
+          <p className="pointer-events-none text-center text-[11px] uppercase tracking-wider text-white/50">
+            Scroll or use +/- to zoom • Double-click to toggle • Drag when zoomed
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -233,14 +400,20 @@ export default function Projects() {
     });
   };
 
-  // Close modal on escape key
+  // Close lightbox first, then modal on escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeModal();
+      if (e.key === "Escape") {
+        if (activeLightboxImg) {
+          setActiveLightboxImg(null);
+        } else {
+          closeModal();
+        }
+      }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [activeLightboxImg]);
 
   // Prevent scrolling when modal is open
   useEffect(() => {
