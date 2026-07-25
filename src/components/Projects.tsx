@@ -12,6 +12,20 @@ if (typeof window !== "undefined") {
 
 const projects = [
   {
+    title: "Redesign TokRum.com",
+    category: "E-Commerce • UI/UX Redesign",
+    description: "Facing low homepage engagement on TokRum due to vague messaging, I set out to redesign the page to boost conversions. By restructuring features into a Bento grid, adding dual CTAs, and integrating social proof, I successfully established immediate B2B trust while driving a high-converting user flow.",
+    image: "/projects/makers/home-desktop.svg",
+    tags: ["UI/UX Redesign"],
+    figmaLink: "https://www.figma.com/design/n9Hwxna0W3Ux7yMmrunxSq/Makers-Assesment?node-id=34-390&t=5J8snMuskrn70Qm1-1",
+    problem: "Home decor buyers on Tokrum experience high decision anxiety due to unclear product dimensions and unexpected shipping costs at checkout, leading to significant mobile cart abandonment and drop-offs during the purchase decision phase.",
+    solution: "Integrating interactive 3D/Room Visualization tools directly on the Product Detail Page to clarify spatial fit, paired with a transparent cost-breakdown calculator and a simplified One-Page Checkout flow.",
+    results: "Eliminates buyer hesitation by empowering users to visualize products in their space, while significantly driving conversion rates and reducing checkout drop-offs through complete upfront pricing transparency.",
+    docsImages: [
+      "/projects/makers/home-desktop.svg"
+    ]
+  },
+  {
     title: "Social Commerce Analytics",
     category: "Web App • UI Design",
     description: "A comprehensive platform for creator discovery and digital campaign management with a focus on data visualization.",
@@ -547,16 +561,16 @@ export default function Projects() {
               }}
             >
               {/* Image Container */}
-              <div className="relative h-52 sm:h-64 md:h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-card-border flex items-start justify-center">
+              <div className="relative w-full h-64 sm:h-80 md:h-auto md:min-h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-card-border flex items-start justify-center">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover object-top transition-transform duration-700 md:group-hover:scale-105"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority={index < 2} // Preload top 2 images for better LCP
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                   <span className="px-6 py-3 bg-primary text-white rounded-full font-bold shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                     View Case Study <ArrowRight size={18} />
                   </span>
