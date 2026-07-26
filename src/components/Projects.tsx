@@ -354,12 +354,32 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
   const [activeTab, setActiveTab] = useState<"case-study" | "documentation">("case-study");
   const [activeLightboxImg, setActiveLightboxImg] = useState<string | null>(null);
+  const modalBodyRef = useRef<HTMLDivElement>(null);
 
   const closeModal = () => {
     setSelectedProject(null);
     setActiveLightboxImg(null);
     setActiveTab("case-study");
   };
+
+  const handleTabChange = (tab: "case-study" | "documentation") => {
+    setActiveTab(tab);
+    if (modalBodyRef.current) {
+      modalBodyRef.current.scrollTop = 0;
+    }
+  };
+
+  // Reset scroll position to top whenever selected project or active tab changes
+  useEffect(() => {
+    if (selectedProject && modalBodyRef.current) {
+      modalBodyRef.current.scrollTop = 0;
+      requestAnimationFrame(() => {
+        if (modalBodyRef.current) {
+          modalBodyRef.current.scrollTop = 0;
+        }
+      });
+    }
+  }, [selectedProject, activeTab]);
 
   // Close lightbox first, then modal on escape key
   useEffect(() => {
@@ -539,7 +559,7 @@ export default function Projects() {
               <div className="flex border-b border-card-border bg-secondary/50 dark:bg-card/50 px-4 sm:px-6 md:px-12 gap-2 sm:gap-4 shrink-0 z-20">
                 <button
                   type="button"
-                  onClick={() => setActiveTab("case-study")}
+                  onClick={() => handleTabChange("case-study")}
                   className={`px-3 sm:px-4 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "case-study"
                     ? "border-primary text-primary font-bold"
                     : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
@@ -549,7 +569,7 @@ export default function Projects() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setActiveTab("documentation")}
+                  onClick={() => handleTabChange("documentation")}
                   className={`px-3 sm:px-4 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "documentation"
                     ? "border-primary text-primary font-bold"
                     : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
@@ -560,7 +580,10 @@ export default function Projects() {
               </div>
 
               {/* Case Study Body - THE ONLY SCROLLABLE AREA */}
-              <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-6 md:p-12 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-16 custom-scrollbar touch-pan-y">
+              <div
+                ref={modalBodyRef}
+                className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-6 md:p-12 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-16 custom-scrollbar touch-pan-y"
+              >
                 {/* Left Column (Content) */}
                 {activeTab === "case-study" ? (
                   <div className="lg:col-span-2 space-y-10">
