@@ -1,30 +1,25 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Search, Layout, Sparkles, Check } from "@mynaui/icons-react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 const softwareTools = [
-  { name: "Figma", color: "#F24E1E", icon: "/icons/figma.svg" },
-  { name: "Illustrator", color: "#FF9A00", icon: "/icons/illustrator.svg" },
-  { name: "Photoshop", color: "#00C8FF", icon: "/icons/photoshop.svg" },
-  { name: "Canva", color: "#00C4CC", icon: "/icons/canva.svg" },
-  { name: "CapCut", color: "#00F0FF", icon: "/icons/capcut.svg" }
+  { name: "Figma", color: "#F24E1E", icon: "/icons/figma.webp" },
+  { name: "Illustrator", color: "#FF9A00", icon: "/icons/illustrator.webp" },
+  { name: "Photoshop", color: "#00C8FF", icon: "/icons/photoshop.webp" },
+  { name: "Canva", color: "#00C4CC", icon: "/icons/canva.webp" },
+  { name: "CapCut", color: "#00F0FF", icon: "/icons/capcut.webp" }
 ];
 
 const techStack = [
-  { name: "HTML", color: "#E34F26", icon: "/icons/html.svg" },
-  { name: "CSS", color: "#1572B6", icon: "/icons/css.svg" },
-  { name: "JavaScript", color: "#F7DF1E", icon: "/icons/javascript.svg" },
-  { name: "Laravel", color: "#FF2D20", icon: "/icons/laravel.svg" },
-  { name: "PHP", color: "#777BB4", icon: "/icons/php.svg" },
-  { name: "MySQL", color: "#4479A1", icon: "/icons/mysql.svg" },
-  { name: "Python", color: "#3776AB", icon: "/icons/python.svg" }
+  { name: "HTML", color: "#E34F26", icon: "/icons/html.webp" },
+  { name: "CSS", color: "#1572B6", icon: "/icons/css.webp" },
+  { name: "JavaScript", color: "#F7DF1E", icon: "/icons/javascript.webp" },
+  { name: "Laravel", color: "#FF2D20", icon: "/icons/laravel.webp" },
+  { name: "PHP", color: "#777BB4", icon: "/icons/php.webp" },
+  { name: "MySQL", color: "#4479A1", icon: "/icons/mysql.webp" },
+  { name: "Python", color: "#3776AB", icon: "/icons/python.webp" }
 ];
 
 const designPhases = [
@@ -56,72 +51,21 @@ const designPhases = [
 
 export default function SkillsDeck() {
   const [activeTab, setActiveTab] = useState<"uiux" | "tools">("uiux");
-  const tabContentRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Staggered Scroll entrance animation on load
-  useEffect(() => {
-    const shouldReduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (shouldReduce) {
-      gsap.set(".skills-entrance", { opacity: 1, y: 0 });
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".skills-entrance",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 85%",
-            once: true
-          }
-        }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // Fade transition on tab change with stagger animation
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (tabContentRef.current) {
-        // Animate container opacity smoothly
-        gsap.fromTo(
-          tabContentRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.2, ease: "power1.out" }
-        );
-
-        // Stagger transition for child cards/tiles
-        const items = tabContentRef.current.querySelectorAll(".skills-phase-card, .group\\/tile");
-        if (items.length > 0) {
-          gsap.fromTo(
-            items,
-            { opacity: 0, y: 15, scale: 0.98 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power2.out", stagger: 0.03, delay: 0.05 }
-          );
-        }
-      }
-    }, tabContentRef);
-
-    return () => ctx.revert();
-  }, [activeTab]);
 
   return (
-    <div ref={containerRef} className="w-full flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-6">
       
       {/* ─── Tab Selector ──────────────────────────────────────────────────────── */}
-      <div className="flex justify-center mb-8 skills-entrance opacity-0">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="flex justify-center mb-8"
+      >
         <div className="relative p-1 bg-secondary/50 dark:bg-card-border/10 rounded-full flex gap-1 border border-card-border">
           <button
+            type="button"
             onClick={() => setActiveTab("uiux")}
             className={`relative z-10 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
               activeTab === "uiux"
@@ -132,6 +76,7 @@ export default function SkillsDeck() {
             UI/UX Design Process
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab("tools")}
             className={`relative z-10 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
               activeTab === "tools"
@@ -142,107 +87,136 @@ export default function SkillsDeck() {
             Tools & Stack
           </button>
         </div>
-      </div>
+      </motion.div>
 
-      {/* ─── Tab Content Panel ─────────────────────────────────────────────────── */}
-      <div ref={tabContentRef} className="w-full min-h-[350px]">
-        {activeTab === "uiux" ? (
-          /* UI/UX Design Process Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch w-full">
-            {designPhases.map((phase) => (
-              <div
-                key={phase.title}
-                className="relative overflow-hidden rounded-[2rem] border border-card-border bg-card/60 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-primary/30 transition-all hover:shadow-xl group/card skills-phase-card"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
-                    {phase.icon}
+      {/* ─── Tab Content Panel (AnimatePresence Transition) ───────────────────── */}
+      <div className="w-full min-h-[350px]">
+        <AnimatePresence mode="wait">
+          {activeTab === "uiux" ? (
+            /* UI/UX Design Process Grid */
+            <motion.div
+              key="uiux-tab"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch w-full"
+            >
+              {designPhases.map((phase, index) => (
+                <motion.div
+                  key={phase.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="relative overflow-hidden rounded-[2rem] border border-card-border bg-card/60 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-primary/30 transition-all hover:shadow-xl group/card"
+                >
+                  <div>
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
+                      {phase.icon}
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-2 block">
+                      {phase.subtitle}
+                    </span>
+                    <h3 className="text-lg sm:text-xl font-extrabold text-foreground mb-3">
+                      {phase.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-foreground/60 leading-relaxed">
+                      {phase.description}
+                    </p>
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-2 block">
-                    {phase.subtitle}
-                  </span>
-                  <h3 className="text-lg sm:text-xl font-extrabold text-foreground mb-3">
-                    {phase.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-foreground/60 leading-relaxed">
-                    {phase.description}
-                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            /* Tools & Stack Icon Only Grid */
+            <motion.div
+              key="tools-tab"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-12 w-full"
+            >
+              {/* Design Software */}
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-widest text-foreground/40 mb-6 flex items-center gap-2">
+                  <span className="w-8 h-px bg-foreground/20" /> Design Software
+                </h4>
+                <div className="flex flex-wrap gap-4 sm:gap-6 justify-start">
+                  {softwareTools.map((tool, index) => (
+                    <motion.div
+                      key={tool.name}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.03 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="group/tile flex flex-col items-center justify-center p-4 w-24 h-24 rounded-2xl border border-card-border bg-card/40 transition-all duration-300 hover:shadow-lg cursor-pointer"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = tool.color;
+                        e.currentTarget.style.boxShadow = `0 0 20px ${tool.color}20`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = "";
+                        e.currentTarget.style.boxShadow = "";
+                      }}
+                    >
+                      <div className="relative w-10 h-10 flex items-center justify-center select-none">
+                        <img
+                          src={tool.icon}
+                          alt={tool.name}
+                          className="w-8 h-8 object-contain transition-transform duration-300 group-hover/tile:scale-110"
+                        />
+                      </div>
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-foreground/45 mt-2 transition-colors duration-300 group-hover/tile:text-foreground text-center line-clamp-1">
+                        {tool.name}
+                      </span>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          /* Tools & Stack Icon Only Grid */
-          <div className="space-y-12 w-full">
-            {/* Design Software */}
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-foreground/40 mb-6 flex items-center gap-2">
-                <span className="w-8 h-px bg-foreground/20" /> Design Software
-              </h4>
-              <div className="flex flex-wrap gap-4 sm:gap-6 justify-start">
-                {softwareTools.map((tool) => (
-                  <div
-                    key={tool.name}
-                    className="group/tile flex flex-col items-center justify-center p-4 w-24 h-24 rounded-2xl border border-card-border bg-card/40 hover:scale-105 transition-all duration-300 hover:shadow-lg cursor-pointer"
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = tool.color;
-                      e.currentTarget.style.boxShadow = `0 0 20px ${tool.color}20`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = "";
-                      e.currentTarget.style.boxShadow = "";
-                    }}
-                  >
-                    <div className="relative w-10 h-10 flex items-center justify-center select-none">
-                      <img
-                        src={tool.icon}
-                        alt={tool.name}
-                        className="w-8 h-8 object-contain transition-transform duration-300 group-hover/tile:scale-110"
-                      />
-                    </div>
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-foreground/45 mt-2 transition-colors duration-300 group-hover/tile:text-foreground text-center line-clamp-1">
-                      {tool.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Development Stack */}
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-foreground/40 mb-6 flex items-center gap-2">
-                <span className="w-8 h-px bg-foreground/20" /> Coding & Technologies
-              </h4>
-              <div className="flex flex-wrap gap-4 sm:gap-6 justify-start">
-                {techStack.map((tool) => (
-                  <div
-                    key={tool.name}
-                    className="group/tile flex flex-col items-center justify-center p-4 w-24 h-24 rounded-2xl border border-card-border bg-card/40 hover:scale-105 transition-all duration-300 hover:shadow-lg cursor-pointer"
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = tool.color;
-                      e.currentTarget.style.boxShadow = `0 0 20px ${tool.color}20`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = "";
-                      e.currentTarget.style.boxShadow = "";
-                    }}
-                  >
-                    <div className="relative w-10 h-10 flex items-center justify-center select-none">
-                      <img
-                        src={tool.icon}
-                        alt={tool.name}
-                        className="w-8 h-8 object-contain transition-transform duration-300 group-hover/tile:scale-110"
-                      />
-                    </div>
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-foreground/45 mt-2 transition-colors duration-300 group-hover/tile:text-foreground text-center line-clamp-1">
-                      {tool.name}
-                    </span>
-                  </div>
-                ))}
+              {/* Development Stack */}
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-widest text-foreground/40 mb-6 flex items-center gap-2">
+                  <span className="w-8 h-px bg-foreground/20" /> Coding & Technologies
+                </h4>
+                <div className="flex flex-wrap gap-4 sm:gap-6 justify-start">
+                  {techStack.map((tool, index) => (
+                    <motion.div
+                      key={tool.name}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.03 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="group/tile flex flex-col items-center justify-center p-4 w-24 h-24 rounded-2xl border border-card-border bg-card/40 transition-all duration-300 hover:shadow-lg cursor-pointer"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = tool.color;
+                        e.currentTarget.style.boxShadow = `0 0 20px ${tool.color}20`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = "";
+                        e.currentTarget.style.boxShadow = "";
+                      }}
+                    >
+                      <div className="relative w-10 h-10 flex items-center justify-center select-none">
+                        <img
+                          src={tool.icon}
+                          alt={tool.name}
+                          className="w-8 h-8 object-contain transition-transform duration-300 group-hover/tile:scale-110"
+                        />
+                      </div>
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-foreground/45 mt-2 transition-colors duration-300 group-hover/tile:text-foreground text-center line-clamp-1">
+                        {tool.name}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       
     </div>

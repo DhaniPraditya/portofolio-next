@@ -4,7 +4,7 @@ import ShinyText from "@/components/ui/ShinyText";
 import SimpleShowcase from "@/components/ui/SimpleShowcase";
 
 const mockupImages = [
-  "/projects/skripsi/dashboard-no-navbar.svg",
+  "/projects/makers/home-no-navbar.webp",
   "/projects/artisan/home.svg"
 ];
 

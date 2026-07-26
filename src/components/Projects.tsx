@@ -2,13 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, AnimatePresence } from "framer-motion";
 import { Github, Figma, X, ArrowRight, CheckCircleOne, Plus, Minus } from "@mynaui/icons-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const projects = [
   {
@@ -18,11 +13,12 @@ const projects = [
     image: "/projects/makers/home-desktop.svg",
     tags: ["UI/UX Redesign"],
     figmaLink: "https://www.figma.com/design/n9Hwxna0W3Ux7yMmrunxSq/Makers-Assesment?node-id=34-390&t=5J8snMuskrn70Qm1-1",
-    problem: "Home decor buyers on Tokrum experience high decision anxiety due to unclear product dimensions and unexpected shipping costs at checkout, leading to significant mobile cart abandonment and drop-offs during the purchase decision phase.",
-    solution: "Integrating interactive 3D/Room Visualization tools directly on the Product Detail Page to clarify spatial fit, paired with a transparent cost-breakdown calculator and a simplified One-Page Checkout flow.",
-    results: "Eliminates buyer hesitation by empowering users to visualize products in their space, while significantly driving conversion rates and reducing checkout drop-offs through complete upfront pricing transparency.",
+    problem: "Visitors on TokRum.com struggled to grasp the platform’s core B2B value proposition due to redundant information, weak visual hierarchy, and passive CTAs, leading to low user engagement and poor conversion rates.",
+    solution: "Redesigned the main page by applying fundamental UX guidelines—establishing a strong typographic scale, restructuring features into a clean Bento Grid to eliminate redundancy, and implementing explicit, goal-oriented dual CTAs.",
+    results: "Immediately established B2B institutional trust and service clarity, eliminating user confusion and creating a streamlined, frictionless journey that guides micro-retailers and suppliers directly toward conversion.",
     docsImages: [
-      "/projects/makers/home-desktop.svg"
+      "/projects/makers/home-desktop.svg",
+      "/projects/makers/home-mockup.svg"
     ]
   },
   {
@@ -146,8 +142,6 @@ interface LightboxProps {
 }
 
 function Lightbox({ src, title, onClose }: LightboxProps) {
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const dragStartRef = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
 
@@ -177,18 +171,6 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
   useEffect(() => {
     resetView();
   }, [src]);
-
-  useEffect(() => {
-    const shouldReduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const duration = shouldReduce ? 0.05 : 0.3;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration, ease: "power2.out" });
-      gsap.fromTo(contentRef.current, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration, ease: "power2.out" });
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -226,20 +208,6 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-  const handleClose = () => {
-    const shouldReduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const duration = shouldReduce ? 0.05 : 0.25;
-
-    gsap.to(overlayRef.current, { opacity: 0, duration, ease: "power2.in" });
-    gsap.to(contentRef.current, {
-      scale: 0.9,
-      opacity: 0,
-      duration,
-      ease: "power2.in",
-      onComplete: onClose
-    });
-  };
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (zoom <= MIN_ZOOM) return;
@@ -280,26 +248,34 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[60]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[70] flex items-center justify-center p-4 md:p-8"
+    >
       <div
-        ref={overlayRef}
-        onClick={handleClose}
-        className="absolute inset-0 bg-black/95 backdrop-blur-lg"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/95 backdrop-blur-lg cursor-pointer"
       />
 
       <button
         type="button"
-        onClick={handleClose}
-        className="fixed top-4 right-4 z-[70] p-2.5 rounded-full bg-white/10 border border-white/10 hover:border-white/20 text-white hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-lg backdrop-blur-md"
+        onClick={onClose}
+        className="fixed top-4 right-4 z-[80] p-2.5 rounded-full bg-white/10 border border-white/10 hover:border-white/20 text-white hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-lg backdrop-blur-md"
         aria-label="Close preview"
       >
         <X size={20} />
       </button>
 
-      <div className="relative z-10 flex h-full items-center justify-center p-4 pt-16 md:p-8 md:pt-20">
-        <div
-          ref={contentRef}
-          className="flex w-full max-w-6xl flex-col items-center gap-4 pointer-events-none"
+      <div className="relative z-10 flex h-full items-center justify-center w-full max-w-6xl pt-12 md:pt-16">
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="flex w-full flex-col items-center gap-4 pointer-events-none"
         >
           <div
             ref={viewportRef}
@@ -368,50 +344,21 @@ function Lightbox({ src, title, onClose }: LightboxProps) {
           <p className="pointer-events-none text-center text-[11px] uppercase tracking-wider text-white/50">
             Scroll or use +/- to zoom • Double-click to toggle • Drag when zoomed
           </p>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Projects() {
-  const headerRef = useRef<HTMLHeadingElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  // State for Project Modal and tabs
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
   const [activeTab, setActiveTab] = useState<"case-study" | "documentation">("case-study");
   const [activeLightboxImg, setActiveLightboxImg] = useState<string | null>(null);
 
-  const modalOverlayRef = useRef<HTMLDivElement>(null);
-  const modalContentRef = useRef<HTMLDivElement>(null);
-
   const closeModal = () => {
-    if (!modalOverlayRef.current || !modalContentRef.current) {
-      setSelectedProject(null);
-      setActiveLightboxImg(null);
-      return;
-    }
-
-    gsap.to(modalOverlayRef.current, {
-      opacity: 0,
-      duration: 0.3,
-      ease: "power2.inOut"
-    });
-
-    gsap.to(modalContentRef.current, {
-      opacity: 0,
-      y: 20,
-      scale: 0.95,
-      duration: 0.3,
-      ease: "power2.inOut",
-      onComplete: () => {
-        setSelectedProject(null);
-        setActiveLightboxImg(null);
-        setActiveTab("case-study");
-      }
-    });
+    setSelectedProject(null);
+    setActiveLightboxImg(null);
+    setActiveTab("case-study");
   };
 
   // Close lightbox first, then modal on escape key
@@ -420,122 +367,53 @@ export default function Projects() {
       if (e.key === "Escape") {
         if (activeLightboxImg) {
           setActiveLightboxImg(null);
-        } else {
+        } else if (selectedProject) {
           closeModal();
         }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeLightboxImg]);
+  }, [activeLightboxImg, selectedProject]);
 
-  // Prevent scrolling when modal is open
+  // Prevent background scrolling when modal is open
   useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
     };
   }, [selectedProject]);
-
-  // Modal Entry Animation
-  useEffect(() => {
-    if (!selectedProject) return;
-
-    const ctx = gsap.context(() => {
-      if (modalOverlayRef.current && modalContentRef.current) {
-        gsap.fromTo(modalOverlayRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.3, ease: "power2.out" }
-        );
-
-        gsap.fromTo(modalContentRef.current,
-          { opacity: 0, y: 50, scale: 0.95 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.5)", delay: 0.1 }
-        );
-      }
-    });
-
-    return () => ctx.revert();
-  }, [selectedProject]);
-
-  // GSAP Animations with proper Context Cleanup (Performance Fix)
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (headerRef.current) {
-        gsap.fromTo(
-          headerRef.current,
-          { opacity: 0, x: -20 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: { trigger: headerRef.current, start: "top 85%", once: true },
-          }
-        );
-      }
-
-      if (badgeRef.current) {
-        gsap.fromTo(
-          badgeRef.current,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: { trigger: badgeRef.current, start: "top 85%", once: true },
-          }
-        );
-      }
-
-      cardsRef.current.forEach((card) => {
-        if (card) {
-          gsap.fromTo(
-            card,
-            { opacity: 0, y: 50 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                once: true,
-              },
-            }
-          );
-        }
-      });
-    });
-
-    return () => ctx.revert(); // Critical to prevent memory leaks on route changes
-  }, []);
 
   return (
     <section id="projects" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6">
-        <div className="max-w-2xl">
-          <h2
-            ref={headerRef}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 opacity-0"
-          >
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl"
+        >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">
             Featured <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-foreground/60 text-lg">
             A collection of digital products I&apos;ve designed and developed. Click on any project to read the detailed case study.
           </p>
-        </div>
-        <div
-          ref={badgeRef}
-          className="flex gap-2 opacity-0"
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex gap-2"
         >
           <span className="px-4 py-2 rounded-full glass text-sm font-medium border-primary/20 text-primary">All Works</span>
-        </div>
+        </motion.div>
       </div>
 
       <div className="relative w-full max-w-5xl mx-auto pb-32 flex flex-col gap-12 md:gap-[10vh]">
@@ -545,12 +423,14 @@ export default function Projects() {
             className="relative md:sticky"
             style={{ top: `calc(15vh + ${index * 1.5}rem)` }}
           >
-            <div
-              ref={(el) => {
-                cardsRef.current[index] = el;
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.05 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setSelectedProject(project)}
-              className="group relative flex flex-col md:flex-row bg-card rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-card-border hover:border-primary/50 shadow-lg md:shadow-xl transition-colors duration-300 opacity-0 cursor-pointer md:will-change-transform"
+              className="group relative flex flex-col md:flex-row bg-card rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-card-border hover:border-primary/50 shadow-lg md:shadow-xl transition-colors duration-300 cursor-pointer md:will-change-transform"
               role="button"
               tabIndex={0}
               aria-label={`View details for ${project.title}`}
@@ -568,9 +448,9 @@ export default function Projects() {
                   fill
                   className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  priority={index < 2} // Preload top 2 images for better LCP
+                  priority={index < 2}
                 />
-                <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 pointer-events-none">
                   <span className="px-6 py-3 bg-primary text-white rounded-full font-bold shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                     View Case Study <ArrowRight size={18} />
                   </span>
@@ -597,221 +477,235 @@ export default function Projects() {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         ))}
       </div>
 
-      {/* ─── Case Study Modal Overlay ───────────────────────────────────────── */}
-      {selectedProject && (
-        <div
-          ref={modalOverlayRef}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 lg:p-12 opacity-0"
-        >
-          {/* Backdrop Blur */}
-          <div
-            className="absolute inset-0 bg-modal-overlay backdrop-blur-md cursor-pointer"
+      {/* ─── Case Study Modal Overlay (Framer Motion AnimatePresence) ───────── */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            key="case-study-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 md:p-6 lg:p-12 bg-black/60 backdrop-blur-md"
             onClick={closeModal}
-          />
-
-          {/* Modal Content */}
-          <div
-            ref={modalContentRef}
-            className="relative w-full max-w-5xl max-h-full overflow-y-auto overscroll-contain bg-modal border border-card-border rounded-3xl shadow-2xl custom-scrollbar opacity-0 will-change-scroll flex flex-col"
           >
-            {/* Close Button */}
-            <button
-              onClick={closeModal}
-              className="absolute top-4 right-4 md:top-6 md:right-6 p-2.5 bg-modal/80 hover:bg-modal text-foreground rounded-full border border-card-border shadow-md backdrop-blur-md hover:scale-105 active:scale-95 transition-all duration-300 z-20 cursor-pointer flex items-center justify-center"
-              aria-label="Close modal"
+            {/* Modal Content - Single Fixed-Height Scroll Window */}
+            <motion.div
+              key="case-study-modal-content"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-5xl h-[85vh] md:h-[90vh] max-h-[85vh] md:max-h-[90vh] bg-modal border border-card-border rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col z-10"
             >
-              <X size={22} />
-            </button>
-
-            {/* Header Image */}
-            <div className="w-full h-64 md:h-80 relative overflow-hidden bg-modal border-b border-card-border shrink-0">
-              <Image
-                src={selectedProject.image}
-                alt={selectedProject.title}
-                fill
-                className="object-cover object-top opacity-95 dark:opacity-35"
-                sizes="(max-width: 1024px) 100vw, 1024px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-modal via-modal/80 to-transparent" />
-
-              <div className="absolute bottom-6 md:bottom-10 left-6 md:left-12 pr-6">
-                <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">
-                  Case Study
-                </span>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-foreground">
-                  {selectedProject.title}
-                </h2>
-              </div>
-            </div>
-
-            {/* Tabs Bar */}
-            <div className="flex border-b border-card-border bg-secondary/50 dark:bg-card/50 px-6 md:px-12 gap-2 sm:gap-4 shrink-0">
+              {/* Close Button */}
               <button
-                onClick={() => setActiveTab("case-study")}
-                className={`px-4 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "case-study"
-                  ? "border-primary text-primary font-bold"
-                  : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
-                  }`}
+                type="button"
+                onClick={closeModal}
+                className="absolute top-3 right-3 md:top-6 md:right-6 p-2.5 bg-modal/90 hover:bg-modal text-foreground rounded-full border border-card-border shadow-md backdrop-blur-md hover:scale-105 active:scale-95 transition-all duration-300 z-30 cursor-pointer flex items-center justify-center"
+                aria-label="Close modal"
               >
-                Case Study
+                <X size={22} />
               </button>
-              <button
-                onClick={() => setActiveTab("documentation")}
-                className={`px-4 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "documentation"
-                  ? "border-primary text-primary font-bold"
-                  : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
-                  }`}
-              >
-                Documentation
-              </button>
-            </div>
 
-            {/* Case Study Body */}
-            <div className="p-6 md:p-12 grid grid-cols-1 lg:grid-cols-3 gap-10 md:gap-16 overflow-y-auto">
-              {/* Left Column (Content) */}
-              {activeTab === "case-study" ? (
-                <div className="lg:col-span-2 space-y-10">
-                  {/* Background Problem */}
-                  <section>
-                    <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                      <span className="w-8 h-px bg-primary/50" /> Background & Problem
-                    </h3>
-                    <p className="text-foreground/80 dark:text-foreground/70 leading-relaxed text-base md:text-lg">
-                      {selectedProject.problem}
-                    </p>
-                  </section>
+              {/* Header Image - Fixed Top */}
+              <div className="w-full h-48 sm:h-64 md:h-80 relative overflow-hidden bg-modal border-b border-card-border shrink-0">
+                <Image
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  fill
+                  className="object-cover object-top opacity-95 dark:opacity-35"
+                  sizes="(max-width: 1024px) 100vw, 1024px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-modal via-modal/80 to-transparent" />
 
-                  {/* Solution */}
-                  <section>
-                    <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                      <span className="w-8 h-px bg-primary/50" /> Design Solution
-                    </h3>
-                    <p className="text-foreground/80 dark:text-foreground/70 leading-relaxed text-base md:text-lg">
-                      {selectedProject.solution}
-                    </p>
-                  </section>
-
-                  {/* Results */}
-                  <section>
-                    <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                      <span className="w-8 h-px bg-primary/50" /> Results & Impact
-                    </h3>
-                    <div className="bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/10 dark:border-emerald-500/20 rounded-2xl p-6 flex gap-4 items-start">
-                      <CheckCircleOne className="text-emerald-500 shrink-0 mt-1" size={24} />
-                      <p className="text-emerald-800 dark:text-emerald-500 font-medium leading-relaxed">
-                        {selectedProject.results}
-                      </p>
-                    </div>
-                  </section>
+                <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 left-4 sm:left-6 md:left-12 pr-12">
+                  <span className="text-primary font-bold tracking-widest uppercase text-[10px] sm:text-xs mb-1 sm:mb-2 block">
+                    Case Study
+                  </span>
+                  <h2 className="text-xl sm:text-3xl md:text-5xl font-extrabold text-foreground line-clamp-2">
+                    {selectedProject.title}
+                  </h2>
                 </div>
-              ) : (
-                <div className="lg:col-span-2">
-                  {/* Documentation Photos Gallery */}
-                  {selectedProject.docsImages && selectedProject.docsImages.length > 0 ? (
+              </div>
+
+              {/* Tabs Bar - Fixed Sticky Header */}
+              <div className="flex border-b border-card-border bg-secondary/50 dark:bg-card/50 px-4 sm:px-6 md:px-12 gap-2 sm:gap-4 shrink-0 z-20">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("case-study")}
+                  className={`px-3 sm:px-4 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "case-study"
+                    ? "border-primary text-primary font-bold"
+                    : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
+                    }`}
+                >
+                  Case Study
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("documentation")}
+                  className={`px-3 sm:px-4 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 -mb-[1px] transition-all duration-300 cursor-pointer ${activeTab === "documentation"
+                    ? "border-primary text-primary font-bold"
+                    : "border-transparent text-foreground/60 hover:text-foreground/90 font-medium"
+                    }`}
+                >
+                  Documentation
+                </button>
+              </div>
+
+              {/* Case Study Body - THE ONLY SCROLLABLE AREA */}
+              <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-6 md:p-12 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-16 custom-scrollbar touch-pan-y">
+                {/* Left Column (Content) */}
+                {activeTab === "case-study" ? (
+                  <div className="lg:col-span-2 space-y-10">
                     <section>
-                      <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-                        <span className="w-8 h-px bg-primary/50" /> Project Gallery
+                      <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                        <span className="w-8 h-px bg-primary/50" /> Background & Problem
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {selectedProject.docsImages.map((imgSrc) => (
-                          <div
-                            key={imgSrc}
-                            onClick={() => setActiveLightboxImg(imgSrc)}
-                            className="group/image relative overflow-hidden rounded-xl border border-card-border hover:border-primary/30 hover:shadow-md bg-card p-2 transition-all duration-300 cursor-zoom-in hover:scale-[1.01] active:scale-[0.99]"
-                          >
-                            <div className="relative overflow-hidden rounded-lg bg-secondary/40 dark:bg-black/40 flex items-center justify-center aspect-[4/3]">
-                              <img
-                                src={imgSrc}
-                                alt={formatImageName(imgSrc)}
-                                className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/image:scale-[1.02]"
-                              />
-                            </div>
-                            <div className="mt-3 px-2 flex justify-between items-center">
-                              <span className="text-xs font-semibold text-foreground/80 dark:text-foreground/70 uppercase tracking-wider">
-                                {formatImageName(imgSrc)}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
+                      <p className="text-foreground/80 dark:text-foreground/70 leading-relaxed text-base md:text-lg">
+                        {selectedProject.problem}
+                      </p>
+                    </section>
+
+                    <section>
+                      <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                        <span className="w-8 h-px bg-primary/50" /> Design Solution
+                      </h3>
+                      <p className="text-foreground/80 dark:text-foreground/70 leading-relaxed text-base md:text-lg">
+                        {selectedProject.solution}
+                      </p>
+                    </section>
+
+                    <section>
+                      <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                        <span className="w-8 h-px bg-primary/50" /> Results & Impact
+                      </h3>
+                      <div className="bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/10 dark:border-emerald-500/20 rounded-2xl p-6 flex gap-4 items-start">
+                        <CheckCircleOne className="text-emerald-500 shrink-0 mt-1" size={24} />
+                        <p className="text-emerald-800 dark:text-emerald-500 font-medium leading-relaxed">
+                          {selectedProject.results}
+                        </p>
                       </div>
                     </section>
-                  ) : (
-                    <p className="text-foreground/50 text-center py-10">No documentation images available.</p>
-                  )}
-                </div>
-              )}
+                  </div>
+                ) : (
+                  <div className="lg:col-span-2">
+                    {selectedProject.docsImages && selectedProject.docsImages.length > 0 ? (
+                      <section>
+                        <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+                          <span className="w-8 h-px bg-primary/50" /> Project Gallery
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {selectedProject.docsImages.map((imgSrc) => (
+                            <div
+                              key={imgSrc}
+                              onClick={() => setActiveLightboxImg(imgSrc)}
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  setActiveLightboxImg(imgSrc);
+                                }
+                              }}
+                              className="group/image relative overflow-hidden rounded-xl border border-card-border hover:border-primary/30 hover:shadow-md bg-card p-2 transition-all duration-300 cursor-zoom-in hover:scale-[1.01] active:scale-[0.99]"
+                            >
+                              <div className="relative overflow-hidden rounded-lg bg-secondary/40 dark:bg-black/40 flex items-center justify-center aspect-[4/3]">
+                                <img
+                                  src={imgSrc}
+                                  alt={formatImageName(imgSrc)}
+                                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/image:scale-[1.02]"
+                                />
+                              </div>
+                              <div className="mt-3 px-2 flex justify-between items-center">
+                                <span className="text-xs font-semibold text-foreground/80 dark:text-foreground/70 uppercase tracking-wider">
+                                  {formatImageName(imgSrc)}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    ) : (
+                      <p className="text-foreground/50 text-center py-10">No documentation images available.</p>
+                    )}
+                  </div>
+                )}
 
-              {/* Sidebar Info (Right Column) */}
-              <div className="space-y-8">
-                <div className="bg-secondary/50 dark:bg-white/[0.02] border border-card-border rounded-2xl p-6">
-                  <h4 className="text-sm font-bold text-foreground/60 dark:text-foreground/40 uppercase tracking-wider mb-4">Project Information</h4>
+                {/* Sidebar Info (Right Column) */}
+                <div className="space-y-8">
+                  <div className="bg-secondary/50 dark:bg-white/[0.02] border border-card-border rounded-2xl p-6">
+                    <h4 className="text-sm font-bold text-foreground/60 dark:text-foreground/40 uppercase tracking-wider mb-4">Project Information</h4>
 
-                  <div className="space-y-4">
-                    <div>
-                      <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-1">Category</span>
-                      <span className="text-sm font-medium text-foreground">{selectedProject.category}</span>
-                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-1">Category</span>
+                        <span className="text-sm font-medium text-foreground">{selectedProject.category}</span>
+                      </div>
 
-                    <div>
-                      <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-1">My Role</span>
-                      <span className="text-sm font-medium text-foreground">UI/UX Designer</span>
-                    </div>
+                      <div>
+                        <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-1">My Role</span>
+                        <span className="text-sm font-medium text-foreground">UI/UX Designer</span>
+                      </div>
 
-                    <div>
-                      <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-2">Tools & Tech</span>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProject.tags.map((tag) => (
-                          <span key={tag} className="text-[10px] px-2.5 py-1 rounded-md bg-primary/10 dark:bg-primary/20 text-primary border border-primary/20 font-bold uppercase tracking-wider">
-                            {tag}
-                          </span>
-                        ))}
+                      <div>
+                        <span className="block text-xs text-foreground/65 dark:text-foreground/50 mb-2">Tools & Tech</span>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedProject.tags.map((tag) => (
+                            <span key={tag} className="text-[10px] px-2.5 py-1 rounded-md bg-primary/10 dark:bg-primary/20 text-primary border border-primary/20 font-bold uppercase tracking-wider">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mt-8 pt-6 border-t border-card-border flex flex-col gap-3">
-                    {selectedProject.figmaLink && (
-                      <a
-                        href={selectedProject.figmaLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#F24E1E]/10 hover:bg-[#F24E1E]/20 text-[#F24E1E] font-bold border border-[#F24E1E]/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                      >
-                        <Figma size={18} /> View in Figma
-                      </a>
-                    )}
+                    <div className="mt-8 pt-6 border-t border-card-border flex flex-col gap-3">
+                      {selectedProject.figmaLink && (
+                        <a
+                          href={selectedProject.figmaLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#F24E1E]/10 hover:bg-[#F24E1E]/20 text-[#F24E1E] font-bold border border-[#F24E1E]/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                          <Figma size={18} /> View in Figma
+                        </a>
+                      )}
 
-                    {selectedProject.githubLink && (
-                      <a
-                        href={selectedProject.githubLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground font-bold border border-card-border transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                      >
-                        <Github size={18} /> Source Code
-                      </a>
-                    )}
+                      {selectedProject.githubLink && (
+                        <a
+                          href={selectedProject.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground font-bold border border-card-border transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                          <Github size={18} /> Source Code
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Render Lightbox when selected */}
-      {activeLightboxImg && (
-        <Lightbox
-          src={activeLightboxImg}
-          title={formatImageName(activeLightboxImg)}
-          onClose={() => setActiveLightboxImg(null)}
-        />
-      )}
+      <AnimatePresence>
+        {activeLightboxImg && (
+          <Lightbox
+            src={activeLightboxImg}
+            title={formatImageName(activeLightboxImg)}
+            onClose={() => setActiveLightboxImg(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

@@ -5,14 +5,10 @@ import DynamicBackground from "@/components/DynamicBackground";
 import ProfileCard from "@/components/ui/ProfileCard";
 import Contact from "@/components/Contact";
 import { CheckCircle, User } from "@mynaui/icons-react";
-import SkeletonContainer from "@/components/ui/SkeletonContainer";
-import SkeletonController from "@/components/ui/SkeletonController";
 
 // ─── Lazy-loaded sections (below the fold) ───────────────────────────────────
-// UX Guideline: Load content as needed — don't load everything upfront.
 const Projects = dynamic(() => import("@/components/Projects"));
 const SkillsDeck = dynamic(() => import("@/components/ui/SkillsDeck"));
-
 
 export default function Home() {
   return (
@@ -23,72 +19,64 @@ export default function Home() {
         <Navbar />
         
         {/* Hero Section */}
-        <SkeletonContainer>
-          <Hero />
-        </SkeletonContainer>
+        <Hero />
 
         {/* About Section */}
         <section id="about" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
-          <SkeletonContainer>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-              <div className="relative flex justify-center">
-                <ProfileCard
-                  avatarUrl="/me-no-bg.svg"
-                  showUserInfo={true}
-                  name="Dhani Praditya"
-                  title="UI/UX Designer"
-                  handle="dhanipraditya"
-                  status="Available for Hire"
-                  contactText="Contact"
-                />
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+            <div className="relative flex justify-center">
+              <ProfileCard
+                avatarUrl="/me-no-bg.svg"
+                showUserInfo={true}
+                name="Dhani Praditya"
+                title="UI/UX Designer"
+                handle="dhanipraditya"
+                status="Available for Hire"
+                contactText="Contact"
+              />
+            </div>
 
-              <div className="text-center lg:text-left">
-                <div className="flex items-center justify-center lg:justify-start gap-2 mb-6 text-primary">
-                  <User size={20} />
-                  <span className="font-bold uppercase tracking-widest text-sm">About Me</span>
-                </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight text-left">
-                  Crafting Digital Products with a <span className="text-gradient">Human-Centered</span> Approach.
-                </h2>
-                <p className="text-foreground/60 text-lg leading-relaxed mb-8 text-left">
-                  I am a detail-oriented UI/UX Designer bridging the gap between user needs and technical implementation. Leveraging strong analytical skills, I drive the end-to-end lifecycle—from user research and scalable, responsive design systems to interactive high-fidelity prototypes.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    "User-Centered Design",
-                    "Interaction Design",
-                    "Rapid Prototyping",
-                    "Visual Storytelling"
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-3 text-foreground/80">
-                      <CheckCircle className="text-primary" size={18} />
-                      <span className="font-medium">{item}</span>
-                    </div>
-                  ))}
-                </div>
+            <div className="text-center lg:text-left">
+              <div className="flex items-center justify-center lg:justify-start gap-2 mb-6 text-primary">
+                <User size={20} />
+                <span className="font-bold uppercase tracking-widest text-sm">About Me</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight text-left">
+                Crafting Digital Products with a <span className="text-gradient">Human-Centered</span> Approach.
+              </h2>
+              <p className="text-foreground/60 text-lg leading-relaxed mb-8 text-left">
+                I am a detail-oriented UI/UX Designer bridging the gap between user needs and technical implementation. Leveraging strong analytical skills, I drive the end-to-end lifecycle—from user research and scalable, responsive design systems to interactive high-fidelity prototypes.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  "User-Centered Design",
+                  "Interaction Design",
+                  "Rapid Prototyping",
+                  "Visual Storytelling"
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3 text-foreground/80">
+                    <CheckCircle className="text-primary" size={18} />
+                    <span className="font-medium">{item}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          </SkeletonContainer>
+          </div>
         </section>
 
         {/* Projects Section */}
-        <SkeletonContainer>
-          <Projects />
-        </SkeletonContainer>
+        <Projects />
 
         {/* Skills Section */}
         <section id="skills" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
-          <SkeletonContainer>
-            <div className="text-left mb-10 md:mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
-              <p className="text-left text-foreground/60 mx-auto text-base md:text-lg">
-                Combining creative vision with technical execution. Here are the tools and methodologies I use to bring ideas to life.
-              </p>
-            </div>
+          <div className="text-left mb-10 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
+            <p className="text-left text-foreground/60 mx-auto text-base md:text-lg">
+              Combining creative vision with technical execution. Here are the tools and methodologies I use to bring ideas to life.
+            </p>
+          </div>
 
-            <SkillsDeck />
-          </SkeletonContainer>
+          <SkillsDeck />
         </section>
 
         {/* Contact Section */}
@@ -101,10 +89,6 @@ export default function Home() {
           </p>
         </footer>
       </div>
-
-      {/* Floating Skeleton Controller */}
-      <SkeletonController />
     </main>
   );
 }
-
