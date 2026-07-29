@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Layout, Sparkles, Check } from "@mynaui/icons-react";
+import BorderGlow from "@/components/BorderGlow";
 
 const softwareTools = [
   { name: "Figma", color: "#F24E1E", icon: "/icons/figma.webp" },
@@ -27,25 +28,33 @@ const designPhases = [
     subtitle: "01. DISCOVER & RESEARCH",
     title: "User Research & Audit",
     description: "Conducting qualitative interviews, usability audits, and competitor analysis to empathize with users and define core problem spaces.",
-    icon: <Search size={22} className="text-primary" />
+    icon: <Search size={22} className="text-primary" />,
+    colors: ["#3b82f6", "#60a5fa", "#93c5fd"],
+    glowColor: "217 91 60"
   },
   {
     subtitle: "02. STRATEGY & FLOWS",
     title: "UX Architecture",
     description: "Designing sitemaps, interactive user flows, and low-fidelity wireframes to establish logical information hierarchies.",
-    icon: <Layout size={22} className="text-teal-500" />
+    icon: <Layout size={22} className="text-teal-500" />,
+    colors: ["#14b8a6", "#2dd4bf", "#5eead4"],
+    glowColor: "173 80 50"
   },
   {
     subtitle: "03. VISUAL & SYSTEMS",
     title: "UI Design & Figma Systems",
     description: "Crafting beautiful UI screens using advanced auto layout, master components, variants, variables, and responsive grid layouts.",
-    icon: <Sparkles size={22} className="text-pink-500" />
+    icon: <Sparkles size={22} className="text-pink-500" />,
+    colors: ["#ec4899", "#f472b6", "#f43f5e"],
+    glowColor: "330 85 60"
   },
   {
     subtitle: "04. PROTOTYPE & TEST",
     title: "Prototyping & Testing",
     description: "Building interactive user prototypes, conducting user testing sessions to iterate on feedback, and preparing assets for developer handoff.",
-    icon: <Check size={22} className="text-emerald-500" />
+    icon: <Check size={22} className="text-emerald-500" />,
+    colors: ["#10b981", "#34d399", "#6ee7b7"],
+    glowColor: "160 84 50"
   }
 ];
 
@@ -108,22 +117,35 @@ export default function SkillsDeck() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="relative overflow-hidden rounded-[2rem] border border-card-border bg-card/60 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-primary/30 transition-all hover:shadow-xl group/card"
+                  className="h-full flex"
                 >
-                  <div>
-                    <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
-                      {phase.icon}
+                  <BorderGlow
+                    borderRadius={32}
+                    glowColor={phase.glowColor}
+                    colors={phase.colors}
+                    edgeSensitivity={20}
+                    glowRadius={30}
+                    glowIntensity={1.2}
+                    backgroundColor="var(--card-bg)"
+                    className="w-full h-full p-6 sm:p-8 flex flex-col justify-between border-card-border/60 hover:border-card-border transition-all group/card"
+                  >
+                    <div className="flex flex-col justify-between h-full">
+                      <div>
+                        <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
+                          {phase.icon}
+                        </div>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-2 block">
+                          {phase.subtitle}
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-extrabold text-foreground mb-3">
+                          {phase.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-foreground/60 leading-relaxed">
+                          {phase.description}
+                        </p>
+                      </div>
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-2 block">
-                      {phase.subtitle}
-                    </span>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-foreground mb-3">
-                      {phase.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-foreground/60 leading-relaxed">
-                      {phase.description}
-                    </p>
-                  </div>
+                  </BorderGlow>
                 </motion.div>
               ))}
             </motion.div>

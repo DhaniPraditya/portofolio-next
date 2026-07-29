@@ -1,5 +1,9 @@
-import { Mail, Linkedin, Chat, ArrowUpRight } from "@mynaui/icons-react";
+"use client";
+
+import { useState } from "react";
+import { Mail, Linkedin, Chat, ArrowUpRight, Copy, Check } from "@mynaui/icons-react";
 import SpecularButton from "@/components/ui/SpecularButton";
+import BorderGlow from "@/components/BorderGlow";
 
 const socialLinks = [
   {
@@ -26,11 +30,26 @@ const socialLinks = [
 ];
 
 export default function Contact() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("dhanipraditya@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
   return (
     <section id="contact" className="py-20 md:py-32 px-4 relative z-10">
       <div className="max-w-5xl mx-auto text-center">
-        <div
-          className="bg-card/60 backdrop-blur-md border border-card-border rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 relative shadow-2xl"
+        <BorderGlow
+          borderRadius={48}
+          glowColor="217 91 60"
+          colors={["#3b82f6", "#06b6d4", "#8b5cf6"]}
+          edgeSensitivity={25}
+          glowRadius={40}
+          glowIntensity={1.3}
+          backgroundColor="var(--card-bg)"
+          className="p-8 sm:p-12 md:p-24 border-card-border/60 shadow-2xl"
         >
           <span className="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 block">
             Let&apos;s Work Together
@@ -72,12 +91,33 @@ export default function Contact() {
             ))}
           </div>
 
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-semibold text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-all cursor-pointer border border-card-border"
+              aria-label="Copy email address"
+            >
+              {copied ? (
+                <>
+                  <Check size={14} className="text-emerald-500" />
+                  <span className="text-emerald-500 font-bold">Email Copied to Clipboard!</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={14} />
+                  <span>Click to copy email: dhanipraditya@gmail.com</span>
+                </>
+              )}
+            </button>
+          </div>
+
           <div className="mt-16 pt-16 border-t border-card-border">
             <p className="text-foreground/40 text-sm font-medium">
               Based in Indonesia • Available for Remote Work
             </p>
           </div>
-        </div>
+        </BorderGlow>
       </div>
     </section>
   );
