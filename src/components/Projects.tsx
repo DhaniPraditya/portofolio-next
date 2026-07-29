@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Figma, X, ArrowRight, CheckCircleOne, Plus, Minus } from "@mynaui/icons-react";
+import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 
 const projects = [
   {
@@ -436,70 +437,76 @@ export default function Projects() {
         </motion.div>
       </div>
 
-      <div className="relative w-full max-w-5xl mx-auto pb-32 flex flex-col gap-12 md:gap-[10vh]">
-        {projects.map((project, index) => (
-          <div
-            key={project.title}
-            className="relative md:sticky"
-            style={{ top: `calc(15vh + ${index * 1.5}rem)` }}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.05 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setSelectedProject(project)}
-              className="group relative flex flex-col md:flex-row bg-card rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-card-border hover:border-primary/50 shadow-lg md:shadow-xl transition-colors duration-300 cursor-pointer md:will-change-transform"
-              role="button"
-              tabIndex={0}
-              aria-label={`View details for ${project.title}`}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  setSelectedProject(project);
-                }
-              }}
-            >
-              {/* Image Container */}
-              <div className="relative w-full h-64 sm:h-80 md:h-auto md:min-h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-card-border flex items-start justify-center">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority={index < 2}
-                />
-                <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 pointer-events-none">
-                  <span className="px-6 py-3 bg-primary text-white rounded-full font-bold shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                    View Case Study <ArrowRight size={18} />
-                  </span>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 sm:p-8 md:p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-br from-foreground/[0.02] to-transparent">
-                <span className="text-xs font-bold uppercase tracking-widest text-primary mb-3 md:mb-4 block">
-                  {project.category}
-                </span>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-foreground/60 text-lg leading-relaxed mb-10">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-3 mt-auto">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="text-xs px-4 py-2 rounded-full bg-secondary border border-card-border text-foreground/60 font-bold uppercase tracking-wider">
-                      {tag}
+      <div className="relative w-full max-w-5xl mx-auto">
+        <ScrollStack
+          useWindowScroll={true}
+          itemDistance={60}
+          itemStackDistance={25}
+          stackPosition="18%"
+          scaleEndPosition="10%"
+          baseScale={0.88}
+          itemScale={0.02}
+        >
+          {projects.map((project, index) => (
+            <ScrollStackItem key={project.title} itemClassName="p-0 border-0 shadow-none bg-transparent">
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setSelectedProject(project)}
+                className="group relative flex flex-col md:flex-row bg-card rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-card-border hover:border-primary/50 shadow-xl transition-colors duration-300 cursor-pointer md:will-change-transform"
+                role="button"
+                tabIndex={0}
+                aria-label={`View details for ${project.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setSelectedProject(project);
+                  }
+                }}
+              >
+                {/* Image Container */}
+                <div className="relative w-full h-64 sm:h-80 md:h-auto md:min-h-[28rem] md:w-1/2 overflow-hidden border-b md:border-b-0 md:border-r border-card-border flex items-start justify-center">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={index < 2}
+                  />
+                  <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 pointer-events-none">
+                    <span className="px-6 py-3 bg-primary text-white rounded-full font-bold shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                      View Case Study <ArrowRight size={18} />
                     </span>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        ))}
+
+                {/* Content */}
+                <div className="p-6 sm:p-8 md:p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-br from-foreground/[0.02] to-transparent">
+                  <span className="text-xs font-bold uppercase tracking-widest text-primary mb-3 md:mb-4 block">
+                    {project.category}
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-foreground/60 text-lg leading-relaxed mb-10">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-3 mt-auto">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="text-xs px-4 py-2 rounded-full bg-secondary border border-card-border text-foreground/60 font-bold uppercase tracking-wider">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </ScrollStackItem>
+          ))}
+        </ScrollStack>
       </div>
 
       {/* ─── Case Study Modal Overlay (Framer Motion AnimatePresence) ───────── */}

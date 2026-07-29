@@ -1,32 +1,33 @@
 import { Mail, Linkedin, Chat, ArrowUpRight } from "@mynaui/icons-react";
+import SpecularButton from "@/components/ui/SpecularButton";
 
 const socialLinks = [
-  { name: "Email", icon: <Mail size={20} />, href: "mailto:dhanipraditya@gmail.com", color: "bg-blue-500" },
-  { name: "LinkedIn", icon: <Linkedin size={20} />, href: "https://www.linkedin.com/in/dhanipraditya/", color: "bg-indigo-600" },
-  { name: "WhatsApp", icon: <Chat size={20} />, href: "https://wa.me/6281229104873", color: "bg-emerald-500" },
+  {
+    name: "Email",
+    icon: <Mail size={20} />,
+    href: "mailto:dhanipraditya@gmail.com",
+    lineColor: "#60a5fa",
+    baseColor: "#1d4ed8"
+  },
+  {
+    name: "LinkedIn",
+    icon: <Linkedin size={20} />,
+    href: "https://www.linkedin.com/in/dhanipraditya/",
+    lineColor: "#818cf8",
+    baseColor: "#4338ca"
+  },
+  {
+    name: "WhatsApp",
+    icon: <Chat size={20} />,
+    href: "https://wa.me/6281229104873",
+    lineColor: "#34d399",
+    baseColor: "#047857"
+  },
 ];
-
-const brandStyleMap: Record<string, { glow: string; border: string; text: string }> = {
-  Email: {
-    glow: "rgba(59, 130, 246, 0.15)",
-    border: "rgba(59, 130, 246, 0.4)",
-    text: "group-hover:text-blue-500"
-  },
-  LinkedIn: {
-    glow: "rgba(79, 70, 229, 0.15)",
-    border: "rgba(79, 70, 229, 0.4)",
-    text: "group-hover:text-indigo-500"
-  },
-  WhatsApp: {
-    glow: "rgba(16, 185, 129, 0.15)",
-    border: "rgba(16, 185, 129, 0.4)",
-    text: "group-hover:text-emerald-500"
-  }
-};
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-20 md:py-32 px-4">
+    <section id="contact" className="py-20 md:py-32 px-4 relative z-10">
       <div className="max-w-5xl mx-auto text-center">
         <div
           className="bg-card/60 backdrop-blur-md border border-card-border rounded-3xl md:rounded-[3rem] p-8 sm:p-12 md:p-24 relative shadow-2xl"
@@ -41,31 +42,34 @@ export default function Contact() {
             I&apos;m currently available for freelance projects and full-time opportunities. Feel free to reach out if you want to collaborate or just say hi!
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            {socialLinks.map((link) => {
-              const brand = brandStyleMap[link.name] || {
-                glow: "rgba(59, 130, 246, 0.15)",
-                border: "rgba(59, 130, 246, 0.4)",
-                text: "group-hover:text-primary"
-              };
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="flex items-center gap-3 px-6 py-3 bg-secondary/50 dark:bg-card/50 border border-card-border rounded-2xl transition-all hover:scale-105 active:scale-95 group social-link-card"
-                  style={{
-                    "--hover-glow": brand.glow,
-                    "--hover-border": brand.border,
-                  } as React.CSSProperties}
-                >
-                  <span className={`text-foreground/70 ${brand.text} transition-colors`}>
-                    {link.icon}
-                  </span>
-                  <span className="font-semibold">{link.name}</span>
-                  <ArrowUpRight size={16} className={`text-foreground/30 ${brand.text} transition-colors`} />
-                </a>
-              );
-            })}
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+            {socialLinks.map((link) => (
+              <SpecularButton
+                key={link.name}
+                href={link.href}
+                target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                size="md"
+                radius={16}
+                tint="#ffffff"
+                tintOpacity={0.04}
+                blur={8}
+                textColor="#f5f5f5"
+                lineColor={link.lineColor}
+                baseColor={link.baseColor}
+                intensity={1.2}
+                shineSize={14}
+                shineFade={35}
+                thickness={1.2}
+                speed={0.35}
+                followMouse={true}
+                proximity={200}
+              >
+                {link.icon}
+                <span className="font-semibold">{link.name}</span>
+                <ArrowUpRight size={16} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+              </SpecularButton>
+            ))}
           </div>
 
           <div className="mt-16 pt-16 border-t border-card-border">
