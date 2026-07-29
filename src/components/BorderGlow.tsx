@@ -1,5 +1,3 @@
-"use client";
-
 import { useRef, useCallback, useState, useEffect, type ReactNode } from 'react';
 
 interface BorderGlowProps {
@@ -247,7 +245,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
         />
       </span>
 
-      <div className="flex flex-col relative overflow-hidden rounded-[inherit] h-full z-[1]">
+      <div className="flex flex-col relative overflow-auto z-[1]">
         {children}
       </div>
     </div>

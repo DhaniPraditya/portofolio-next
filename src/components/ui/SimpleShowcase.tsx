@@ -17,17 +17,17 @@ export default function SimpleShowcase({ mockupImages }: SimpleShowcaseProps) {
 
       {/* ─── Layer 1: Desktop Browser Mockup ──────────────────────────────────── */}
       <div
-        className="absolute w-[85%] aspect-[16/10.5] rounded-2xl bg-zinc-950/90 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] overflow-hidden flex flex-col left-4 top-8 animate-float-desktop"
+        className="absolute w-[85%] aspect-[16/10.5] rounded-2xl bg-white dark:bg-zinc-950/90 border border-slate-200 dark:border-white/10 shadow-[0_25px_60px_rgba(15,23,42,0.12)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col left-4 top-8 animate-float-desktop"
       >
         {/* Browser Header Bar */}
-        <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5 bg-zinc-950/80">
+        <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-slate-200 dark:border-white/5 bg-slate-100/90 dark:bg-zinc-950/80">
           <div className="flex gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
           </div>
-          <div className="w-48 mx-auto h-4.5 rounded-md bg-white/10 border border-white/10 flex items-center justify-center">
-            <span className="text-[8px] text-foreground/45 font-mono tracking-wider">
+          <div className="w-48 mx-auto h-4.5 rounded-md bg-slate-200/80 dark:bg-white/10 border border-slate-300/80 dark:border-white/10 flex items-center justify-center">
+            <span className="text-[8px] text-slate-600 dark:text-foreground/45 font-mono tracking-wider">
               dhanipraditya.com
             </span>
           </div>

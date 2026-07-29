@@ -21,7 +21,7 @@ export default function Hero() {
           that Users Love.
         </h1>
 
-        <p className="text-base sm:text-lg md:text-xl text-foreground/60 mb-10 leading-relaxed max-w-xl mx-auto md:mx-0">
+        <p className="text-base sm:text-lg md:text-xl text-foreground/80 dark:text-foreground/60 mb-10 leading-relaxed max-w-xl mx-auto md:mx-0">
           I&apos;m a UI/UX Designer focused on building functional, beautiful, and user-centric digital products. Turning complex problems into simple solutions.
         </p>
 
@@ -38,7 +38,7 @@ export default function Hero() {
             href="/Resume-DhaniPraditya.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto group flex items-center justify-center gap-2 px-8 py-4 glass font-semibold rounded-2xl transition-all hover:bg-foreground/[0.05] dark:hover:bg-white/10 hover:scale-105 active:scale-95"
+            className="w-full sm:w-auto group flex items-center justify-center gap-2 px-8 py-4 glass text-foreground font-semibold rounded-2xl transition-all hover:bg-foreground/5 hover:scale-105 active:scale-95 border border-card-border"
           >
             <Download size={20} />
             Download CV
@@ -53,7 +53,7 @@ export default function Hero() {
 
       {/* Subtle Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-1000">
-        <span className="text-[10px] uppercase tracking-[0.2em] text-foreground/30 font-bold">Scroll Down</span>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-foreground/60 dark:text-foreground/30 font-bold">Scroll Down</span>
         <div className="w-px h-10 bg-gradient-to-b from-primary/50 to-transparent" />
       </div>
     </section>

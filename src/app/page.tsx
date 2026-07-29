@@ -68,7 +68,7 @@ export default function Home() {
         <Projects />
 
         {/* Skills Section */}
-        <section id="skills" className="relative z-10 py-20 md:py-32 px-4 max-w-7xl mx-auto">
+        <section id="skills" className="py-20 md:py-32 px-4 max-w-7xl mx-auto">
           <div className="text-left mb-10 md:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
             <p className="text-left text-foreground/60 mx-auto text-base md:text-lg">

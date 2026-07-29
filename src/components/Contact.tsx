@@ -73,7 +73,6 @@ export default function Contact() {
                 tint="#ffffff"
                 tintOpacity={0.04}
                 blur={8}
-                textColor="#f5f5f5"
                 lineColor={link.lineColor}
                 baseColor={link.baseColor}
                 intensity={1.2}
@@ -122,4 +121,3 @@ export default function Contact() {
     </section>
   );
 }
-

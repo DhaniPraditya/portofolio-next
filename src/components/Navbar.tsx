@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon } from "@mynaui/icons-react";
+import { Menu, X } from "@mynaui/icons-react";
 import Link from "next/link";
-import { useTheme } from "@/components/ThemeProvider";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -17,18 +16,16 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     let isScrolled = false;
     const handleScroll = () => {
-      const shouldScroll = window.scrollY > 50;
+      const shouldScroll = window.scrollY > 30;
       if (shouldScroll !== isScrolled) {
         isScrolled = shouldScroll;
         setScrolled(shouldScroll);
       }
     };
-    // Use passive listener for better scroll performance
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -54,7 +51,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs md:hidden"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
             onClick={() => setIsOpen(false)}
           />
         )}
@@ -63,89 +60,76 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center p-4"
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center p-3 sm:p-4"
       >
+        {/* Glassmorphism Navbar Capsule */}
         <div
-          className={`flex items-center justify-between w-full max-w-5xl px-6 py-3 transition-colors duration-300 rounded-2xl ${scrolled ? "glass shadow-xl" : "bg-transparent"
-            }`}
+          className={`flex items-center justify-between w-full max-w-5xl px-5 py-2.5 sm:px-6 sm:py-3 transition-all duration-300 rounded-full border ${
+            scrolled
+              ? "backdrop-blur-2xl bg-slate-950/80 border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]"
+              : "backdrop-blur-xl bg-slate-950/60 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]"
+          }`}
         >
-          <Link href="/" className="text-xl font-bold tracking-tighter text-gradient">
+          {/* Brand Logo */}
+          <Link
+            href="/"
+            className="text-lg sm:text-xl font-bold tracking-tighter text-gradient hover:opacity-90 transition-opacity cursor-pointer flex items-center gap-1.5"
+          >
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             DESIGNER.
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center space-x-1 sm:space-x-2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium transition-colors hover:text-primary text-foreground/70"
+                className="px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-full text-foreground/80 hover:text-white hover:bg-white/10 transition-all duration-200 cursor-pointer"
               >
                 {link.name}
               </Link>
             ))}
-            
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-xl border border-card-border bg-card text-foreground hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center justify-center group/theme"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun size={18} className="text-amber-400 transition-transform duration-500 group-hover/theme:rotate-90" />
-              ) : (
-                <Moon size={18} className="text-slate-700 transition-transform duration-500 group-hover/theme:-rotate-12" />
-              )}
-            </button>
 
+            {/* Glass Gradient CTA Button */}
             <Link
               href="#contact"
-              className="px-5 py-2 text-sm font-medium text-white transition-all rounded-full bg-primary hover:bg-primary/80 hover:scale-105 active:scale-95"
+              className="ml-3 px-5 py-2 text-xs sm:text-sm font-bold text-white transition-all duration-300 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 active:scale-95 cursor-pointer border border-white/20"
             >
               Hire Me
             </Link>
           </div>
 
-          {/* Mobile Controls */}
+          {/* Mobile Menu Control */}
           <div className="flex items-center gap-2 md:hidden">
             <button
-              onClick={toggleTheme}
-              className="p-2 rounded-xl border border-card-border bg-card text-foreground active:scale-95 transition-all cursor-pointer flex items-center justify-center"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun size={18} className="text-amber-400" />
-              ) : (
-                <Moon size={18} className="text-slate-700" />
-              )}
-            </button>
-
-            <button
-              className="p-2 text-foreground"
+              type="button"
+              className="p-2 rounded-full bg-white/5 border border-white/10 text-foreground hover:text-white active:scale-95 transition-all cursor-pointer flex items-center justify-center backdrop-blur-md"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? "Close menu" : "Open menu"}
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Glass Overlay Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="fixed inset-x-4 top-20 z-50 p-6 glass rounded-3xl md:hidden"
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-x-4 top-20 z-50 p-6 backdrop-blur-2xl bg-slate-950/95 border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] rounded-3xl md:hidden"
             >
-              <div className="flex flex-col space-y-4">
+              <div className="flex flex-col space-y-3">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="text-lg font-medium text-foreground/80"
+                    className="px-4 py-2.5 text-base font-semibold text-foreground/90 hover:text-white hover:bg-white/10 rounded-2xl transition-all cursor-pointer"
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}
@@ -153,7 +137,7 @@ export default function Navbar() {
                 ))}
                 <Link
                   href="#contact"
-                  className="w-full py-3 mt-4 text-center text-white transition-all rounded-xl bg-primary"
+                  className="w-full py-3 mt-2 text-center text-sm font-bold text-white transition-all rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 shadow-lg shadow-blue-500/25 active:scale-98 cursor-pointer border border-white/20"
                   onClick={() => setIsOpen(false)}
                 >
                   Hire Me

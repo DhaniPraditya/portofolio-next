@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTheme } from "@/components/ThemeProvider";
 import Grainient from "./ui/Grainient";
 
 export default function BackgroundMesh() {
-  const { theme } = useTheme();
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -19,10 +17,7 @@ export default function BackgroundMesh() {
     }
   }, []);
 
-  // Dynamic colors for WebGL canvas background
-  const colors = theme === "dark"
-    ? { color1: "#030712", color2: "#1e1b4b", color3: "#030712" }
-    : { color1: "#e0f2fe", color2: "#e0e7ff", color3: "#faf5ff" };
+  const colors = { color1: "#030712", color2: "#1e1b4b", color3: "#030712" };
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
